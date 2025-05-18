@@ -1,7 +1,7 @@
-export default function Home() {
+export default function Home({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <main></main>
+      <main>{children}</main>
     </div>
   );
 }

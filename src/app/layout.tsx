@@ -4,6 +4,7 @@ import '@/styles/reset.css';
 import '@/styles/vars.sass';
 import '@/styles/typography.sass';
 import '@/styles/globals.sass';
+import ThreeDContainer from '@/components/three-d-container/three-d-container';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -37,6 +38,7 @@ export default function RootLayout({
           <div className="layout_column" />
         </div>
         {children}
+        <ThreeDContainer />
       </body>
     </html>
   );
