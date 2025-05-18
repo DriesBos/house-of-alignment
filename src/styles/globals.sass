@@ -1,0 +1,12 @@
+body 
+  background: var(--color-bg)
+  color: var(--color-type)
+  &[data-theme='light']
+    background: var(--theme-main-bg)
+    color: var(--theme-main-type)
+  &[data-theme='dark']
+    background: var(--theme-main-bg-inverted)
+    color: var(--theme-main-type-inverted)
+  &[data-theme='soft']
+    background: var(--theme-soft-bg)
+    color: var(--theme-soft-type)
