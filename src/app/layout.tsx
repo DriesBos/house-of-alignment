@@ -31,6 +31,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable}`}
         data-theme="light"
       >
+        <div className="layout" data-layout="three">
+          <div className="layout_column" />
+          <div className="layout_column" />
+          <div className="layout_column" />
+        </div>
         {children}
       </body>
     </html>

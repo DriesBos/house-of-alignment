@@ -1,6 +1,7 @@
 body 
   background: var(--color-bg)
   color: var(--color-type)
+  transition: background .66s ease-in-out, color .66s ease-in-out
   &[data-theme='light']
     background: var(--theme-main-bg)
     color: var(--theme-main-type)
@@ -10,3 +11,40 @@ body
   &[data-theme='soft']
     background: var(--theme-soft-bg)
     color: var(--theme-soft-type)
+  &[data-theme='blue']
+    background: var(--theme-blue-bg)
+    color: var(--theme-blue-type)
+
+.layout
+  display: flex
+  pointer-events: none
+  height: 100dvh
+  width: 100vw
+  & > div
+    height: 100%
+    border-right: var(--layout-border) solid currentColor
+    transition: width .66s ease-in-out
+    & > div:last-child
+      border-right: 0
+  &[data-layout="one"]
+    & > div:first-child
+      width: 0
+    & > div:nth-child(2)
+      width: 0
+    & > div:last-child
+      width: 100vw
+  &[data-layout="two"]
+    & > div:first-child
+      width: 0
+    & > div:nth-child(2)
+      width: 50vw
+    & > div:last-child
+      width: 50vw
+  &[data-layout="three"]
+    & > div:first-child
+      width: 50vw
+    & > div:nth-child(2)
+      width: 25vw
+    & > div:last-child
+      width: 25vw
+
