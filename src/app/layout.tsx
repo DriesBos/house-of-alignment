@@ -5,6 +5,8 @@ import '@/styles/vars.sass';
 import '@/styles/typography.sass';
 import '@/styles/globals.sass';
 import ThreeDContainer from '@/components/three-d-container/three-d-container';
+import { ThemeStoreProvider } from '@/providers/theme-store-provider';
+import { LayoutStoreProvider } from '@/providers/layout-store-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,18 +30,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable}`}
-        data-theme="light"
-      >
-        <div className="layout" data-layout="three">
-          <div className="layout_column" />
-          <div className="layout_column" />
-          <div className="layout_column" />
-        </div>
-        {children}
-        <ThreeDContainer />
-      </body>
+      <ThemeStoreProvider>
+        <LayoutStoreProvider>
+          <body className={`${geistSans.variable} ${geistMono.variable}`}>
+            {children}
+            <ThreeDContainer />
+          </body>
+        </LayoutStoreProvider>
+      </ThemeStoreProvider>
     </html>
   );
 }

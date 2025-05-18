@@ -1,7 +1,7 @@
-body 
+main 
   background: var(--color-bg)
   color: var(--color-type)
-  transition: background .66s ease-in-out, color .66s ease-in-out
+  transition: background .33s ease-in-out, color .33s ease-in-out
   &[data-theme='light']
     background: var(--theme-main-bg)
     color: var(--theme-main-type)
@@ -48,3 +48,21 @@ body
     & > div:last-child
       width: 25vw
 
+.testButtons
+  position: fixed
+  top: 0
+  right: 0
+  z-index: 9999
+  display: flex
+  align-items: flex-end
+  flex-direction: column
+  gap: 1rem
+  padding: 1rem
+
+button
+  background: none
+  border: none
+  color: var(--color-type)
+  font-size: 1rem
+  cursor: pointer
+  outline: none
