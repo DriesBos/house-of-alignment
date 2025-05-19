@@ -14,7 +14,7 @@ export default function Home() {
   const setLayout = useLayoutStore((state) => state.setLayout);
 
   const handleThemeChange = useCallback(() => {
-    const themes: ThemeState[] = ['light', 'dark', 'soft', 'blue'];
+    const themes: ThemeState[] = ['light', 'dark', 'stone', 'blue'];
     const currentIndex = themes.indexOf(theme);
     const nextIndex = (currentIndex + 1) % themes.length;
     const nextTheme = themes[nextIndex];

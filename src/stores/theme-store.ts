@@ -1,6 +1,6 @@
 import { createStore } from 'zustand/vanilla';
 
-export type ThemeState = 'light' | 'dark' | 'soft' | 'blue';
+export type ThemeState = 'light' | 'dark' | 'stone' | 'blue';
 
 export type ThemeActions = {
   setTheme: (theme: ThemeState) => void;
