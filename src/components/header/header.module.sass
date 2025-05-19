@@ -25,6 +25,8 @@
       flex: 1
     & > div:last-child
       text-align: right
+      @media screen and ( max-width: 770px )
+        display: none
 
   &_bottom
     display: flex
@@ -73,19 +75,44 @@
   width: 38px
   height: 38px
   cursor: pointer
-  display: flex
-  flex-direction: column
-  justify-content: center
-  gap: 10px
+  // display: flex
+  // flex-direction: column
+  // justify-content: center
   &_bar
+    position: absolute
+    left: 0
+    right: 0
+    top: 50%
     width: 100%
     height: 1.5px
     background: currentColor
-    transition: transform 0.165s ease-in-out
+    &:first-child
+      transform: translateY(-5.75px)
+    &:last-child
+      transform: translateY(5.75px)
 
   &_open
     .menuIcon_bar
       &:first-child
-        transform: translateY(5.75px) rotate(45deg)
+        animation: menuIconTop .66s ease-in-out
+        animation-fill-mode: forwards
       &:last-child
-        transform: translateY(-5.75px) rotate(-45deg)
+        animation: menuIconBottom .66s ease-in-out
+        animation-fill-mode: forwards
+
+@keyframes menuIconTop
+  0%
+    transform: translateY(5.75px) rotate(0deg)
+  50%
+    transform: translateY(0) rotate(0deg)
+  100%
+    transform:  translateY(0) rotate(45deg)
+
+@keyframes menuIconBottom
+  0%
+    transform: translateY(-5.75px) rotate(0deg)
+  50%
+    transform: translateY(0) rotate(0deg)
+  100%
+    transform: translateY(0) rotate(-45deg)
+    
