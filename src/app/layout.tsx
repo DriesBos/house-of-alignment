@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import '@/styles/reset.css';
 import '@/styles/vars.sass';
 import '@/styles/typography.sass';
@@ -7,15 +6,28 @@ import '@/styles/globals.sass';
 import ThreeDContainer from '@/components/three-d-container/three-d-container';
 import { ThemeStoreProvider } from '@/providers/theme-store-provider';
 import { LayoutStoreProvider } from '@/providers/layout-store-provider';
+import localFont from 'next/font/local';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+const helvetica = localFont({
+  src: [
+    {
+      path: './../fonts/HelveticaNeueLTStd-Cn.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-helvetica',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const bradfort = localFont({
+  src: [
+    {
+      path: './../fonts/BradfordMonoLL-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-bradfort',
 });
 
 export const metadata: Metadata = {
@@ -32,7 +44,7 @@ export default function RootLayout({
     <html lang="en">
       <ThemeStoreProvider>
         <LayoutStoreProvider>
-          <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <body className={`${helvetica.variable} ${bradfort.variable}`}>
             {children}
             <ThreeDContainer />
           </body>
