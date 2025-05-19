@@ -7,8 +7,6 @@ import ThreeDContainer from '@/components/three-d-container/three-d-container';
 import { ThemeStoreProvider } from '@/providers/theme-store-provider';
 import { LayoutStoreProvider } from '@/providers/layout-store-provider';
 import localFont from 'next/font/local';
-import Footer from '@/components/footer/footer';
-import Header from '@/components/header/header';
 
 const helvetica = localFont({
   src: [
@@ -47,10 +45,8 @@ export default function RootLayout({
       <ThemeStoreProvider>
         <LayoutStoreProvider>
           <body className={`${helvetica.variable} ${bradfort.variable}`}>
-            <Header />
             {children}
             <ThreeDContainer />
-            <Footer />
           </body>
         </LayoutStoreProvider>
       </ThemeStoreProvider>
