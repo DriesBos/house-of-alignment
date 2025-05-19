@@ -40,6 +40,13 @@ main
       width: 50vw
     & > div:last-child
       width: 50vw
+    @media screen and ( max-width: 770px )
+      & > div:first-child
+        width: 0
+      & > div:nth-child(2)
+        width: 40vw
+      & > div:last-child
+        width: 60vw
   &[data-layout="three"]
     & > div:first-child
       width: 50vw
@@ -47,6 +54,13 @@ main
       width: 25vw
     & > div:last-child
       width: 25vw
+    @media screen and ( max-width: 770px )
+      & > div:first-child
+        width: 0
+      & > div:nth-child(2)
+        width: 20vw
+      & > div:last-child
+        width: 80vw
 
 .testButtons
   position: fixed
