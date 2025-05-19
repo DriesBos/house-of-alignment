@@ -56,7 +56,7 @@ export default function Header() {
             <div className={styles.menuIcon_bar} />
             <div className={styles.menuIcon_bar} />
           </div>
-          <div className={styles.slogan}>( Make enrgy your priority )</div>
+          <div className={styles.slogan}>( Make energy your priority )</div>
         </div>
         <div className={styles.header_bottom}>
           <nav className={styles.header_nav}>
