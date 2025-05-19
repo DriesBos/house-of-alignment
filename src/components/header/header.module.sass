@@ -14,7 +14,9 @@
   overflow: hidden
   height: 55px
   &_open
-    height: calc-size(auto, size)
+    height: auto
+    @supports (width: calc-size(auto, size))
+      height: calc-size(auto, size)
 
   &_top
     display: flex
@@ -94,10 +96,10 @@
   &_open
     .menuIcon_bar
       &:first-child
-        animation: menuIconTop .66s ease-in-out
+        animation: menuIconTop .33s ease-in-out
         animation-fill-mode: forwards
       &:last-child
-        animation: menuIconBottom .66s ease-in-out
+        animation: menuIconBottom .33s ease-in-out
         animation-fill-mode: forwards
 
 @keyframes menuIconTop
