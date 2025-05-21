@@ -13,7 +13,7 @@
   transition: height 0.3s ease-in-out
   overflow: hidden
   height: 55px
-  transition: background var(--transition-theme), color var(--transition-theme)
+  transition: background var(--transition-theme), color var(--transition-theme), height var(--transition-general)
   &_open
     height: auto
     @supports (width: calc-size(auto, size))
@@ -77,9 +77,6 @@
   width: 38px
   height: 38px
   cursor: pointer
-  // display: flex
-  // flex-direction: column
-  // justify-content: center
   &_bar
     position: absolute
     left: 0
