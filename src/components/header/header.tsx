@@ -3,10 +3,9 @@
 import styles from './header.module.sass';
 import { useThemeStore } from '@/providers/theme-store-provider';
 import { useLayoutStore } from '@/providers/layout-store-provider';
-import { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import type { ThemeState } from '@/stores/theme-store';
 import type { LayoutState } from '@/stores/layout-store';
-import { is } from '@react-three/fiber/dist/declarations/src/core/utils';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +13,6 @@ export default function Header() {
   const setTheme = useThemeStore((state) => state.setTheme);
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
-  const iconRef = useRef<HTMLDivElement>(null);
 
   const handleThemeChange = useCallback(() => {
     const themes: ThemeState[] = ['light', 'dark', 'stone', 'blue'];
@@ -50,7 +48,6 @@ export default function Header() {
             className={styles.menuIcon}
             onClick={toggleHeader}
             data-active={isOpen}
-            ref={iconRef}
           >
             <div className={styles.menuIcon_bar} />
             <div className={styles.menuIcon_bar} />
