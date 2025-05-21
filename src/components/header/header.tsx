@@ -3,9 +3,10 @@
 import styles from './header.module.sass';
 import { useThemeStore } from '@/providers/theme-store-provider';
 import { useLayoutStore } from '@/providers/layout-store-provider';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
 import type { ThemeState } from '@/stores/theme-store';
 import type { LayoutState } from '@/stores/layout-store';
+import { is } from '@react-three/fiber/dist/declarations/src/core/utils';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,7 @@ export default function Header() {
   const setTheme = useThemeStore((state) => state.setTheme);
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
+  const iconRef = useRef<HTMLDivElement>(null);
 
   const handleThemeChange = useCallback(() => {
     const themes: ThemeState[] = ['light', 'dark', 'stone', 'blue'];
@@ -37,21 +39,18 @@ export default function Header() {
   return (
     <>
       <div
-        className={`${styles.background} ${
-          isOpen ? styles.background_open : ''
-        }`}
+        className={styles.background}
         onClick={toggleHeader}
+        data-active={isOpen}
       />
-      <header
-        className={`${styles.header} ${isOpen ? styles.header_open : ''}`}
-      >
+      <header className={styles.header} data-active={isOpen}>
         <div className={styles.header_top}>
           <div className={styles.logo}>House of Alignment</div>
           <div
-            className={`${styles.menuIcon} ${
-              isOpen ? styles.menuIcon_open : ''
-            }`}
+            className={styles.menuIcon}
             onClick={toggleHeader}
+            data-active={isOpen}
+            ref={iconRef}
           >
             <div className={styles.menuIcon_bar} />
             <div className={styles.menuIcon_bar} />

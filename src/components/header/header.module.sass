@@ -14,7 +14,7 @@
   overflow: hidden
   height: 55px
   transition: background var(--transition-theme), color var(--transition-theme), height var(--transition-general)
-  &_open
+  &[data-active="true"]
     height: auto
     @supports (width: calc-size(auto, size))
       height: calc-size(auto, size)
@@ -26,6 +26,8 @@
     z-index: +1
     & > div:first-child, & > div:last-child
       flex: 1
+      font-size: 30px
+      line-height: 1.66
     & > div:last-child
       text-align: right
       @media screen and ( max-width: 770px )
@@ -68,7 +70,7 @@
   pointer-events: none
   transition: opacity 0.3s ease-in-out
   z-index: 999
-  &_open
+  &[data-active="true"]
     opacity: 1
     pointer-events: auto
 
@@ -89,17 +91,24 @@
       transform: translateY(-5.75px)
     &:last-child
       transform: translateY(5.75px)
-
-  &_open
+  &[data-active="true"]
     .menuIcon_bar
       &:first-child
-        animation: menuIconTop .33s ease-in-out
+        animation: menuIconTopOpen .33s ease-in-out
         animation-fill-mode: forwards
       &:last-child
-        animation: menuIconBottom .33s ease-in-out
+        animation: menuIconBottomOpen .33s ease-in-out
+        animation-fill-mode: forwards
+  &[data-active="false"]
+    .menuIcon_bar
+      &:first-child
+        animation: menuIconTopClose .33s ease-in-out
+        animation-fill-mode: forwards
+      &:last-child
+        animation: menuIconBottomClose .33s ease-in-out
         animation-fill-mode: forwards
 
-@keyframes menuIconTop
+@keyframes menuIconTopOpen
   0%
     transform: translateY(5.75px) rotate(0deg)
   50%
@@ -107,11 +116,27 @@
   100%
     transform:  translateY(0) rotate(45deg)
 
-@keyframes menuIconBottom
+@keyframes menuIconBottomOpen
   0%
     transform: translateY(-5.75px) rotate(0deg)
   50%
     transform: translateY(0) rotate(0deg)
   100%
     transform: translateY(0) rotate(-45deg)
+
+@keyframes menuIconTopClose
+  0%
+    transform:  translateY(0) rotate(45deg)
+  50%
+    transform: translateY(0) rotate(0deg)
+  100%
+    transform: translateY(5.75px) rotate(0deg)
+
+@keyframes menuIconBottomClose
+  0%
+    transform: translateY(0) rotate(-45deg)
+  50%
+    transform: translateY(0) rotate(0deg)
+  100%
+    transform: translateY(-5.75px) rotate(0deg)
     
