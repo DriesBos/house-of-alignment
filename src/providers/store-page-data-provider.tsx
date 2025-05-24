@@ -3,7 +3,7 @@
 import { useThemeStore } from '@/providers/theme-store-provider';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 
-export default function StoreDataProvider({
+export default function StorePageDataProvider({
   children,
 }: {
   children: React.ReactNode;
@@ -11,8 +11,12 @@ export default function StoreDataProvider({
   const theme = useThemeStore((state) => state.theme);
   const layout = useLayoutStore((state) => state.layout);
   return (
-    <div className="storeDataWrapper" data-theme={theme} data-layout={layout}>
+    <main
+      className="storePageDataWrapper"
+      data-theme={theme}
+      data-layout={layout}
+    >
       {children}
-    </div>
+    </main>
   );
 }

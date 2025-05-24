@@ -12,6 +12,7 @@ import Header from '@/components/header/header';
 import Footer from '@/components/footer/footer';
 import LayoutLines from '@/components/layout-lines/layout-lines';
 import StoreDataProvider from '@/providers/store-data-provider';
+import StorePageDataProvider from '@/providers/store-page-data-provider';
 
 const helvetica = localFont({
   src: [
@@ -51,13 +52,15 @@ export default function RootLayout({
         <ThemeStoreProvider>
           <LayoutStoreProvider>
             <body className={`${helvetica.variable} ${bradfort.variable}`}>
-              <Header />
-              <StoreDataProvider>
-                {children}
-                <LayoutLines />
-              </StoreDataProvider>
-              <Footer />
               <ThreeDContainer />
+              <StoreDataProvider>
+                <Header />
+                <StorePageDataProvider>
+                  {children}
+                  <LayoutLines />
+                </StorePageDataProvider>
+                <Footer />
+              </StoreDataProvider>
             </body>
           </LayoutStoreProvider>
         </ThemeStoreProvider>
