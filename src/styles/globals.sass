@@ -80,7 +80,7 @@ main
   &-Home
     display: flex
     flex-direction: row
-    flex-wrap: nowrap
+    flex-wrap: wrap
     &_Column
       transition: width var(--transition-general)
 
@@ -88,26 +88,26 @@ main
   &[data-layout="one"]
     .page-Home
       & > div:first-child
-        width: 0
+        width: 100vw
       & > div:nth-child(2)
-        width: 0
+        width: 100vw
       & > div:last-child
         width: 100vw
   &[data-layout="two"]
     .page-Home
       & > div:first-child
-        width: 0
+        width: 50vw
       & > div:nth-child(2)
         width: 50vw
       & > div:last-child
         width: 50vw
       @media screen and ( max-width: 770px )
         & > div:first-child
-          width: 10vw
+          width: 50vw
         & > div:nth-child(2)
-          width: 20vw
+          width: 50vw
         & > div:last-child
-          width: 70vw
+          width: 50vw
   &[data-layout="three"]
     .page-Home
       & > div:first-child
@@ -118,9 +118,9 @@ main
         width: 25vw
       @media screen and ( max-width: 770px )
         & > div:first-child
-          width: 0
+          width: 80vw
         & > div:nth-child(2)
-          width: 20vw
+          width: 80vw
         & > div:last-child
           width: 80vw
 
@@ -128,9 +128,11 @@ main
 .indexBlock
   display: flex
   flex-direction: column
-  align-items: flex-start
+  align-items: stretch
   gap: .5rem
   padding: 1rem
+  & > div
+    flex: 1
   img
     width: 100%
     max-width: 100%
