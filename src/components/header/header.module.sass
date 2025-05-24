@@ -5,14 +5,12 @@
   display: flex
   flex-direction: column
   width: 100vw
-  background: var(--color-bg)
-  color: var(--color-type)
   text-transform: uppercase
   border-bottom: var(--layout-border) solid currentColor
   z-index: 1000
   transition: height 0.3s ease-in-out
   overflow: hidden
-  height: 56px
+  height: var(--spacing-header-height)
   transition: background var(--transition-theme), color var(--transition-theme), height var(--transition-general)
   &[data-active="true"]
     height: auto
@@ -39,7 +37,6 @@
     flex-direction: column
     padding: 2rem 1rem
     gap: 2rem
-    color: var(--color-type)
 
   &_nav ul
     display: flex
@@ -59,6 +56,7 @@
     button
       text-transform: uppercase
       font-size: 12px
+      color: currentColor
 
 .background
   position: fixed

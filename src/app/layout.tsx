@@ -1,12 +1,17 @@
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import '@/styles/reset.css';
 import '@/styles/vars.sass';
 import '@/styles/typography.sass';
 import '@/styles/globals.sass';
-import ThreeDContainer from '@/components/three-d-container/three-d-container';
 import { ThemeStoreProvider } from '@/providers/theme-store-provider';
 import { LayoutStoreProvider } from '@/providers/layout-store-provider';
-import localFont from 'next/font/local';
+import StoryblokProvider from '@/providers/storyblok-provider';
+import ThreeDContainer from '@/components/three-d-container/three-d-container';
+import Header from '@/components/header/header';
+import Footer from '@/components/footer/footer';
+import Layout from '@/components/layout/layout';
+import StoreDataProvider from '@/providers/store-data-provider';
 
 const helvetica = localFont({
   src: [
@@ -42,14 +47,42 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ThemeStoreProvider>
-        <LayoutStoreProvider>
-          <body className={`${helvetica.variable} ${bradfort.variable}`}>
-            {children}
-            <ThreeDContainer />
-          </body>
-        </LayoutStoreProvider>
-      </ThemeStoreProvider>
+      <StoryblokProvider>
+        <ThemeStoreProvider>
+          <LayoutStoreProvider>
+            <body className={`${helvetica.variable} ${bradfort.variable}`}>
+              <Header />
+              <StoreDataProvider>
+                {children}
+                <Layout />
+              </StoreDataProvider>
+              <Footer />
+              <ThreeDContainer />
+            </body>
+          </LayoutStoreProvider>
+        </ThemeStoreProvider>
+      </StoryblokProvider>
     </html>
   );
 }
+
+// 'use client';
+
+// import { useThemeStore } from '@/providers/theme-store-provider';
+// import Footer from '@/components/footer/footer';
+// import Header from '@/components/header/header';
+// import Layout from '@/components/layout/layout';
+
+// export default function Home() {
+//   const theme = useThemeStore((state) => state.theme);
+
+//   return (
+//     <div className="page" data-theme={theme}>
+//       <Header />
+//       <main>
+//         <Layout />
+//       </main>
+//       <Footer />
+//     </div>
+//   );
+// }

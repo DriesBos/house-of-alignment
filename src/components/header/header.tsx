@@ -41,7 +41,7 @@ export default function Header() {
         onClick={toggleHeader}
         data-active={isOpen}
       />
-      <header className={styles.header} data-active={isOpen}>
+      <header className={styles.header} data-active={isOpen} data-theme={theme}>
         <div className={styles.header_top}>
           <div className={styles.logo}>House of Alignment</div>
           <div

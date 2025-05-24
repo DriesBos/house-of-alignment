@@ -27,6 +27,7 @@ $break-desktop: 1370px
   --layout-border: 2px 
   // Spacing
   --spacing-sides: 1rem
+  --spacing-header-height: 56px
   // Z-Indexes
   --z-index-header: 100
   // Transitions
@@ -54,16 +55,16 @@ $break-desktop: 1370px
   @media screen and ( max-width: 770px )
     --type-button: 0.777rem
 
-.page
-  &[data-theme='light']
-    --color-bg: var(--theme-main-bg)
-    --color-type: var(--theme-main-type)
-  &[data-theme='dark']
-    --color-bg: var(--theme-main-bg-inverted)
-    --color-type: var(--theme-main-type-inverted)
-  &[data-theme='stone']
-    --color-bg: var(--theme-stone-bg)
-    --color-type: var(--theme-stone-type)
-  &[data-theme='blue']
-    --color-bg: var(--theme-blue-bg)
-    --color-type: var(--theme-blue-type)
+// .main, .header, .footer
+//   &[data-theme='light']
+//     --color-bg: var(--theme-main-bg)
+//     --color-type: var(--theme-main-type)
+//   &[data-theme='dark']
+//     --color-bg: var(--theme-main-bg-inverted)
+//     --color-type: var(--theme-main-type-inverted)
+//   &[data-theme='stone']
+//     --color-bg: var(--theme-stone-bg)
+//     --color-type: var(--theme-stone-type)
+//   &[data-theme='blue']
+//     --color-bg: var(--theme-blue-bg)
+//     --color-type: var(--theme-blue-type)

@@ -14,6 +14,9 @@ importers:
       '@react-three/fiber':
         specifier: ^9.1.2
         version: 9.1.2(@types/react@19.1.4)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.176.0)
+      '@storyblok/react':
+        specifier: ^5.0.0
+        version: 5.0.0(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@types/three':
         specifier: ^0.176.0
         version: 0.176.0
@@ -448,6 +451,19 @@ packages:
 
   '@rushstack/eslint-patch@1.11.0':
     resolution: {integrity: sha512-zxnHvoMQVqewTJr/W4pKjF0bMGiKJv1WX7bSrkl46Hg0QjESbzBROWK0Wg4RphzSOS5Jiy7eFimmM3UgMrMZbQ==}
+
+  '@storyblok/js@4.0.0':
+    resolution: {integrity: sha512-D3EB9LQ9P9I9WTauwUaBkZ6J8qMVnpUAxPZRbarL7SdDKILD4CAVR9Bn+T6H5znu45J4Zq9P7OvxH+sQZPvgXw==}
+
+  '@storyblok/react@5.0.0':
+    resolution: {integrity: sha512-AoVMGP/u6SDIkxGMUTAvHs2gurIp2u7HJIoadSWPha7+pWWd2eY+30XckVqsUvchmf0Q9OMTFTTBvTNidieusQ==}
+    peerDependencies:
+      next: ^13 || ^14 || ^15
+      react: ^17 || ^18 || ^19
+      react-dom: ^17 || ^18 || ^19
+
+  '@storyblok/richtext@3.2.0':
+    resolution: {integrity: sha512-koVGDv1HtiI5vymE5fzRB1VO1PNguj+RSfHI4zCy2+90pRoqZbsUCR8V2TaNl7Pg8R1oOkFZnbAxdt9Z4xoxDg==}
 
   '@swc/counter@0.1.3':
     resolution: {integrity: sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==}
@@ -1704,6 +1720,9 @@ packages:
   stats.js@0.17.0:
     resolution: {integrity: sha512-hNKz8phvYLPEcRkeG1rsGmV5ChMjKDAWU7/OJJdDErPBNChQXxCo3WZurGpnWc6gZhAzEPFad1aVgyOANH1sMw==}
 
+  storyblok-js-client@7.0.0:
+    resolution: {integrity: sha512-00zWW3jscL4W1kek9QCrInq1jw4xwjeM0jXuKg4sa/bCT8QuLGaGU9Wn3hat/hkvZLRFC09fV4sJRxDqwsFaKQ==}
+
   streamsearch@1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
     engines: {node: '>=10.0.0'}
@@ -2263,6 +2282,20 @@ snapshots:
   '@rtsao/scc@1.1.0': {}
 
   '@rushstack/eslint-patch@1.11.0': {}
+
+  '@storyblok/js@4.0.0':
+    dependencies:
+      '@storyblok/richtext': 3.2.0
+      storyblok-js-client: 7.0.0
+
+  '@storyblok/react@5.0.0(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@storyblok/js': 4.0.0
+      next: 15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+
+  '@storyblok/richtext@3.2.0': {}
 
   '@swc/counter@0.1.3': {}
 
@@ -3741,6 +3774,8 @@ snapshots:
       three: 0.176.0
 
   stats.js@0.17.0: {}
+
+  storyblok-js-client@7.0.0: {}
 
   streamsearch@1.1.0: {}
 
