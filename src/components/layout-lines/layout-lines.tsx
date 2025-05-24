@@ -2,11 +2,11 @@
 
 import { useLayoutStore } from '@/providers/layout-store-provider';
 
-export default function Layout() {
+export default function LayoutLines() {
   const layout = useLayoutStore((state) => state.layout);
 
   return (
-    <div className="layout" data-layout={layout}>
+    <div className="layoutLines" data-layout={layout}>
       <div />
       <div />
       <div />

@@ -10,7 +10,7 @@ import StoryblokProvider from '@/providers/storyblok-provider';
 import ThreeDContainer from '@/components/three-d-container/three-d-container';
 import Header from '@/components/header/header';
 import Footer from '@/components/footer/footer';
-import Layout from '@/components/layout/layout';
+import LayoutLines from '@/components/layout-lines/layout-lines';
 import StoreDataProvider from '@/providers/store-data-provider';
 
 const helvetica = localFont({
@@ -54,7 +54,7 @@ export default function RootLayout({
               <Header />
               <StoreDataProvider>
                 {children}
-                <Layout />
+                <LayoutLines />
               </StoreDataProvider>
               <Footer />
               <ThreeDContainer />
