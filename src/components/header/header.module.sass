@@ -1,16 +1,14 @@
 .header
-  position: fixed
-  top: 0
-  left: 0
+  position: relative
   display: flex
   flex-direction: column
   width: 100vw
   text-transform: uppercase
   border-bottom: var(--layout-border) solid currentColor
-  z-index: 1000
   transition: height 0.3s ease-in-out
   overflow: hidden
   height: var(--spacing-header-height)
+  min-height: var(--spacing-header-height)
   transition: background var(--transition-theme), color var(--transition-theme), height var(--transition-general)
   &[data-active="true"]
     height: auto
