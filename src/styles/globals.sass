@@ -81,6 +81,9 @@ main
     display: flex
     flex-direction: row
     flex-wrap: wrap
+    @media screen and ( max-width: 770px )
+      flex-direction: column
+      align-items: flex-end
     &_Column
       transition: width var(--transition-general)
 
@@ -103,11 +106,11 @@ main
         width: 50vw
       @media screen and ( max-width: 770px )
         & > div:first-child
-          width: 50vw
+          width: 70vw
         & > div:nth-child(2)
-          width: 50vw
+          width: 70vw
         & > div:last-child
-          width: 50vw
+          width: 70vw
   &[data-layout="three"]
     .page-Home
       & > div:first-child
