@@ -50,9 +50,9 @@ const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
               width={0}
               height={0}
               sizes={sizes}
-              quality={60}
-              loading="lazy"
-              priority={false}
+              quality={40}
+              loading="eager"
+              priority={true}
               className="imageLoad"
               onLoad={(e) => {
                 e.currentTarget.style.opacity = '1';
