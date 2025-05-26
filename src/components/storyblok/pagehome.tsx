@@ -43,34 +43,47 @@ const Pagehome: React.FunctionComponent<PagehomeProps> = ({ blok }) => {
 
     // Get all column references and their heights
     const columnData = [
-      { ref: column1Ref.current, height: column1Ref.current?.offsetHeight || 0 },
-      { ref: column2Ref.current, height: column2Ref.current?.offsetHeight || 0 },
-      { ref: column3Ref.current, height: column3Ref.current?.offsetHeight || 0 },
+      {
+        ref: column1Ref.current,
+        height: column1Ref.current?.offsetHeight || 0,
+      },
+      {
+        ref: column2Ref.current,
+        height: column2Ref.current?.offsetHeight || 0,
+      },
+      {
+        ref: column3Ref.current,
+        height: column3Ref.current?.offsetHeight || 0,
+      },
     ];
 
     // Find the longest column
-    const maxHeight = Math.max(...columnData.map(col => col.height));
-    const longestColumnIndex = columnData.findIndex(col => col.height === maxHeight);
+    const maxHeight = Math.max(...columnData.map((col) => col.height));
+    const longestColumnIndex = columnData.findIndex(
+      (col) => col.height === maxHeight
+    );
 
-    // Calculate relative speeds based on column heights
-    // Columns shorter than the longest will move faster (positive speed)
-    // The longest column will have speed 0 (no movement)
-    const columns = columnData.map((col, index) => ({
-      ref: col.ref,
-      speed: index === longestColumnIndex ? 0 : (maxHeight - col.height) / maxHeight
-    }));
-
-    console.log('Column heights:', columnData.map(col => col.height));
-    console.log('Calculated speeds:', columns.map(col => col.speed));
+    console.log(
+      'Column heights:',
+      columnData.map((col) => col.height)
+    );
+    console.log('Longest column index:', longestColumnIndex);
 
     // Create an array to store our ScrollTrigger instances
     const triggers: ScrollTrigger[] = [];
 
-    columns.forEach(({ ref, speed }) => {
-      if (!ref || speed === 0) return; // Skip the longest column
+    // Apply animations to columns, skipping the longest one
+    columnData.forEach((col, index) => {
+      if (!col.ref || index === longestColumnIndex) return;
 
-      const tl = gsap.to(ref, {
-        y: `${speed * -100}%`,
+      // Calculate how many pixels this column should move (negative for slower movement)
+      const pixelsToMove = maxHeight - col.height;
+      console.log(
+        `Column ${index}: height=${col.height}, will move ${pixelsToMove}px`
+      );
+
+      const tl = gsap.to(col.ref, {
+        y: pixelsToMove,
         ease: 'none',
         scrollTrigger: {
           trigger: containerRef.current,
