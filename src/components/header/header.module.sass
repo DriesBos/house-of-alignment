@@ -2,18 +2,16 @@
   position: relative
   display: flex
   flex-direction: column
-  width: 100vw
   text-transform: uppercase
-  border-bottom: var(--layout-border) solid currentColor
-  transition: height 0.3s ease-in-out
-  overflow: hidden
+  width: 100vw
   height: var(--spacing-header-height)
   min-height: var(--spacing-header-height)
-  transition: background var(--transition-theme), color var(--transition-theme), height var(--transition-general)
+  border-bottom: var(--layout-border) solid currentColor
+  overflow: hidden
+  transition: background var(--transition-theme), color var(--transition-theme), height var(--transition-general), min-height var(--transition-general)
   &[data-active="true"]
     height: auto
-    @supports (width: calc-size(auto, size))
-      height: calc-size(auto, size)
+    min-height: calc(var(--spacing-header-height) + 6rem + (83px * 3) + (16px * 2) + .5rem)
 
   &_top
     display: flex
