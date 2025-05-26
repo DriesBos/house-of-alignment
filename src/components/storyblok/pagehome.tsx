@@ -10,6 +10,7 @@ import ContentColumn from '@/components/content-column';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import styles from './pagehome.module.sass';
+import { useLayoutStore } from '@/providers/layout-store-provider';
 
 // Make sure GSAP plugins are registered before any animations
 if (typeof window !== 'undefined') {
@@ -31,6 +32,7 @@ const Pagehome: React.FunctionComponent<PagehomeProps> = ({ blok }) => {
   const column1Ref = useRef<HTMLDivElement>(null);
   const column2Ref = useRef<HTMLDivElement>(null);
   const column3Ref = useRef<HTMLDivElement>(null);
+  const layout = useLayoutStore((state) => state.layout);
 
   useLayoutEffect(() => {
     // Make sure we have access to the DOM elements
@@ -103,7 +105,7 @@ const Pagehome: React.FunctionComponent<PagehomeProps> = ({ blok }) => {
     return () => {
       triggers.forEach((trigger) => trigger.kill());
     };
-  }, []); // Empty dependency array since we only want this to run once
+  }, [layout]); // Empty dependency array since we only want this to run once
 
   return (
     <div
