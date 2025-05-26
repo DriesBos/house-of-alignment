@@ -34,6 +34,8 @@ const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
     return '100vw'; // default fallback
   }, [layout]);
 
+  console.log('IndexBlock', blok);
+
   return (
     <div {...storyblokEditable(blok)} className="indexBlock">
       <div className="imageContainer">
@@ -43,14 +45,14 @@ const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
               <div className="imageHoverLayer_block" />
             </div>
             <Image
-              src={blok.thumbnail.filename}
               alt={blok.thumbnail.alt ?? ''}
+              src={blok.thumbnail.filename}
               width={0}
               height={0}
               sizes={sizes}
-              priority={false}
               quality={60}
               loading="lazy"
+              priority={false}
               className="imageLoad"
               onLoad={(e) => {
                 e.currentTarget.style.opacity = '1';
