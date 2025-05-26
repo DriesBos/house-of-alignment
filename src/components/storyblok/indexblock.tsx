@@ -38,20 +38,25 @@ const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
     <div {...storyblokEditable(blok)} className="indexBlock">
       <div className="imageContainer">
         {blok.thumbnail && (
-          <Image
-            src={blok.thumbnail.filename}
-            alt={blok.thumbnail.alt ?? ''}
-            width={0}
-            height={0}
-            sizes={sizes}
-            priority={false}
-            quality={60}
-            loading="lazy"
-            className="imageLoad"
-            onLoad={(e) => {
-              e.currentTarget.style.opacity = '1';
-            }}
-          />
+          <>
+            <div className="imageHoverLayer">
+              <div className="imageHoverLayer_block" />
+            </div>
+            <Image
+              src={blok.thumbnail.filename}
+              alt={blok.thumbnail.alt ?? ''}
+              width={0}
+              height={0}
+              sizes={sizes}
+              priority={false}
+              quality={60}
+              loading="lazy"
+              className="imageLoad"
+              onLoad={(e) => {
+                e.currentTarget.style.opacity = '1';
+              }}
+            />
+          </>
         )}
       </div>
       {blok.title && <div>{blok.title}</div>}
