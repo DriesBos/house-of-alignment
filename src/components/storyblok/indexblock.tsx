@@ -1,7 +1,8 @@
 import { SbBlokData, storyblokEditable } from '@storyblok/react/rsc';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Image from 'next/image';
 import type { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import { useLayoutStore } from '@/providers/layout-store-provider';
 
 interface SbIndexBlockData extends SbBlokData {
   title?: string;
@@ -18,7 +19,21 @@ interface IndexBlockProps {
 }
 
 const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
+  const layout = useLayoutStore((state) => state.layout);
+
   console.log('IndexBlock', blok);
+
+  const sizes = useMemo(() => {
+    if (layout === 'one') {
+      return '100vw';
+    } else if (layout === 'two') {
+      return '50vw';
+    } else if (layout === 'three') {
+      return '50vw, 25vw';
+    }
+    return '100vw'; // default fallback
+  }, [layout]);
+
   return (
     <div {...storyblokEditable(blok)} className="indexBlock">
       <div className="imageContainer">
@@ -28,7 +43,14 @@ const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
             alt={blok.thumbnail.alt ?? ''}
             width={0}
             height={0}
-            sizes="100vw"
+            sizes={sizes}
+            priority={false}
+            quality={60}
+            loading="lazy"
+            className="imageLoad"
+            onLoad={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
           />
         )}
       </div>
