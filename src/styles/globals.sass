@@ -40,10 +40,12 @@ body, main
   & > div
     height: 100%
     border-right: var(--layout-border) solid currentColor
-    transition: width var(--transition-general)
-    & > div:last-child
+    transition: width var(--transition-general), border var(--transition-general)
+    &:last-child
       border-right: 0
   &[data-layout="one"]
+    & > div
+      border-right: var(--layout-border) solid transparent
     & > div:first-child
       width: 0
     & > div:nth-child(2)
@@ -53,6 +55,7 @@ body, main
   &[data-layout="two"]
     & > div:first-child
       width: 0
+      border-right: var(--layout-border) solid transparent
     & > div:nth-child(2)
       width: 50vw
     & > div:last-child
@@ -73,9 +76,9 @@ body, main
       width: 25vw
     @media screen and ( max-width: 770px )
       & > div:first-child
-        width: 0
+        width: 5vw
       & > div:nth-child(2)
-        width: 20vw
+        width: 15vw
       & > div:last-child
         width: 80vw
 
