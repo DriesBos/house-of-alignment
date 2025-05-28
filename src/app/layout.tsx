@@ -45,11 +45,13 @@ export const metadata: Metadata = {
         media: '(prefers-color-scheme: light)',
         url: '/favicon/favicon-light.ico',
         href: '/favicon/favicon-light.ico',
+        type: 'image/x-icon',
       },
       {
         media: '(prefers-color-scheme: dark)',
         url: '/favicon/favicon.ico',
         href: '/favicon/favicon-dark.ico',
+        type: 'image/x-icon',
       },
     ],
   },
