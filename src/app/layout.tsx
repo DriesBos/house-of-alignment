@@ -38,7 +38,21 @@ const bradfort = localFont({
 
 export const metadata: Metadata = {
   title: 'House of Alignment',
-  description: 'Description of the House of Alignment',
+  description: 'Make energy your priority',
+  icons: {
+    icon: [
+      {
+        media: '(prefers-color-scheme: light)',
+        url: '/favicon/favicon-light.ico',
+        href: '/favicon/favicon-light.ico',
+      },
+      {
+        media: '(prefers-color-scheme: dark)',
+        url: '/favicon/favicon.ico',
+        href: '/favicon/favicon-dark.ico',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
