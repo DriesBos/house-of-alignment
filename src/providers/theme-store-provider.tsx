@@ -1,6 +1,12 @@
 'use client';
 
-import { type ReactNode, createContext, useRef, useContext } from 'react';
+import {
+  type ReactNode,
+  createContext,
+  useRef,
+  useContext,
+  useEffect,
+} from 'react';
 import { useStore } from 'zustand';
 
 import { type ThemeStore, createThemeStore } from '@/stores/theme-store';
@@ -20,6 +26,26 @@ export const ThemeStoreProvider = ({ children }: ThemeStoreProviderProps) => {
   if (storeRef.current === null) {
     storeRef.current = createThemeStore();
   }
+
+  // Update DOM theme attribute when theme changes
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const root = window.document.documentElement;
+    const unsubscribe = storeRef.current?.subscribe((state) => {
+      root.setAttribute('data-theme', state.theme);
+    });
+
+    // Set initial theme
+    const initialTheme = storeRef.current?.getState().theme;
+    if (initialTheme) {
+      root.setAttribute('data-theme', initialTheme);
+    }
+
+    return () => {
+      unsubscribe?.();
+    };
+  }, []);
 
   return (
     <ThemeStoreContext.Provider value={storeRef.current}>

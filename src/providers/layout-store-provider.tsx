@@ -1,6 +1,12 @@
 'use client';
 
-import { type ReactNode, createContext, useRef, useContext } from 'react';
+import {
+  type ReactNode,
+  createContext,
+  useRef,
+  useEffect,
+  useContext,
+} from 'react';
 import { useStore } from 'zustand';
 
 import { type LayoutStore, createLayoutStore } from '@/stores/layout-store';
@@ -20,6 +26,26 @@ export const LayoutStoreProvider = ({ children }: LayoutStoreProviderProps) => {
   if (storeRef.current === null) {
     storeRef.current = createLayoutStore();
   }
+
+  // Update DOM layout attribute when layout changes
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const root = window.document.documentElement;
+    const unsubscribe = storeRef.current?.subscribe((state) => {
+      root.setAttribute('data-layout', state.layout);
+    });
+
+    // Set initial layout
+    const initialLayout = storeRef.current?.getState().layout;
+    if (initialLayout) {
+      root.setAttribute('data-layout', initialLayout);
+    }
+
+    return () => {
+      unsubscribe?.();
+    };
+  }, []);
 
   return (
     <LayoutStoreContext.Provider value={storeRef.current}>

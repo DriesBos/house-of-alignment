@@ -2,13 +2,10 @@
 
 import styles from './footer.module.sass';
 import Link from 'next/link';
-import { useThemeStore } from '@/providers/theme-store-provider';
 
 export function Footer() {
-  const theme = useThemeStore((state) => state.theme);
-
   return (
-    <footer className={styles.footer} data-theme={theme}>
+    <footer className={styles.footer}>
       <div className={styles.footer_content}>
         <div>
           <Link href="/">Directory</Link>
