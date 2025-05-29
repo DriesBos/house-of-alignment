@@ -1,18 +1,4 @@
-body
-  position: relative
-  height: 100%
-  max-height: 100dvh
-  display: flex
-  flex-direction: column
-
-.storeDataWrapper
-  position: relative
-  overflow-y: auto
-
-body, main
-  position: relative
-  
-.storeDataWrapper, header
+html
   background: var(--color-bg)
   color: var(--color-type)
   transition: background var(--transition-theme), color var(--transition-theme)
@@ -28,6 +14,20 @@ body, main
   &[data-theme='blue']
     background: var(--theme-blue-bg)
     color: var(--theme-blue-type)
+    
+body
+  position: relative
+  height: 100%
+  max-height: 100dvh
+  display: flex
+  flex-direction: column
+
+body, main
+  position: relative
+
+.storeDataWrapper
+  position: relative
+  overflow-y: auto
 
 // PAGE LAYOUTS
 .page
@@ -113,58 +113,62 @@ main
     aspect-ratio: 13 / 3
 
 // SPECIFIC COMPONENTS
-.layoutLines
-  position: absolute
-  left: 0
-  top: 0
-  right: 0
-  bottom: 0
-  display: flex
-  pointer-events: none
-  & > div
-    height: 100%
-    border-right: var(--layout-border) solid currentColor
-    transition: width var(--transition-general), border var(--transition-general)
-    &:last-child
-      border-right: 0
-  &[data-layout="one"]
+html
+  .layoutLines
+    position: absolute
+    left: 0
+    top: 0
+    right: 0
+    bottom: 0
+    display: flex
+    pointer-events: none
     & > div
-      border-right: var(--layout-border) solid transparent
-    & > div:first-child
-      width: 0
-    & > div:nth-child(2)
-      width: 0
-    & > div:last-child
-      width: 100vw
+      height: 100%
+      border-right: var(--layout-border) solid currentColor
+      transition: width var(--transition-general), border var(--transition-general)
+      &:last-child
+        border-right: 0
+  &[data-layout="one"]
+    .layoutLines
+      & > div
+        border-right: var(--layout-border) solid transparent
+      & > div:first-child
+        width: 0
+      & > div:nth-child(2)
+        width: 0
+      & > div:last-child
+        width: 100vw
   &[data-layout="two"]
-    & > div:first-child
-      width: 0
-      border-right: var(--layout-border) solid transparent
-    & > div:nth-child(2)
-      width: 50vw
-    & > div:last-child
-      width: 50vw
-    @media screen and ( max-width: 770px )
+    .layoutLines
       & > div:first-child
-        width: 10vw
+        width: 0
+        border-right: var(--layout-border) solid transparent
       & > div:nth-child(2)
-        width: 20vw
+        width: 50vw
       & > div:last-child
-        width: 70vw
+        width: 50vw
+      @media screen and ( max-width: 770px )
+        & > div:first-child
+          width: 10vw
+        & > div:nth-child(2)
+          width: 20vw
+        & > div:last-child
+          width: 70vw
   &[data-layout="three"]
-    & > div:first-child
-      width: 50vw
-    & > div:nth-child(2)
-      width: 25vw
-    & > div:last-child
-      width: 25vw
-    @media screen and ( max-width: 770px )
+    .layoutLines
       & > div:first-child
-        width: 5vw
+        width: 50vw
       & > div:nth-child(2)
-        width: 15vw
+        width: 25vw
       & > div:last-child
-        width: 80vw
+        width: 25vw
+      @media screen and ( max-width: 770px )
+        & > div:first-child
+          width: 5vw
+        & > div:nth-child(2)
+          width: 15vw
+        & > div:last-child
+          width: 80vw
 
 .indexBlock
   display: flex
