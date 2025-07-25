@@ -68,7 +68,7 @@ export default function RootLayout({
         <ThemeStoreProvider>
           <LayoutStoreProvider>
             <body className={`${helvetica.variable} ${bradfort.variable}`}>
-              <ThreeDContainer />
+              {/* <ThreeDContainer /> */}
               <Header />
               <StoreDataProvider>
                 <StorePageDataProvider>
