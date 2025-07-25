@@ -2,17 +2,19 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@/styles/reset.css';
 import '@/styles/vars.sass';
+import '@/styles/mixins.sass';
 import '@/styles/typography.sass';
 import '@/styles/globals.sass';
 import { ThemeStoreProvider } from '@/providers/theme-store-provider';
 import { LayoutStoreProvider } from '@/providers/layout-store-provider';
 import StoryblokProvider from '@/providers/storyblok-provider';
-import ThreeDContainer from '@/components/three-d-container/three-d-container';
 import Header from '@/components/header/header';
 import Footer from '@/components/footer/footer';
 import LayoutLines from '@/components/layout-lines/layout-lines';
 import StoreDataProvider from '@/providers/store-data-provider';
 import StorePageDataProvider from '@/providers/store-page-data-provider';
+import { GlobalDataProvider } from '@/providers/global-data-provider';
+import { fetchGlobalData } from '@/utils/fetchGlobalData';
 
 const helvetica = localFont({
   src: [
@@ -57,27 +59,31 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch global data on the server
+  const globalData = await fetchGlobalData('published');
   return (
     <html lang="en">
       <StoryblokProvider>
         <ThemeStoreProvider>
           <LayoutStoreProvider>
-            <body className={`${helvetica.variable} ${bradfort.variable}`}>
-              {/* <ThreeDContainer /> */}
-              <Header />
-              <StoreDataProvider>
-                <StorePageDataProvider>
-                  {children}
-                  <LayoutLines />
-                </StorePageDataProvider>
-                <Footer />
-              </StoreDataProvider>
-            </body>
+            <GlobalDataProvider initialData={globalData}>
+              <body className={`${helvetica.variable} ${bradfort.variable}`}>
+                {/* <ThreeDContainer /> */}
+                <Header />
+                <StoreDataProvider>
+                  <StorePageDataProvider>
+                    {children}
+                    <LayoutLines />
+                  </StorePageDataProvider>
+                  <Footer />
+                </StoreDataProvider>
+              </body>
+            </GlobalDataProvider>
           </LayoutStoreProvider>
         </ThemeStoreProvider>
       </StoryblokProvider>

@@ -21,7 +21,7 @@ interface IndexBlockProps {
 const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
   const layout = useLayoutStore((state) => state.layout);
 
-  console.log('IndexBlock', blok);
+  // console.log('IndexBlock', blok);
 
   const sizes = useMemo(() => {
     if (layout === 'one') {
@@ -33,8 +33,6 @@ const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
     }
     return '100vw'; // default fallback
   }, [layout]);
-
-  console.log('IndexBlock', blok);
 
   return (
     <div {...storyblokEditable(blok)} className="indexBlock">

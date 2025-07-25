@@ -8,6 +8,7 @@ import type { ThemeState } from '@/stores/theme-store';
 import type { LayoutState } from '@/stores/layout-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useGlobalData } from '@/providers/global-data-provider';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function Header() {
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
   const pathname = usePathname();
+  const { globalData } = useGlobalData();
 
   // Close menu when route changes
   useEffect(() => {
@@ -42,6 +44,8 @@ export default function Header() {
     setIsOpen((prev) => !prev);
   }, []);
 
+  console.log('Global Data', globalData);
+
   return (
     <>
       {/* <div
@@ -62,7 +66,7 @@ export default function Header() {
             <div className={styles.menuIcon_bar} />
             <div className={styles.menuIcon_bar} />
           </div>
-          <div className={styles.slogan}>( Make energy your priority )</div>
+          <div className={styles.slogan}>( {globalData.slogan} )</div>
         </div>
         <div className={styles.header_bottom}>
           <nav className={styles.header_nav}>
