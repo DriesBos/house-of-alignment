@@ -3,9 +3,11 @@
 import styles from './header.module.sass';
 import { useThemeStore } from '@/providers/theme-store-provider';
 import { useLayoutStore } from '@/providers/layout-store-provider';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import type { ThemeState } from '@/stores/theme-store';
 import type { LayoutState } from '@/stores/layout-store';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +15,12 @@ export default function Header() {
   const setTheme = useThemeStore((state) => state.setTheme);
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
+  const pathname = usePathname();
+
+  // Close menu when route changes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   const handleThemeChange = useCallback(() => {
     const themes: ThemeState[] = ['light', 'dark', 'stone', 'blue'];
@@ -43,7 +51,9 @@ export default function Header() {
       /> */}
       <header className={styles.header} data-active={isOpen}>
         <div className={styles.header_top}>
-          <div className={styles.logo}>House of Alignment</div>
+          <div className={styles.logo}>
+            <Link href="/">House of Alignment</Link>
+          </div>
           <div
             className={styles.menuIcon}
             onClick={toggleHeader}
@@ -60,9 +70,7 @@ export default function Header() {
               <li>
                 <a href="#home">Directory</a>
               </li>
-              <li>
-                <a href="#about">About</a>
-              </li>
+              <Link href="/about">About</Link>
               <li>
                 <a href="#services">One-on-One</a>
               </li>
