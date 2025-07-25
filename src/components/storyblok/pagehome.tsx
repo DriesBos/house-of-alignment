@@ -65,12 +65,6 @@ const Pagehome: React.FunctionComponent<PagehomeProps> = ({ blok }) => {
       (col) => col.height === maxHeight
     );
 
-    console.log(
-      'Column heights:',
-      columnData.map((col) => col.height)
-    );
-    console.log('Longest column index:', longestColumnIndex);
-
     // Create an array to store our ScrollTrigger instances
     const triggers: ScrollTrigger[] = [];
 
@@ -80,9 +74,6 @@ const Pagehome: React.FunctionComponent<PagehomeProps> = ({ blok }) => {
 
       // Calculate how many pixels this column should move (negative for slower movement)
       const pixelsToMove = maxHeight - col.height;
-      console.log(
-        `Column ${index}: height=${col.height}, will move ${pixelsToMove}px`
-      );
 
       const tl = gsap.to(col.ref, {
         y: pixelsToMove,
