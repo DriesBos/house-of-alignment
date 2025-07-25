@@ -44,8 +44,6 @@ export default function Header() {
     setIsOpen((prev) => !prev);
   }, []);
 
-  console.log('Global Data', globalData);
-
   return (
     <>
       {/* <div

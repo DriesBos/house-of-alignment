@@ -2,8 +2,11 @@
 
 import styles from './footer.module.sass';
 import Link from 'next/link';
+import { useGlobalData } from '@/providers/global-data-provider';
 
 export function Footer() {
+  const { globalData } = useGlobalData();
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footer_content}>
@@ -15,7 +18,7 @@ export function Footer() {
         <div className={styles.footer_content_right}>
           <div>
             <a
-              href="www.instagram.com"
+              href={globalData.instagram}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -23,15 +26,15 @@ export function Footer() {
             </a>
             <br />
             <a
-              href="mailt:info@houseofalignment.com"
+              href={`mailto:${globalData.email}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              info@houseofalignment.com
+              {globalData.email}
             </a>
           </div>
           <div>
-            <span>( MAKE ENERGY YOUR PRIORITY )</span>
+            <span>( {globalData.slogan} )</span>
           </div>
         </div>
       </div>
