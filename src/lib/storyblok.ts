@@ -6,6 +6,7 @@ import PageThreeColumn from '@/components/storyblok/page-three-column/page-three
 import IndexBlok from '@/components/storyblok/index-blok/index-blok';
 import ContentBlok from '@/components/storyblok/content-blok/content-blok';
 import TextBlok from '@/components/storyblok/text-blok/text-blok';
+import ImageBlok from '@/components/storyblok/image-blok/image-blok';
 import GlobalData from '@/components/storyblok/globaldata/globaldata';
 
 export const getStoryblokApi = storyblokInit({
@@ -17,6 +18,7 @@ export const getStoryblokApi = storyblokInit({
     'index-blok': IndexBlok,
     'content-blok': ContentBlok,
     'text-blok': TextBlok,
+    'image-blok': ImageBlok,
     'global-data': GlobalData,
   },
   use: [apiPlugin],
