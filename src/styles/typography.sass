@@ -35,7 +35,7 @@ h2, h4, h6
   font-family: var(--font-bradford), 'Bradford', serif
 
 h1, h2, h3, p, a, a:link, a:visited, a:hover, a:active, span, input, p
-  font-size: 1em
+  font-size: var(--type-size-base)
   line-height: 1.45
   color: currentColor
   font-style: normal
@@ -43,6 +43,15 @@ h1, h2, h3, p, a, a:link, a:visited, a:hover, a:active, span, input, p
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
   text-rendering: geometricPrecision
+
+h1, h2
+  font-size: var(--type-size-xxlarge)
+
+h3, h4
+  font-size: var(--type-size-xlarge)
+
+h5, h6
+  font-size: var(--type-size-large)
 
 a
   text-decoration: none
