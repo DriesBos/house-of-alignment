@@ -5,8 +5,9 @@ import {
   storyblokEditable,
   StoryblokServerComponent,
 } from '@storyblok/react/rsc';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './page.module.sass';
+import { useLayoutStore } from '@/providers/layout-store-provider';
 
 interface SbPageData extends SbBlokData {
   body: SbBlokData[];
@@ -17,6 +18,12 @@ interface PageProps {
 }
 
 const Page: React.FunctionComponent<PageProps> = ({ blok }) => {
+  const setLayout = useLayoutStore((state) => state.setLayout);
+
+  // Set layout to 'three' when component mounts
+  useEffect(() => {
+    setLayout('one');
+  }, [setLayout]);
   return (
     <div className={styles.page} {...storyblokEditable(blok)}>
       {blok.body.map((nestedBlok) => (

@@ -5,7 +5,7 @@ import {
   storyblokEditable,
   StoryblokServerComponent,
 } from '@storyblok/react/rsc';
-import React, { useRef, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect, useEffect } from 'react';
 import ContentColumn from '@/components/content-column';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
@@ -33,6 +33,12 @@ const PageTwoColumn: React.FunctionComponent<PageTwoColumnProps> = ({
   const column1Ref = useRef<HTMLDivElement>(null);
   const column2Ref = useRef<HTMLDivElement>(null);
   const layout = useLayoutStore((state) => state.layout);
+  const setLayout = useLayoutStore((state) => state.setLayout);
+
+  // Set layout to 'three' when component mounts
+  useEffect(() => {
+    setLayout('two');
+  }, [setLayout]);
 
   useLayoutEffect(() => {
     // Make sure we have access to the DOM elements
