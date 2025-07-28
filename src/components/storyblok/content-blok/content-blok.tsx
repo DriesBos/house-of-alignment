@@ -18,8 +18,8 @@ export default function ContentBlok({ blok }: ContentBlokProps) {
 
   return (
     <div className={styles.contentBlok} {...storyblokEditable(blok)}>
-      {blok.body?.map((nestedBlok, index) => (
-        <StoryblokServerComponent blok={nestedBlok} key={index} />
+      {blok.body?.map((nestedBlok) => (
+        <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
       ))}
     </div>
   );
