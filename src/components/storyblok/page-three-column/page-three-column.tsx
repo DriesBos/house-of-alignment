@@ -18,9 +18,9 @@ if (typeof window !== 'undefined') {
 }
 
 interface SbPageThreeColumnData extends SbBlokData {
-  columnone: SbBlokData[];
-  columntwo: SbBlokData[];
-  columnthree: SbBlokData[];
+  column_one: SbBlokData[];
+  column_two: SbBlokData[];
+  column_three: SbBlokData[];
 }
 
 interface PageThreeColumnProps {
@@ -60,6 +60,8 @@ const PageThreeColumn: React.FunctionComponent<PageThreeColumnProps> = ({
         height: column3Ref.current?.offsetHeight || 0,
       },
     ];
+
+    console.log('ColumnData', columnData);
 
     // Find the longest column
     const maxHeight = Math.max(...columnData.map((col) => col.height));
@@ -108,21 +110,21 @@ const PageThreeColumn: React.FunctionComponent<PageThreeColumnProps> = ({
     >
       <div ref={column1Ref}>
         <ContentColumn>
-          {blok.columnone.map((nestedBlok) => (
+          {blok.column_one.map((nestedBlok) => (
             <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
           ))}
         </ContentColumn>
       </div>
       <div ref={column2Ref}>
         <ContentColumn>
-          {blok.columntwo.map((nestedBlok) => (
+          {blok.column_two.map((nestedBlok) => (
             <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
           ))}
         </ContentColumn>
       </div>
       <div ref={column3Ref}>
         <ContentColumn>
-          {blok.columnthree.map((nestedBlok) => (
+          {blok.column_three.map((nestedBlok) => (
             <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
           ))}
         </ContentColumn>
