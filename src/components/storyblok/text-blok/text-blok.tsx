@@ -1,6 +1,8 @@
 'use client';
 
 import { SbBlokData, storyblokEditable } from '@storyblok/react/rsc';
+import Markdown from '@/components/markdown/markdown';
+import styles from './text-blok.module.sass';
 
 interface SbPageData extends SbBlokData {
   text?: string;
@@ -11,11 +13,9 @@ interface TextBlokProps {
 }
 
 const TextBlok: React.FunctionComponent<TextBlokProps> = ({ blok }) => {
-  console.log('TextBlok', blok);
-
   return (
-    <div className="column column-Text" {...storyblokEditable(blok)}>
-      {blok.text}
+    <div className={styles.textBlok} {...storyblokEditable(blok)}>
+      {blok.text && <Markdown content={blok.text} />}
     </div>
   );
 };

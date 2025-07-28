@@ -102,25 +102,25 @@ const PageThreeColumn: React.FunctionComponent<PageThreeColumnProps> = ({
 
   return (
     <div
-      className={`${styles.pageHome} page-Home`}
+      className={styles.pageThreeColumn}
       {...storyblokEditable(blok)}
       ref={containerRef}
     >
-      <div className={styles.pageHome_column} ref={column1Ref}>
+      <div ref={column1Ref}>
         <ContentColumn>
           {blok.columnone.map((nestedBlok) => (
             <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
           ))}
         </ContentColumn>
       </div>
-      <div className={styles.pageHome_column} ref={column2Ref}>
+      <div ref={column2Ref}>
         <ContentColumn>
           {blok.columntwo.map((nestedBlok) => (
             <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
           ))}
         </ContentColumn>
       </div>
-      <div className={styles.pageHome_column} ref={column3Ref}>
+      <div ref={column3Ref}>
         <ContentColumn>
           {blok.columnthree.map((nestedBlok) => (
             <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />

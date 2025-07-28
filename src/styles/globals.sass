@@ -29,60 +29,6 @@ body, main
   position: relative
   overflow-y: auto
 
-// PAGE LAYOUTS
-.page
-  &-Home
-    display: flex
-    flex-direction: row
-    flex-wrap: wrap
-    padding-top: 1rem
-    padding-bottom: 2rem
-    @media screen and ( max-width: 770px )
-      flex-direction: column
-      align-items: flex-end
-    &_Column
-      transition: width var(--transition-general)
-
-main
-  &[data-layout="one"]
-    .page-Home
-      & > div:first-child
-        width: 100vw
-      & > div:nth-child(2)
-        width: 100vw
-      & > div:last-child
-        width: 100vw
-  &[data-layout="two"]
-    .page-Home
-      & > div:first-child
-        width: 50vw
-      & > div:nth-child(2)
-        width: 50vw
-      & > div:last-child
-        width: 50vw
-      @media screen and ( max-width: 770px )
-        & > div:first-child
-          width: 70vw
-        & > div:nth-child(2)
-          width: 70vw
-        & > div:last-child
-          width: 70vw
-  &[data-layout="three"]
-    .page-Home
-      & > div:first-child
-        width: 50vw
-      & > div:nth-child(2)
-        width: 25vw
-      & > div:last-child
-        width: 25vw
-      @media screen and ( max-width: 770px )
-        & > div:first-child
-          width: 80vw
-        & > div:nth-child(2)
-          width: 80vw
-        & > div:last-child
-          width: 80vw
-
 // GLOBAL CLASSES
 .imageLoad
   opacity: 0
