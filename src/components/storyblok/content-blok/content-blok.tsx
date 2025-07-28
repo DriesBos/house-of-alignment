@@ -24,6 +24,7 @@ export default function ContentBlok({ blok }: ContentBlokProps) {
       style={{
         backgroundColor: blok.background || 'transparent',
       }}
+      data-background={blok.background || 'none'}
     >
       {blok.body?.map((nestedBlok) => (
         <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />

@@ -59,3 +59,13 @@ $break-desktop: 1370px
 
   @media screen and ( max-width: 770px )
     --type-size-buttons: 0.777rem
+
+  *  
+    &[data-background="none"]
+      background-color: transparent
+    &[data-background="#edeae6"], &[data-background="#9E9080"]
+      h1, h2, h3, h4, h5, h6, p, a
+        color: var(--color-black)
+    &[data-background="#171717"], &[data-background="#3C2420"]
+      h1, h2, h3, h4, h5, h6, p, a
+        color: var(--color-white)
