@@ -12,8 +12,8 @@ export function Footer() {
       <div className={styles.footer_content}>
         <div>
           <Link href="/">Directory</Link>
-          <Link href="/dashboard">About</Link>
-          <Link href="/dashboard">One-on-one</Link>
+          <Link href="/about">About</Link>
+          <Link href="/one-on-one">One-on-one</Link>
         </div>
         <div className={styles.footer_content_right}>
           <div>

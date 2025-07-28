@@ -70,11 +70,11 @@ export default function Header() {
           <nav className={styles.header_nav}>
             <ul>
               <li>
-                <a href="#home">Directory</a>
+                <Link href="/home">Directory</Link>
               </li>
               <Link href="/about">About</Link>
               <li>
-                <a href="#services">One-on-One</a>
+                <Link href="/one-on-one">One-on-One</Link>
               </li>
             </ul>
           </nav>

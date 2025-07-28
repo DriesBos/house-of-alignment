@@ -39,9 +39,9 @@ const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
       <div className="imageContainer">
         {blok.thumbnail && (
           <>
-            <div className="imageHoverLayer">
+            {/* <div className="imageHoverLayer">
               <div className="imageHoverLayer_block" />
-            </div>
+            </div> */}
             <Image
               alt={blok.thumbnail.alt ?? ''}
               src={blok.thumbnail.filename}

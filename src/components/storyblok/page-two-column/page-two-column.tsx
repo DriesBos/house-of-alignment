@@ -9,7 +9,7 @@ import React, { useRef, useLayoutEffect } from 'react';
 import ContentColumn from '@/components/content-column';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
-import styles from './pagehome.module.sass';
+import styles from './page-two-column.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 
 // Make sure GSAP plugins are registered before any animations
@@ -17,21 +17,21 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-interface SbPagehomeData extends SbBlokData {
-  columnone: SbBlokData[];
-  columntwo: SbBlokData[];
-  columnthree: SbBlokData[];
+interface SbPageTwoColumnData extends SbBlokData {
+  column_one: SbBlokData[];
+  column_two: SbBlokData[];
 }
 
-interface PagehomeProps {
-  blok: SbPagehomeData;
+interface PageTwoColumnProps {
+  blok: SbPageTwoColumnData;
 }
 
-const Pagehome: React.FunctionComponent<PagehomeProps> = ({ blok }) => {
+const PageTwoColumn: React.FunctionComponent<PageTwoColumnProps> = ({
+  blok,
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const column1Ref = useRef<HTMLDivElement>(null);
   const column2Ref = useRef<HTMLDivElement>(null);
-  const column3Ref = useRef<HTMLDivElement>(null);
   const layout = useLayoutStore((state) => state.layout);
 
   useLayoutEffect(() => {
@@ -52,10 +52,6 @@ const Pagehome: React.FunctionComponent<PagehomeProps> = ({ blok }) => {
       {
         ref: column2Ref.current,
         height: column2Ref.current?.offsetHeight || 0,
-      },
-      {
-        ref: column3Ref.current,
-        height: column3Ref.current?.offsetHeight || 0,
       },
     ];
 
@@ -100,27 +96,20 @@ const Pagehome: React.FunctionComponent<PagehomeProps> = ({ blok }) => {
 
   return (
     <div
-      className={`${styles.pageHome} page-Home`}
+      className={styles.pageTwoColumn}
       {...storyblokEditable(blok)}
       ref={containerRef}
     >
-      <div className={styles.pageHome_column} ref={column1Ref}>
+      <div ref={column1Ref}>
         <ContentColumn>
-          {blok.columnone.map((nestedBlok) => (
+          {blok.column_one.map((nestedBlok) => (
             <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
           ))}
         </ContentColumn>
       </div>
-      <div className={styles.pageHome_column} ref={column2Ref}>
+      <div ref={column2Ref}>
         <ContentColumn>
-          {blok.columntwo.map((nestedBlok) => (
-            <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
-          ))}
-        </ContentColumn>
-      </div>
-      <div className={styles.pageHome_column} ref={column3Ref}>
-        <ContentColumn>
-          {blok.columnthree.map((nestedBlok) => (
+          {blok.column_two.map((nestedBlok) => (
             <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
           ))}
         </ContentColumn>
@@ -129,4 +118,4 @@ const Pagehome: React.FunctionComponent<PagehomeProps> = ({ blok }) => {
   );
 };
 
-export default Pagehome;
+export default PageTwoColumn;
