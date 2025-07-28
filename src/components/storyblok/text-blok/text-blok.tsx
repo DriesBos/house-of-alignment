@@ -14,7 +14,11 @@ interface TextBlokProps {
 
 const TextBlok: React.FunctionComponent<TextBlokProps> = ({ blok }) => {
   return (
-    <div className={styles.textBlok} {...storyblokEditable(blok)}>
+    <div
+      className={styles.textBlok}
+      {...storyblokEditable(blok)}
+      data-fullscreen={blok.fullscreen || false}
+    >
       {blok.text && <Markdown content={blok.text} />}
     </div>
   );
