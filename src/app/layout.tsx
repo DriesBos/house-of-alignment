@@ -35,7 +35,7 @@ const bradfort = localFont({
       style: 'normal',
     },
   ],
-  variable: '--font-bradfort',
+  variable: '--font-bradford',
 });
 
 export const metadata: Metadata = {

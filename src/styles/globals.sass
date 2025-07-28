@@ -71,14 +71,14 @@ html
     pointer-events: none
     & > div
       height: 100%
-      border-right: var(--layout-border) solid currentColor
+      border-right: var(--layout-border)
       transition: width var(--transition-general), border var(--transition-general)
       &:last-child
         border-right: 0
   &[data-layout="one"]
     .layoutLines
       & > div
-        border-right: var(--layout-border) solid transparent
+        border-right-color: transparent
       & > div:first-child
         width: 0
       & > div:nth-child(2)
@@ -89,7 +89,7 @@ html
     .layoutLines
       & > div:first-child
         width: 0
-        border-right: var(--layout-border) solid transparent
+        border-right-color: transparent
       & > div:nth-child(2)
         width: 50vw
       & > div:last-child
@@ -116,11 +116,6 @@ html
           width: 15vw
         & > div:last-child
           width: 80vw
-
-.textBlok
-  border: 1px solid green
-  width: 100%
-  height: 300px
 
 .testButtons
   position: fixed
