@@ -6,17 +6,19 @@ interface SbPageData extends SbBlokData {
   text?: string;
 }
 
-interface TextBlockProps {
+interface TextBlokProps {
   blok: SbPageData;
 }
 
-const TextBlock: React.FunctionComponent<TextBlockProps> = ({ blok }) => {
+const TextBlok: React.FunctionComponent<TextBlokProps> = ({ blok }) => {
+  console.log('TextBlok', blok);
+
   return (
     <div className="column column-Text" {...storyblokEditable(blok)}>
-      <h1>TEXTBLOCK</h1>
+      <h1>TEXTBLOK</h1>
       {blok.text}
     </div>
   );
 };
 
-export default TextBlock;
+export default TextBlok;

@@ -3,9 +3,9 @@ import { apiPlugin, storyblokInit } from '@storyblok/react/rsc';
 import Page from '@/components/storyblok/page/page';
 import PageTwoColumn from '@/components/storyblok/page-two-column/page-two-column';
 import PageThreeColumn from '@/components/storyblok/page-three-column/page-three-column';
-import IndexBlock from '@/components/storyblok/indexblock';
-import ContentBlock from '@/components/storyblok/contentblock';
-import TextBlock from '@/components/storyblok/contentblock';
+import IndexBlok from '@/components/storyblok/index-blok/index-blok';
+import ContentBlok from '@/components/storyblok/content-blok/content-blok';
+import TextBlok from '@/components/storyblok/text-blok/text-blok';
 import GlobalData from '@/components/storyblok/globaldata/globaldata';
 
 export const getStoryblokApi = storyblokInit({
@@ -14,10 +14,10 @@ export const getStoryblokApi = storyblokInit({
     page: Page,
     'page-two-column': PageTwoColumn,
     'page-three-column': PageThreeColumn,
-    indexblock: IndexBlock,
-    contentblock: ContentBlock,
-    textblock: TextBlock,
-    globaldata: GlobalData,
+    'index-blok': IndexBlok,
+    'content-blok': ContentBlok,
+    'text-blok': TextBlok,
+    'global-data': GlobalData,
   },
   use: [apiPlugin],
   apiOptions: {

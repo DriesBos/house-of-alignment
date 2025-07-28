@@ -3,8 +3,9 @@ import React, { useMemo } from 'react';
 import Image from 'next/image';
 import type { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import { useLayoutStore } from '@/providers/layout-store-provider';
+import styles from './index-blok.module.sass';
 
-interface SbIndexBlockData extends SbBlokData {
+interface SbIndexBlokData extends SbBlokData {
   title?: string;
   text?: string;
   thumbnail?: {
@@ -14,14 +15,12 @@ interface SbIndexBlockData extends SbBlokData {
   link?: object;
 }
 
-interface IndexBlockProps {
-  blok: SbIndexBlockData;
+interface IndexBlokProps {
+  blok: SbIndexBlokData;
 }
 
-const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
+const IndexBlok: React.FunctionComponent<IndexBlokProps> = ({ blok }) => {
   const layout = useLayoutStore((state) => state.layout);
-
-  // console.log('IndexBlock', blok);
 
   const sizes = useMemo(() => {
     if (layout === 'one') {
@@ -35,12 +34,12 @@ const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
   }, [layout]);
 
   return (
-    <div {...storyblokEditable(blok)} className="indexBlock">
-      <div className="imageContainer">
+    <div {...storyblokEditable(blok)} className={styles.indexBlok}>
+      <div className={styles.imageContainer}>
         {blok.thumbnail && (
           <>
             {/* <div className="imageHoverLayer">
-              <div className="imageHoverLayer_block" />
+              <div className="imageHoverLayer_blok" />
             </div> */}
             <Image
               alt={blok.thumbnail.alt ?? ''}
@@ -65,4 +64,4 @@ const IndexBlock: React.FunctionComponent<IndexBlockProps> = ({ blok }) => {
   );
 };
 
-export default IndexBlock;
+export default IndexBlok;
