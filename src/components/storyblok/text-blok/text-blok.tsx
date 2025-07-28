@@ -15,7 +15,6 @@ const TextBlok: React.FunctionComponent<TextBlokProps> = ({ blok }) => {
 
   return (
     <div className="column column-Text" {...storyblokEditable(blok)}>
-      <h1>TEXTBLOK</h1>
       {blok.text}
     </div>
   );
