@@ -7,6 +7,10 @@ import styles from './content-blok.module.sass';
 
 interface SbContentBlokData extends SbBlokData {
   background?: string;
+  background_image?: {
+    filename: string;
+    alt?: string;
+  };
   body: SbBlokData[];
 }
 
@@ -17,13 +21,21 @@ interface ContentBlokProps {
 export default function ContentBlok({ blok }: ContentBlokProps) {
   console.log('ContentBlok', blok);
 
+  // Create consistent style object to avoid hydration mismatch
+  const backgroundStyles = {
+    backgroundColor: blok.background_image
+      ? undefined
+      : blok.background || undefined,
+    backgroundImage: blok.background_image
+      ? `url(${blok.background_image.filename})`
+      : undefined,
+  };
+
   return (
     <div
       className={styles.contentBlok}
       {...storyblokEditable(blok)}
-      style={{
-        backgroundColor: blok.background || 'transparent',
-      }}
+      style={backgroundStyles}
       data-background={blok.background || 'none'}
     >
       {blok.body?.map((nestedBlok) => (
