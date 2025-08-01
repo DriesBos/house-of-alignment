@@ -8,10 +8,12 @@ import ContentBlok from '@/components/storyblok/content-blok/content-blok';
 import TextBlok from '@/components/storyblok/text-blok/text-blok';
 import ImageBlok from '@/components/storyblok/image-blok/image-blok';
 import GlobalData from '@/components/storyblok/globaldata/globaldata';
+import DividerBlok from '@/components/storyblok/divider-blok/divider-blok';
 
 export const getStoryblokApi = storyblokInit({
   accessToken: process.env.NEXT_PUBLIC_STORYBLOK_TOKEN,
   components: {
+    'global-data': GlobalData,
     page: Page,
     'page-two-column': PageTwoColumn,
     'page-three-column': PageThreeColumn,
@@ -19,7 +21,7 @@ export const getStoryblokApi = storyblokInit({
     'content-blok': ContentBlok,
     'text-blok': TextBlok,
     'image-blok': ImageBlok,
-    'global-data': GlobalData,
+    'divider-blok': DividerBlok,
   },
   use: [apiPlugin],
   apiOptions: {
