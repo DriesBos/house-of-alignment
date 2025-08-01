@@ -76,6 +76,9 @@ export default function Header() {
               <li>
                 <Link href="/one-on-one">One-on-One</Link>
               </li>
+              <li>
+                <Link href="/interview">Interview</Link>
+              </li>
             </ul>
           </nav>
           <div className={styles.header_buttons}>
