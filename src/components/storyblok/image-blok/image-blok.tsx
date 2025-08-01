@@ -37,7 +37,6 @@ const ImageBlok: React.FunctionComponent<ImageBlokProps> = ({ blok }) => {
             height={0}
             quality={40}
             className={styles.image}
-            objectFit="contain"
           />
         </div>
       )}
