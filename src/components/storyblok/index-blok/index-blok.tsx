@@ -4,10 +4,13 @@ import Image from 'next/image';
 import type { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 import styles from './index-blok.module.sass';
+import IconChair from '@/components/icons/chair';
+import IconWrapper from '@/components/icons/icon-wrapper/icon-wrapper';
 
 interface SbIndexBlokData extends SbBlokData {
   title?: string;
   text?: string;
+  seats?: number;
   thumbnail?: {
     filename: string | StaticImport;
     alt?: string;
@@ -36,6 +39,14 @@ const IndexBlok: React.FunctionComponent<IndexBlokProps> = ({ blok }) => {
   return (
     <div {...storyblokEditable(blok)} className={styles.indexBlok}>
       <div className={styles.imageContainer}>
+        {blok.seats && (
+          <div className={styles.seats}>
+            <IconWrapper>
+              <IconChair />
+            </IconWrapper>
+            <span>{blok.seats}</span>
+          </div>
+        )}
         {blok.thumbnail && (
           <>
             {/* <div className="imageHoverLayer">
