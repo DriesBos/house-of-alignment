@@ -27,10 +27,10 @@ const Page: React.FunctionComponent<PageProps> = ({ blok }) => {
   }, [setLayout]);
   return (
     <div className={styles.page} {...storyblokEditable(blok)}>
-      <ByeBlok />
       {blok.body.map((nestedBlok) => (
         <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
       ))}
+      <ByeBlok />
     </div>
   );
 };
