@@ -8,6 +8,7 @@ import {
 import React, { useEffect } from 'react';
 import styles from './page.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
+import ByeBlok from '@/components/bye-blok/bye-blok';
 
 interface SbPageData extends SbBlokData {
   body: SbBlokData[];
@@ -26,6 +27,7 @@ const Page: React.FunctionComponent<PageProps> = ({ blok }) => {
   }, [setLayout]);
   return (
     <div className={styles.page} {...storyblokEditable(blok)}>
+      <ByeBlok />
       {blok.body.map((nestedBlok) => (
         <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
       ))}

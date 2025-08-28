@@ -6,7 +6,7 @@ import {
   StoryblokServerComponent,
 } from '@storyblok/react/rsc';
 import React, { useRef, useLayoutEffect, useEffect } from 'react';
-import ContentColumn from '@/components/content-column';
+import ContentColumn from '@/components/content-column/content-column';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import styles from './page-two-column.module.sass';
