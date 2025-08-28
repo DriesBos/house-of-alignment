@@ -15,6 +15,7 @@ import StoreDataProvider from '@/providers/store-data-provider';
 import StorePageDataProvider from '@/providers/store-page-data-provider';
 import { GlobalDataProvider } from '@/providers/global-data-provider';
 import { fetchGlobalData } from '@/utils/fetchGlobalData';
+import CornerSmiley from '@/components/corner-smiley/corner-smiley';
 
 const helvetica = localFont({
   src: [
@@ -79,6 +80,7 @@ export default async function RootLayout({
                   <StorePageDataProvider>
                     {children}
                     <LayoutLines />
+                    <CornerSmiley />
                   </StorePageDataProvider>
                   <Footer />
                 </StoreDataProvider>

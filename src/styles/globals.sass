@@ -75,6 +75,9 @@ html
       transition: width var(--transition-general), border var(--transition-general)
       &:last-child
         border-right: 0
+  .cornerSmiley
+    opacity: 1
+    transition: opacity .3s ease
   &[data-layout="one"]
     .layoutLines
       & > div
@@ -85,6 +88,8 @@ html
         width: 0
       & > div:last-child
         width: 100vw
+    .cornerSmiley
+      opacity: 0
   &[data-layout="two"]
     .layoutLines
       & > div:first-child
@@ -101,6 +106,8 @@ html
           width: 20vw
         & > div:last-child
           width: 70vw
+    .cornerSmiley
+      opacity: 1
   &[data-layout="three"]
     .layoutLines
       & > div:first-child
@@ -116,7 +123,9 @@ html
           width: 15vw
         & > div:last-child
           width: 80vw
-
+    .cornerSmiley
+      opacity: 1
+      
 .testButtons
   position: fixed
   top: 0
