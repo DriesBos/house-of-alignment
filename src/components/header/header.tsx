@@ -70,20 +70,21 @@ export default function Header() {
           <nav className={styles.header_nav}>
             <ul>
               <li>
-                <Link href="/home">Directory</Link>
-              </li>
-              <Link href="/about">About</Link>
-              <li>
-                <Link href="/one-on-one">One-on-One</Link>
+                <Link href="/">Index</Link>
               </li>
               <li>
-                <Link href="/interview">Interview</Link>
+                <Link href="/dinners">Dinners</Link>
+              </li>
+              <li>
+                <Link href="/interviews">Interviews</Link>
+              </li>
+              <li>
+                <Link href="/about">About</Link>
               </li>
             </ul>
           </nav>
           <div className={styles.header_buttons}>
             <button onClick={handleThemeChange}>( Theme: {theme} )</button>
-            <button onClick={handleLayoutChange}>( Layout: {layout} )</button>
           </div>
         </div>
       </header>
