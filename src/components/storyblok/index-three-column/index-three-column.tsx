@@ -1,12 +1,15 @@
 'use client';
 
-import { ISbStoryData } from '@storyblok/react/rsc';
+import {
+  ISbStoryData,
+  storyblokEditable,
+  StoryblokServerComponent,
+} from '@storyblok/react/rsc';
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import ContentColumn from '@/components/content-column/content-column';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
-import styles from './index-two-column.module.sass';
+import styles from './index-three-column.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 import IndexBlok from '@/components/index-blok/index-blok';
 
@@ -15,53 +18,76 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const IndexTwoColumn = () => {
+const IndexThreeColumn = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const column1Ref = useRef<HTMLDivElement>(null);
   const column2Ref = useRef<HTMLDivElement>(null);
+  const column3Ref = useRef<HTMLDivElement>(null);
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
-  const pathname = usePathname();
+  const [filteredStories, setFilteredStories] = useState<ISbStoryData[]>([]);
+  const [filteredInterviews, setFilteredInterviews] = useState<ISbStoryData[]>(
+    []
+  );
 
-  const [columnOne, setColumnOne] = useState<ISbStoryData[]>([]);
-  const [columnTwo, setColumnTwo] = useState<ISbStoryData[]>([]);
-
-  // Set layout to 'two' when component mounts
+  // Set layout to 'three' when component mounts
   useEffect(() => {
-    setLayout('two');
+    setLayout('three');
   }, [setLayout]);
 
-  // Fetch stories from the current folder
+  // Fetch stories from the 'dinners' folder
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        // Get the current page slug from the pathname
-        const slug = pathname.split('/').filter(Boolean)[0] || 'home';
-
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&starts_with=${slug}/&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+          `https://api.storyblok.com/v2/cdn/stories?version=published&starts_with=dinners/&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
         );
         const data = await response.json();
-        // Remove the first entry (folder index page)
-        const storiesWithoutIndex = data.stories.slice(1);
 
-        // Split into two arrays: even indices in columnOne, odd indices in columnTwo
-        const evenStories = storiesWithoutIndex.filter(
-          (_: ISbStoryData, index: number) => index % 2 === 0
-        );
-        const oddStories = storiesWithoutIndex.filter(
-          (_: ISbStoryData, index: number) => index % 2 === 1
-        );
+        console.log('All dinners stories:', data.stories);
 
-        setColumnOne(evenStories);
-        setColumnTwo(oddStories);
+        // Remove the first entry if it's called 'index'
+        let filteredStories = data.stories;
+
+        filteredStories = data.stories.slice(1);
+        console.log('Removed index page');
+
+        console.log('Filtered stories:', filteredStories);
+        setFilteredStories(filteredStories);
       } catch (error) {
         console.error('Error fetching stories:', error);
       }
     };
 
     fetchStories();
-  }, [pathname]);
+  }, []);
+
+  // Fetch stories from the 'interviews' folder
+  useEffect(() => {
+    const fetchInterviews = async () => {
+      try {
+        const response = await fetch(
+          `https://api.storyblok.com/v2/cdn/stories?version=published&starts_with=interviews/&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+        );
+        const data = await response.json();
+
+        console.log('All interviews stories:', data.stories);
+
+        // Remove the first entry if it's called 'index'
+        let filteredInterviews = data.stories;
+
+        filteredInterviews = data.stories.slice(1);
+        console.log('Removed interviews index page');
+
+        console.log('Filtered interviews:', filteredInterviews);
+        setFilteredInterviews(filteredInterviews);
+      } catch (error) {
+        console.error('Error fetching interviews:', error);
+      }
+    };
+
+    fetchInterviews();
+  }, []);
 
   useLayoutEffect(() => {
     // Make sure we have access to the DOM elements
@@ -82,7 +108,13 @@ const IndexTwoColumn = () => {
         ref: column2Ref.current,
         height: column2Ref.current?.offsetHeight || 0,
       },
+      {
+        ref: column3Ref.current,
+        height: column3Ref.current?.offsetHeight || 0,
+      },
     ];
+
+    console.log('ColumnData', columnData);
 
     // Find the longest column
     const maxHeight = Math.max(...columnData.map((col) => col.height));
@@ -124,10 +156,10 @@ const IndexTwoColumn = () => {
   }, [layout]); // Empty dependency array since we only want this to run once
 
   return (
-    <div className={styles.indexTwoColumn} ref={containerRef}>
+    <div className={styles.indexThreeColumn} ref={containerRef}>
       <div ref={column1Ref}>
         <ContentColumn>
-          {columnOne.map((item) => (
+          {filteredStories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
@@ -138,7 +170,18 @@ const IndexTwoColumn = () => {
       </div>
       <div ref={column2Ref}>
         <ContentColumn>
-          {columnTwo.map((item) => (
+          {filteredInterviews.map((item) => (
+            <IndexBlok
+              key={item.uuid}
+              title={item.content.page_title}
+              image={item.content.page_image}
+            />
+          ))}
+        </ContentColumn>
+      </div>
+      <div ref={column3Ref}>
+        <ContentColumn>
+          {filteredStories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
@@ -151,4 +194,4 @@ const IndexTwoColumn = () => {
   );
 };
 
-export default IndexTwoColumn;
+export default IndexThreeColumn;
