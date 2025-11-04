@@ -20,58 +20,64 @@ const IndexThreeColumn = () => {
   const column3Ref = useRef<HTMLDivElement>(null);
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
-  const [filteredStories, setFilteredStories] = useState<ISbStoryData[]>([]);
-  const [filteredInterviews, setFilteredInterviews] = useState<ISbStoryData[]>(
-    []
-  );
+  const [dinnerStories, setDinnerStories] = useState<ISbStoryData[]>([]);
+  const [interviewStories, setInterviewStories] = useState<ISbStoryData[]>([]);
+  const [parisStories, setParisStories] = useState<ISbStoryData[]>([]);
 
   // Set layout to 'three' when component mounts
   useEffect(() => {
     setLayout('three');
   }, [setLayout]);
 
-  // Fetch stories from the 'dinners' folder
+  // Fetch stories with 'Dinners' tag
   useEffect(() => {
-    const fetchStories = async () => {
+    const fetchDinners = async () => {
       try {
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&starts_with=dinners/&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=Dinners&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
         );
         const data = await response.json();
-
-        // Remove the first entry if it's called 'index'
-        let filteredStories = data.stories;
-
-        filteredStories = data.stories.slice(1);
-        setFilteredStories(filteredStories);
+        setDinnerStories(data.stories);
       } catch (error) {
-        console.error('Error fetching stories:', error);
+        console.error('Error fetching Dinners stories:', error);
       }
     };
 
-    fetchStories();
+    fetchDinners();
   }, []);
 
-  // Fetch stories from the 'interviews' folder
+  // Fetch stories with 'Interviews' tag
   useEffect(() => {
     const fetchInterviews = async () => {
       try {
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&starts_with=interviews/&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=Interviews&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
         );
         const data = await response.json();
-
-        // Remove the first entry if it's called 'index'
-        let filteredInterviews = data.stories;
-
-        filteredInterviews = data.stories.slice(1);
-        setFilteredInterviews(filteredInterviews);
+        setInterviewStories(data.stories);
       } catch (error) {
-        console.error('Error fetching interviews:', error);
+        console.error('Error fetching Interviews stories:', error);
       }
     };
 
     fetchInterviews();
+  }, []);
+
+  // Fetch stories with 'Paris' tag
+  useEffect(() => {
+    const fetchParis = async () => {
+      try {
+        const response = await fetch(
+          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=Paris&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+        );
+        const data = await response.json();
+        setParisStories(data.stories);
+      } catch (error) {
+        console.error('Error fetching Paris stories:', error);
+      }
+    };
+
+    fetchParis();
   }, []);
 
   useGSAP(
@@ -79,8 +85,9 @@ const IndexThreeColumn = () => {
       // Wait for content to be rendered
       if (
         !containerRef.current ||
-        filteredStories.length === 0 ||
-        filteredInterviews.length === 0
+        dinnerStories.length === 0 ||
+        interviewStories.length === 0 ||
+        parisStories.length === 0
       )
         return;
 
@@ -141,7 +148,7 @@ const IndexThreeColumn = () => {
     },
     {
       scope: containerRef,
-      dependencies: [layout, filteredStories, filteredInterviews],
+      dependencies: [layout, dinnerStories, interviewStories, parisStories],
       revertOnUpdate: true,
     }
   );
@@ -150,7 +157,7 @@ const IndexThreeColumn = () => {
     <div className={styles.indexThreeColumn} ref={containerRef}>
       <div ref={column1Ref}>
         <ContentColumn>
-          {filteredStories.map((item) => (
+          {dinnerStories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
@@ -164,7 +171,7 @@ const IndexThreeColumn = () => {
       </div>
       <div ref={column2Ref}>
         <ContentColumn>
-          {filteredInterviews.map((item) => (
+          {interviewStories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
@@ -178,7 +185,7 @@ const IndexThreeColumn = () => {
       </div>
       <div ref={column3Ref}>
         <ContentColumn>
-          {filteredStories.map((item) => (
+          {parisStories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
