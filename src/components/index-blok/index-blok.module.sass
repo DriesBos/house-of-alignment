@@ -37,7 +37,7 @@
           text-transform: uppercase
     .seats
       position: absolute
-      bottom: .33rem
+      bottom: .5rem
       right: .5rem
       display: flex
       flex-direction: column
@@ -48,10 +48,11 @@
       gap: .33rem
       z-index: +1
       border-radius: 12px
-      background: hsla(0, 0%, 100%, 0)
+      background: hsla(0, 0%, 100%, 0.33)
       transition: background 0.165s ease-in-out
+      color: black
       &:hover
-        background: hsla(0, 0%, 100%, 0.33)
+        background: hsla(0, 0%, 100%, 0.66)
       span
         line-height: 1
         font-size: .75rem
