@@ -133,6 +133,7 @@ const IndexThreeColumn = () => {
               end: 'bottom bottom',
               scrub: true,
               invalidateOnRefresh: true,
+              anticipatePin: 1,
             },
           });
         });
