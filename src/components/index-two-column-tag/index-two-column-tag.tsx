@@ -45,7 +45,9 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
         const tagName = tag
           .replace(/[-_]/g, ' ')
           .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+          .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+          )
           .join(' ');
 
         console.log('Fetching stories for tag:', tagName);
@@ -141,15 +143,13 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
   const displayTag = tag
     .replace(/[-_]/g, ' ')
     .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 
   if (isLoading) {
     return (
       <div className={styles.indexTwoColumn} ref={containerRef}>
-        <h1>
-          Loading posts tagged with &quot;{displayTag}&quot;...
-        </h1>
+        <h1>Loading posts tagged with &quot;{displayTag}&quot;...</h1>
       </div>
     );
   }

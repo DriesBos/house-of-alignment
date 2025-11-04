@@ -57,7 +57,9 @@ export default function IndexBlok({
             <div className={styles.tags}>
               {tags.map((tag) => (
                 <div className={styles.tag} key={tag}>
-                  <Link href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}>
+                  <Link
+                    href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                  >
                     <span>{tag}</span>
                   </Link>
                 </div>
