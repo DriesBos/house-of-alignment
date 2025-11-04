@@ -18,6 +18,27 @@
     position: relative
     overflow: hidden
     opacity: 1 !important
+    .tags
+      position: absolute
+      display: flex
+      bottom: .5rem
+      left: .5rem
+      gap: .33rem
+      z-index: +1
+      .tag
+        background: hsla(0, 0%, 100%, 0.33)
+        color: black
+        padding: 0 .75rem
+        padding-top: .1rem
+        border-radius: 1000px
+        cursor: pointer
+        transition: background 0.165s ease-in-out
+        &:hover
+          background: hsla(0, 0%, 100%, 1)
+        span
+          line-height: 1
+          font-size: .66rem
+          text-transform: uppercase
     .seats
       position: absolute
       bottom: .33rem
