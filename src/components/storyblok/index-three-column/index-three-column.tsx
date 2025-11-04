@@ -76,70 +76,85 @@ const IndexThreeColumn = () => {
   }, []);
 
   useLayoutEffect(() => {
-    // Make sure we have access to the DOM elements
-    if (!containerRef.current) return;
+    // Wait for content to be rendered
+    if (
+      !containerRef.current ||
+      filteredStories.length === 0 ||
+      filteredInterviews.length === 0
+    )
+      return;
 
-    // Set up ScrollTrigger default configuration
-    ScrollTrigger.defaults({
-      scroller: '.storeDataWrapper',
-    });
+    // Use requestAnimationFrame to ensure DOM is fully updated
+    const setupScrollTrigger = () => {
+      requestAnimationFrame(() => {
+        // Set up ScrollTrigger default configuration
+        ScrollTrigger.defaults({
+          scroller: '.storeDataWrapper',
+        });
 
-    // Get all column references and their heights
-    const columnData = [
-      {
-        ref: column1Ref.current,
-        height: column1Ref.current?.offsetHeight || 0,
-      },
-      {
-        ref: column2Ref.current,
-        height: column2Ref.current?.offsetHeight || 0,
-      },
-      {
-        ref: column3Ref.current,
-        height: column3Ref.current?.offsetHeight || 0,
-      },
-    ];
+        // Get all column references and their heights
+        const columnData = [
+          {
+            ref: column1Ref.current,
+            height: column1Ref.current?.offsetHeight || 0,
+          },
+          {
+            ref: column2Ref.current,
+            height: column2Ref.current?.offsetHeight || 0,
+          },
+          {
+            ref: column3Ref.current,
+            height: column3Ref.current?.offsetHeight || 0,
+          },
+        ];
 
-    console.log('ColumnData', columnData);
+        // Find the longest column
+        const maxHeight = Math.max(...columnData.map((col) => col.height));
+        const longestColumnIndex = columnData.findIndex(
+          (col) => col.height === maxHeight
+        );
 
-    // Find the longest column
-    const maxHeight = Math.max(...columnData.map((col) => col.height));
-    const longestColumnIndex = columnData.findIndex(
-      (col) => col.height === maxHeight
-    );
+        // Create an array to store our ScrollTrigger instances
+        const triggers: ScrollTrigger[] = [];
 
-    // Create an array to store our ScrollTrigger instances
-    const triggers: ScrollTrigger[] = [];
+        // Apply animations to columns, skipping the longest one
+        columnData.forEach((col, index) => {
+          if (!col.ref || index === longestColumnIndex) return;
 
-    // Apply animations to columns, skipping the longest one
-    columnData.forEach((col, index) => {
-      if (!col.ref || index === longestColumnIndex) return;
+          // Calculate how many pixels this column should move (negative for slower movement)
+          const pixelsToMove = maxHeight - col.height;
 
-      // Calculate how many pixels this column should move (negative for slower movement)
-      const pixelsToMove = maxHeight - col.height;
+          const tl = gsap.to(col.ref, {
+            y: pixelsToMove,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          });
 
-      const tl = gsap.to(col.ref, {
-        y: pixelsToMove,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
+          if (tl.scrollTrigger) {
+            triggers.push(tl.scrollTrigger);
+          }
+        });
+
+        // Store cleanup function
+        return () => {
+          triggers.forEach((trigger) => trigger.kill());
+        };
       });
+    };
 
-      if (tl.scrollTrigger) {
-        triggers.push(tl.scrollTrigger);
-      }
-    });
+    setupScrollTrigger();
 
     // Cleanup function
     return () => {
-      triggers.forEach((trigger) => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, [layout]); // Empty dependency array since we only want this to run once
+  }, [layout, filteredStories, filteredInterviews]); // Run when stories are loaded
 
   return (
     <div className={styles.indexThreeColumn} ref={containerRef}>
