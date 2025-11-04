@@ -1,13 +1,13 @@
 'use client';
 
-import { ISbStoryData } from '@storyblok/react/rsc';
+import styles from './index-three-column.module.sass';
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
-import ContentColumn from '@/components/content-column/content-column';
+import { ISbStoryData } from '@storyblok/react/rsc';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
-import styles from './index-three-column.module.sass';
-import { useLayoutStore } from '@/providers/layout-store-provider';
+import ContentColumn from '@/components/content-column/content-column';
 import IndexBlok from '@/components/index-blok/index-blok';
+import { useLayoutStore } from '@/providers/layout-store-provider';
 
 // Make sure GSAP plugins are registered before any animations
 if (typeof window !== 'undefined') {

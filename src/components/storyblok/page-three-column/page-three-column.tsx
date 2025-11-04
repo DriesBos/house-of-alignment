@@ -1,15 +1,15 @@
 'use client';
 
+import styles from './page-three-column.module.sass';
+import React, { useRef, useLayoutEffect, useEffect } from 'react';
 import {
   SbBlokData,
   storyblokEditable,
   StoryblokServerComponent,
 } from '@storyblok/react/rsc';
-import React, { useRef, useLayoutEffect, useEffect } from 'react';
-import ContentColumn from '@/components/content-column/content-column';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
-import styles from './page-three-column.module.sass';
+import ContentColumn from '@/components/content-column/content-column';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 
 // Make sure GSAP plugins are registered before any animations
