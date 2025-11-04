@@ -50,14 +50,10 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
           )
           .join(' ');
 
-        console.log('Fetching stories for tag:', tagName);
-
         const response = await fetch(
           `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=${tagName}&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
         );
         const data = await response.json();
-
-        console.log('Stories with tag:', data.stories);
 
         // Split into two arrays: even indices in columnOne, odd indices in columnTwo
         const evenStories = data.stories.filter(
@@ -108,15 +104,6 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
           },
         ];
 
-        // Check if all heights are valid (not zero)
-        const hasValidHeights = columnData.every((col) => col.height > 0);
-        if (!hasValidHeights) {
-          console.warn(
-            'Column heights are still 0, waiting for content to render'
-          );
-          return;
-        }
-
         // Find the longest column
         const maxHeight = Math.max(...columnData.map((col) => col.height));
         const longestColumnIndex = columnData.findIndex(
@@ -164,23 +151,6 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, [layout, columnOne, columnTwo]); // Run when stories are loaded
-
-  // Format tag for display
-  const displayTag = tag
-    .replace(/[-_]/g, ' ')
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-
-  if (isLoading) {
-    return (
-      <div className={styles.indexTwoColumn} ref={containerRef}>
-        <h1>Loading posts tagged with &quot;{displayTag}&quot;...</h1>
-      </div>
-    );
-  }
-
-  console.log(columnOne, columnTwo);
 
   return (
     <div className={styles.indexTwoColumn} ref={containerRef}>
