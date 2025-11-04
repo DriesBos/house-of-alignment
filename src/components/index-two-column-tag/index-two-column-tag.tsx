@@ -27,7 +27,6 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
 
   const [columnOne, setColumnOne] = useState<ISbStoryData[]>([]);
   const [columnTwo, setColumnTwo] = useState<ISbStoryData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Set layout to 'two' when component mounts
   useEffect(() => {
@@ -38,8 +37,6 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
   useEffect(() => {
     const fetchStoriesByTag = async () => {
       try {
-        setIsLoading(true);
-
         // Convert URL-friendly slug to properly formatted tag
         // Replace '-' and '_' with spaces, then capitalize each word
         const tagName = tag
@@ -65,10 +62,8 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
 
         setColumnOne(evenStories);
         setColumnTwo(oddStories);
-        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching stories by tag:', error);
-        setIsLoading(false);
       }
     };
 
