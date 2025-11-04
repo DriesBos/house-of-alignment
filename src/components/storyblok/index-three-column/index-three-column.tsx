@@ -1,18 +1,17 @@
 'use client';
 
 import styles from './index-three-column.module.sass';
-import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { ISbStoryData } from '@storyblok/react/rsc';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import ContentColumn from '@/components/content-column/content-column';
 import IndexBlok from '@/components/index-blok/index-blok';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 
-// Make sure GSAP plugins are registered before any animations
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const IndexThreeColumn = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -75,17 +74,17 @@ const IndexThreeColumn = () => {
     fetchInterviews();
   }, []);
 
-  useLayoutEffect(() => {
-    // Wait for content to be rendered
-    if (
-      !containerRef.current ||
-      filteredStories.length === 0 ||
-      filteredInterviews.length === 0
-    )
-      return;
+  useGSAP(
+    () => {
+      // Wait for content to be rendered
+      if (
+        !containerRef.current ||
+        filteredStories.length === 0 ||
+        filteredInterviews.length === 0
+      )
+        return;
 
-    // Use requestAnimationFrame to ensure DOM is fully updated
-    const setupScrollTrigger = () => {
+      // Use requestAnimationFrame to ensure DOM is fully updated
       requestAnimationFrame(() => {
         // Set up ScrollTrigger default configuration
         ScrollTrigger.defaults({
@@ -108,23 +107,23 @@ const IndexThreeColumn = () => {
           },
         ];
 
+        // Validate that columns have height before creating animations
+        if (columnData.some((col) => col.height === 0)) return;
+
         // Find the longest column
         const maxHeight = Math.max(...columnData.map((col) => col.height));
         const longestColumnIndex = columnData.findIndex(
           (col) => col.height === maxHeight
         );
 
-        // Create an array to store our ScrollTrigger instances
-        const triggers: ScrollTrigger[] = [];
-
         // Apply animations to columns, skipping the longest one
         columnData.forEach((col, index) => {
           if (!col.ref || index === longestColumnIndex) return;
 
-          // Calculate how many pixels this column should move (negative for slower movement)
+          // Calculate how many pixels this column should move
           const pixelsToMove = maxHeight - col.height;
 
-          const tl = gsap.to(col.ref, {
+          gsap.to(col.ref, {
             y: pixelsToMove,
             ease: 'none',
             scrollTrigger: {
@@ -135,26 +134,15 @@ const IndexThreeColumn = () => {
               invalidateOnRefresh: true,
             },
           });
-
-          if (tl.scrollTrigger) {
-            triggers.push(tl.scrollTrigger);
-          }
         });
-
-        // Store cleanup function
-        return () => {
-          triggers.forEach((trigger) => trigger.kill());
-        };
       });
-    };
-
-    setupScrollTrigger();
-
-    // Cleanup function
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, [layout, filteredStories, filteredInterviews]); // Run when stories are loaded
+    },
+    {
+      scope: containerRef,
+      dependencies: [layout, filteredStories, filteredInterviews],
+      revertOnUpdate: true,
+    }
+  );
 
   return (
     <div className={styles.indexThreeColumn} ref={containerRef}>
