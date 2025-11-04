@@ -126,6 +126,7 @@ const IndexThreeColumn = () => {
           gsap.to(col.ref, {
             y: pixelsToMove,
             ease: 'none',
+            force3D: true,
             scrollTrigger: {
               trigger: containerRef.current,
               start: 'top top',
