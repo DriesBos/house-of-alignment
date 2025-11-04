@@ -73,10 +73,10 @@ export default function Header() {
                 <Link href="/">Index</Link>
               </li>
               <li>
-                <Link href="/dinners">Dinners</Link>
+                <Link href="/tags/dinners">Dinners</Link>
               </li>
               <li>
-                <Link href="/interviews">Interviews</Link>
+                <Link href="/tags/interviews">Interviews</Link>
               </li>
               <li>
                 <Link href="/about">About</Link>
