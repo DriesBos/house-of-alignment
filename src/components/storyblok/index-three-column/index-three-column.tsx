@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  ISbStoryData,
-  storyblokEditable,
-  StoryblokServerComponent,
-} from '@storyblok/react/rsc';
+import { ISbStoryData } from '@storyblok/react/rsc';
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import ContentColumn from '@/components/content-column/content-column';
 import gsap from 'gsap';
