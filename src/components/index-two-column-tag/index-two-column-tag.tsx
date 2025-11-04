@@ -80,64 +80,90 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
   }, [tag]);
 
   useLayoutEffect(() => {
-    // Make sure we have access to the DOM elements
-    if (!containerRef.current) return;
+    // Wait for content to be rendered
+    if (
+      !containerRef.current ||
+      columnOne.length === 0 ||
+      columnTwo.length === 0
+    )
+      return;
 
-    // Set up ScrollTrigger default configuration
-    ScrollTrigger.defaults({
-      scroller: '.storeDataWrapper',
-    });
+    // Use requestAnimationFrame to ensure DOM is fully updated
+    const setupScrollTrigger = () => {
+      requestAnimationFrame(() => {
+        // Set up ScrollTrigger default configuration
+        ScrollTrigger.defaults({
+          scroller: '.storeDataWrapper',
+        });
 
-    // Get all column references and their heights
-    const columnData = [
-      {
-        ref: column1Ref.current,
-        height: column1Ref.current?.offsetHeight || 0,
-      },
-      {
-        ref: column2Ref.current,
-        height: column2Ref.current?.offsetHeight || 0,
-      },
-    ];
+        // Get all column references and their heights
+        const columnData = [
+          {
+            ref: column1Ref.current,
+            height: column1Ref.current?.offsetHeight || 0,
+          },
+          {
+            ref: column2Ref.current,
+            height: column2Ref.current?.offsetHeight || 0,
+          },
+        ];
 
-    // Find the longest column
-    const maxHeight = Math.max(...columnData.map((col) => col.height));
-    const longestColumnIndex = columnData.findIndex(
-      (col) => col.height === maxHeight
-    );
+        // Check if all heights are valid (not zero)
+        const hasValidHeights = columnData.every((col) => col.height > 0);
+        if (!hasValidHeights) {
+          console.warn(
+            'Column heights are still 0, waiting for content to render'
+          );
+          return;
+        }
 
-    // Create an array to store our ScrollTrigger instances
-    const triggers: ScrollTrigger[] = [];
+        // Find the longest column
+        const maxHeight = Math.max(...columnData.map((col) => col.height));
+        const longestColumnIndex = columnData.findIndex(
+          (col) => col.height === maxHeight
+        );
 
-    // Apply animations to columns, skipping the longest one
-    columnData.forEach((col, index) => {
-      if (!col.ref || index === longestColumnIndex) return;
+        // Create an array to store our ScrollTrigger instances
+        const triggers: ScrollTrigger[] = [];
 
-      // Calculate how many pixels this column should move (negative for slower movement)
-      const pixelsToMove = maxHeight - col.height;
+        // Apply animations to columns, skipping the longest one
+        columnData.forEach((col, index) => {
+          if (!col.ref || index === longestColumnIndex) return;
 
-      const tl = gsap.to(col.ref, {
-        y: pixelsToMove,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
+          // Calculate how many pixels this column should move (negative for slower movement)
+          const pixelsToMove = maxHeight - col.height;
+
+          const tl = gsap.to(col.ref, {
+            y: pixelsToMove,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          if (tl.scrollTrigger) {
+            triggers.push(tl.scrollTrigger);
+          }
+        });
+
+        // Store cleanup function
+        return () => {
+          triggers.forEach((trigger) => trigger.kill());
+        };
       });
+    };
 
-      if (tl.scrollTrigger) {
-        triggers.push(tl.scrollTrigger);
-      }
-    });
+    setupScrollTrigger();
 
     // Cleanup function
     return () => {
-      triggers.forEach((trigger) => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, [layout, columnOne, columnTwo]);
+  }, [layout, columnOne, columnTwo]); // Run when stories are loaded
 
   // Format tag for display
   const displayTag = tag
