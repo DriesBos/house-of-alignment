@@ -8,13 +8,43 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useGlobalData } from '@/providers/global-data-provider';
 
+interface TagCount {
+  name: string;
+  taggings_count: number;
+}
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [tagCounts, setTagCounts] = useState<{ [key: string]: number }>({});
   const headerRef = useRef<HTMLElement>(null);
   const theme = useThemeStore((state) => state.theme);
   const setTheme = useThemeStore((state) => state.setTheme);
   const pathname = usePathname();
   const { globalData } = useGlobalData();
+
+  // Fetch tag counts for Dinners and Interviews
+  useEffect(() => {
+    const fetchTagCounts = async () => {
+      try {
+        const response = await fetch(
+          `https://api.storyblok.com/v2/cdn/tags?token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+        );
+        const data = await response.json();
+
+        // Create a map of tag names to their counts
+        const counts: { [key: string]: number } = {};
+        data.tags.forEach((tag: TagCount) => {
+          counts[tag.name] = tag.taggings_count;
+        });
+
+        setTagCounts(counts);
+      } catch (error) {
+        console.error('Error fetching tag counts:', error);
+      }
+    };
+
+    fetchTagCounts();
+  }, []);
 
   // Close menu when route changes
   useEffect(() => {
@@ -98,10 +128,24 @@ export default function Header() {
               <Link href="/">Index</Link>
             </li>
             <li>
-              <Link href="/tags/dinners">Dinners</Link>
+              <Link href="/tags/dinners">
+                Dinners
+                {tagCounts['Dinners'] ? (
+                  <span>({tagCounts['Dinners']})</span>
+                ) : (
+                  ''
+                )}
+              </Link>
             </li>
             <li>
-              <Link href="/tags/interviews">Interviews</Link>
+              <Link href="/tags/interviews">
+                Interviews
+                {tagCounts['Interviews'] ? (
+                  <span>({tagCounts['Interviews']})</span>
+                ) : (
+                  ''
+                )}
+              </Link>
             </li>
             <li>
               <Link href="/about">About</Link>
