@@ -22,7 +22,6 @@ export default function IndexBlok({
   tags,
   seats,
 }: IndexBlokProps) {
-  console.log('IndexBlok', { title, image, link, tags, seats });
   return (
     <div className={styles.indexBlok}>
       <Link href={'/' + link}>

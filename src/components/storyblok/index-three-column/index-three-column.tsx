@@ -40,15 +40,10 @@ const IndexThreeColumn = () => {
         );
         const data = await response.json();
 
-        console.log('All dinners stories:', data.stories);
-
         // Remove the first entry if it's called 'index'
         let filteredStories = data.stories;
 
         filteredStories = data.stories.slice(1);
-        console.log('Removed index page');
-
-        console.log('Filtered stories:', filteredStories);
         setFilteredStories(filteredStories);
       } catch (error) {
         console.error('Error fetching stories:', error);
@@ -67,15 +62,10 @@ const IndexThreeColumn = () => {
         );
         const data = await response.json();
 
-        console.log('All interviews stories:', data.stories);
-
         // Remove the first entry if it's called 'index'
         let filteredInterviews = data.stories;
 
         filteredInterviews = data.stories.slice(1);
-        console.log('Removed interviews index page');
-
-        console.log('Filtered interviews:', filteredInterviews);
         setFilteredInterviews(filteredInterviews);
       } catch (error) {
         console.error('Error fetching interviews:', error);
