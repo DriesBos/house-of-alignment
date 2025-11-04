@@ -2,7 +2,7 @@
 
 import styles from './header.module.sass';
 import { useThemeStore } from '@/providers/theme-store-provider';
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import type { ThemeState } from '@/stores/theme-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -10,6 +10,7 @@ import { useGlobalData } from '@/providers/global-data-provider';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const theme = useThemeStore((state) => state.theme);
   const setTheme = useThemeStore((state) => state.setTheme);
   const pathname = usePathname();
@@ -19,6 +20,48 @@ export default function Header() {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        headerRef.current &&
+        !headerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    // Only add listener if menu is open
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
+  // Prevent scrolling when menu is open
+  useEffect(() => {
+    const storeDataWrapper = document.querySelector('.storeDataWrapper');
+    
+    if (isOpen && storeDataWrapper) {
+      // Save current scroll position
+      const scrollPosition = storeDataWrapper.scrollTop;
+      // Prevent scrolling
+      storeDataWrapper.classList.add('no-scroll');
+      (storeDataWrapper as HTMLElement).style.overflow = 'hidden';
+      
+      return () => {
+        // Restore scrolling
+        storeDataWrapper.classList.remove('no-scroll');
+        (storeDataWrapper as HTMLElement).style.overflow = 'auto';
+        // Restore scroll position
+        storeDataWrapper.scrollTop = scrollPosition;
+      };
+    }
+  }, [isOpen]);
 
   const handleThemeChange = useCallback(() => {
     const themes: ThemeState[] = ['light', 'dark', 'stone', 'blue'];
@@ -33,7 +76,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={styles.header} data-active={isOpen}>
+    <header className={styles.header} data-active={isOpen} ref={headerRef}>
       <div className={styles.header_top}>
         <div className={styles.logo}>
           <Link href="/">House of Alignment</Link>
