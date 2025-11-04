@@ -180,6 +180,8 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
     );
   }
 
+  console.log(columnOne, columnTwo);
+
   return (
     <div className={styles.indexTwoColumn} ref={containerRef}>
       <div ref={column1Ref}>
