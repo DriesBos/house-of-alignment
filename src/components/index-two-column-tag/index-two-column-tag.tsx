@@ -156,7 +156,6 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
 
   return (
     <div className={styles.indexTwoColumn} ref={containerRef}>
-      <h1>Posts tagged: {displayTag}</h1>
       <div ref={column1Ref}>
         <ContentColumn>
           {columnOne.map((item) => (
