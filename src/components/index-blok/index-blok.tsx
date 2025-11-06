@@ -5,7 +5,6 @@ import styles from './index-blok.module.sass';
 import IconChair from '@/components/icons/chair';
 import IconWrapper from '@/components/icons/icon-wrapper/icon-wrapper';
 import Link from 'next/link';
-import { useEffect } from 'react';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 
 interface IndexBlokProps {
