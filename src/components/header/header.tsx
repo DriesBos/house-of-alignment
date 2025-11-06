@@ -125,7 +125,7 @@ export default function Header() {
         <nav className={styles.header_nav}>
           <ul>
             <li>
-              <Link href="/">Index</Link>
+              <Link href="/">Archive</Link>
             </li>
             <li>
               <Link href="/tags/dinners">
