@@ -119,7 +119,8 @@ export default function Header() {
           <div className={styles.menuIcon_bar} />
           <div className={styles.menuIcon_bar} />
         </div>
-        <div className={styles.slogan}>( {globalData.slogan} )</div>
+        {/* <div className={styles.slogan}>( {globalData.slogan} )</div> */}
+        <div className={styles.slogan}></div>
       </div>
       <div className={styles.header_bottom}>
         <nav className={styles.header_nav}>
