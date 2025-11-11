@@ -15,6 +15,7 @@ interface IndexBlokProps {
   };
   link?: string;
   tags?: Array<string>;
+  event_date?: string;
   seats?: number;
 }
 
@@ -23,8 +24,12 @@ export default function IndexBlok({
   image,
   link,
   tags,
+  event_date,
   seats,
 }: IndexBlokProps) {
+  // Determine if event is active (in the future)
+  const isActive = event_date ? new Date(event_date) > new Date() : false;
+
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.opacity = '1';
 
@@ -67,15 +72,24 @@ export default function IndexBlok({
             <span>{seats}</span>
           </div>
         )}
-        {tags && (
+        {(tags || isActive) && (
           <div className={styles.tags}>
-            {tags.map((tag) => (
-              <div className={styles.tag} key={tag}>
-                <Link href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}>
-                  <span>{tag}</span>
-                </Link>
+            {isActive && (
+              <div className={`${styles.eventDate} ${styles.tag}`}>
+                <span>Open</span>
               </div>
-            ))}
+            )}
+
+            {tags &&
+              tags.map((tag) => (
+                <div className={styles.tag} key={tag}>
+                  <Link
+                    href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                  >
+                    <span>{tag}</span>
+                  </Link>
+                </div>
+              ))}
           </div>
         )}
       </div>

@@ -35,6 +35,11 @@
           line-height: 1
           font-size: .66rem
           text-transform: uppercase
+      .eventDate
+        background: hsla(0, 0%, 100%, 1)
+        &:hover
+          background: hsla(0, 0%, 100%, 1)
+
     .seats
       position: absolute
       bottom: .5rem
@@ -56,3 +61,12 @@
       span
         line-height: 1
         font-size: .75rem
+
+@keyframes slowBlink
+  0%, 100%
+    background: hsla(0, 0%, 100%, 1)
+  50%
+    background: hsla(0, 0%, 100%, 0.33)
+
+.eventDate
+  animation: slowBlink 3s ease-in-out infinite

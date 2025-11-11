@@ -163,6 +163,7 @@ const IndexThreeColumn = () => {
               title={item.content.page_title}
               image={item.content.page_image}
               tags={item.tag_list}
+              event_date={item.content.event_date}
               seats={item.content.chairs}
               link={item.full_slug}
             />
@@ -177,6 +178,7 @@ const IndexThreeColumn = () => {
               title={item.content.page_title}
               image={item.content.page_image}
               tags={item.tag_list}
+              event_date={item.content.event_date}
               seats={item.content.chairs}
               link={item.full_slug}
             />
@@ -191,6 +193,7 @@ const IndexThreeColumn = () => {
               title={item.content.page_title}
               image={item.content.page_image}
               tags={item.tag_list}
+              event_date={item.content.event_date}
               seats={item.content.chairs}
               link={item.full_slug}
             />
