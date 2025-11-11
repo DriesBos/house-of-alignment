@@ -14,6 +14,7 @@ interface IndexBlokProps {
     alt?: string;
   };
   link?: string;
+  quote?: string;
   tags?: Array<string>;
   event_date?: string;
   seats?: number;
@@ -23,6 +24,7 @@ export default function IndexBlok({
   title,
   image,
   link,
+  quote,
   tags,
   event_date,
   seats,
@@ -63,6 +65,11 @@ export default function IndexBlok({
             style={{ width: '100%', height: 'auto' }}
             onLoad={handleImageLoad}
           />
+        )}
+        {quote && (
+          <div className={`${styles.quoteBlok} quoteBlok`}>
+            <span>{quote}</span>
+          </div>
         )}
         {seats && (
           <div className={styles.seats}>

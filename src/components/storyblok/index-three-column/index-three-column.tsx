@@ -155,13 +155,14 @@ const IndexThreeColumn = () => {
 
   return (
     <div className={styles.indexThreeColumn} ref={containerRef}>
-      <div ref={column1Ref}>
+      <div ref={column1Ref} className="columnMedium">
         <ContentColumn>
           {dinnerStories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
               image={item.content.page_image}
+              quote={item.content.page_quote}
               tags={item.tag_list}
               event_date={item.content.event_date}
               seats={item.content.chairs}
@@ -170,13 +171,14 @@ const IndexThreeColumn = () => {
           ))}
         </ContentColumn>
       </div>
-      <div ref={column2Ref}>
+      <div ref={column2Ref} className="columnSmall">
         <ContentColumn>
           {interviewStories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
               image={item.content.page_image}
+              quote={item.content.page_quote}
               tags={item.tag_list}
               event_date={item.content.event_date}
               seats={item.content.chairs}
@@ -185,13 +187,14 @@ const IndexThreeColumn = () => {
           ))}
         </ContentColumn>
       </div>
-      <div ref={column3Ref}>
+      <div ref={column3Ref} className="columnSmall">
         <ContentColumn>
           {parisStories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
               image={item.content.page_image}
+              quote={item.content.page_quote}
               tags={item.tag_list}
               event_date={item.content.event_date}
               seats={item.content.chairs}
