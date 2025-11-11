@@ -10,10 +10,21 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footer_content}>
+        <div className={styles.footer_content_left}>
+          <p>House of Alignment</p>
+          <p className="bradford">
+            Home of visionary founders.
+            <br />
+            Where your next bold move begins.
+            <br />
+            Trust your vision.
+          </p>
+        </div>
         <div>
-          <Link href="/">Directory</Link>
-          <Link href="/about">About</Link>
-          <Link href="/one-on-one">One-on-one</Link>
+          <Link href="/">Archive</Link>
+          <Link href="/about">Dinners</Link>
+          <Link href="/one-on-one">Interviews</Link>
+          <Link href="/one-on-one">About</Link>
         </div>
         <div className={styles.footer_content_right}>
           <div>
