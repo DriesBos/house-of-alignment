@@ -9,6 +9,7 @@ import { useGSAP } from '@gsap/react';
 import ContentColumn from '@/components/content-column/content-column';
 import IndexBlok from '@/components/index-blok/index-blok';
 import { useLayoutStore } from '@/providers/layout-store-provider';
+import BlokAbout from '../blok-about/blok-about';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -154,56 +155,62 @@ const IndexThreeColumn = () => {
   );
 
   return (
-    <div className={styles.indexThreeColumn} ref={containerRef}>
-      <div ref={column1Ref} className="columnMedium">
-        <ContentColumn>
-          {dinnerStories.map((item) => (
-            <IndexBlok
-              key={item.uuid}
-              title={item.content.page_title}
-              image={item.content.page_image}
-              quote={item.content.page_quote}
-              tags={item.tag_list}
-              event_date={item.content.event_date}
-              seats={item.content.chairs}
-              link={item.full_slug}
-            />
-          ))}
-        </ContentColumn>
+    <>
+      <BlokAbout />
+      <div
+        className={`${styles.indexThreeColumn} indexThreeColumn`}
+        ref={containerRef}
+      >
+        <div ref={column1Ref} className="columnMedium">
+          <ContentColumn>
+            {dinnerStories.map((item) => (
+              <IndexBlok
+                key={item.uuid}
+                title={item.content.page_title}
+                image={item.content.page_image}
+                quote={item.content.page_quote}
+                tags={item.tag_list}
+                event_date={item.content.event_date}
+                seats={item.content.chairs}
+                link={item.full_slug}
+              />
+            ))}
+          </ContentColumn>
+        </div>
+        <div ref={column2Ref} className="columnSmall">
+          <ContentColumn>
+            {interviewStories.map((item) => (
+              <IndexBlok
+                key={item.uuid}
+                title={item.content.page_title}
+                image={item.content.page_image}
+                quote={item.content.page_quote}
+                tags={item.tag_list}
+                event_date={item.content.event_date}
+                seats={item.content.chairs}
+                link={item.full_slug}
+              />
+            ))}
+          </ContentColumn>
+        </div>
+        <div ref={column3Ref} className="columnSmall">
+          <ContentColumn>
+            {parisStories.map((item) => (
+              <IndexBlok
+                key={item.uuid}
+                title={item.content.page_title}
+                image={item.content.page_image}
+                quote={item.content.page_quote}
+                tags={item.tag_list}
+                event_date={item.content.event_date}
+                seats={item.content.chairs}
+                link={item.full_slug}
+              />
+            ))}
+          </ContentColumn>
+        </div>
       </div>
-      <div ref={column2Ref} className="columnSmall">
-        <ContentColumn>
-          {interviewStories.map((item) => (
-            <IndexBlok
-              key={item.uuid}
-              title={item.content.page_title}
-              image={item.content.page_image}
-              quote={item.content.page_quote}
-              tags={item.tag_list}
-              event_date={item.content.event_date}
-              seats={item.content.chairs}
-              link={item.full_slug}
-            />
-          ))}
-        </ContentColumn>
-      </div>
-      <div ref={column3Ref} className="columnSmall">
-        <ContentColumn>
-          {parisStories.map((item) => (
-            <IndexBlok
-              key={item.uuid}
-              title={item.content.page_title}
-              image={item.content.page_image}
-              quote={item.content.page_quote}
-              tags={item.tag_list}
-              event_date={item.content.event_date}
-              seats={item.content.chairs}
-              link={item.full_slug}
-            />
-          ))}
-        </ContentColumn>
-      </div>
-    </div>
+    </>
   );
 };
 
