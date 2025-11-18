@@ -17,7 +17,7 @@ export function Footer() {
             <br />
             Where your next bold move begins.
             <br />
-            Trust your vision.
+            Trust your vision. <Link href="/about"> (more)</Link>
           </p>
         </div>
         <div>

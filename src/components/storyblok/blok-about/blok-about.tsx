@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './blok-about.module.sass';
 
 export default function BlokAbout() {
@@ -8,7 +9,10 @@ export default function BlokAbout() {
         <br />
         Community,
         <br />
-        Creative Tools
+        Creative Tools{' '}
+        <span>
+          <Link href="/about">(more)</Link>
+        </span>
       </h1>
     </div>
   );

@@ -9,6 +9,7 @@
   min-height: 500px
   padding: 8vh
   z-index: -1
+  pointer-events: none
   h1
     font-size: 4.1666666667vh
     line-height: 1
@@ -17,3 +18,7 @@
     text-transform: uppercase
     @media screen and ( max-width: 770px )
       font-size: 6.6666666667vh
+  span, a
+    cursor: pointer
+    font-size: var(--type-size-data) !important
+    pointer-events: auto !important
