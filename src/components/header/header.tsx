@@ -6,7 +6,12 @@ import { useCallback, useState, useEffect, useRef } from 'react';
 import type { ThemeState } from '@/stores/theme-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useGlobalData } from '@/providers/global-data-provider';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+// import { useGlobalData } from '@/providers/global-data-provider';
+
+// Register GSAP plugins
+gsap.registerPlugin(useGSAP);
 
 interface TagCount {
   name: string;
@@ -20,7 +25,7 @@ export default function Header() {
   const theme = useThemeStore((state) => state.theme);
   const setTheme = useThemeStore((state) => state.setTheme);
   const pathname = usePathname();
-  const { globalData } = useGlobalData();
+  // const { globalData } = useGlobalData();
 
   // Fetch tag counts for Dinners and Interviews
   useEffect(() => {
@@ -105,8 +110,50 @@ export default function Header() {
     setIsOpen((prev) => !prev);
   }, []);
 
+  // Animate headerFadeIn elements when menu opens
+  useGSAP(
+    () => {
+      const elements = headerRef.current?.querySelectorAll('.headerFadeIn');
+
+      if (!elements || elements.length === 0) return;
+
+      if (isOpen) {
+        // Fade in with stagger when opening
+        gsap.fromTo(
+          elements,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 2,
+            stagger: 0.165,
+            delay: 0.25,
+            ease: 'power2.out',
+          }
+        );
+      } else {
+        // Immediately hide when closing
+        gsap.set(elements, { opacity: 0 });
+      }
+    },
+    {
+      scope: headerRef,
+      dependencies: [isOpen],
+    }
+  );
+
   return (
     <header className={styles.header} data-active={isOpen} ref={headerRef}>
+      <div className={styles.overlay}>
+        <div className={`${styles.overlay_topright} headerFadeIn`}>
+          Trust your vision
+        </div>
+        <div className={`${styles.overlay_bottomleft} headerFadeIn`}>
+          Home of visionary founders
+        </div>
+        <div className={`${styles.overlay_bottomright} headerFadeIn`}>
+          Begin your next bold move
+        </div>
+      </div>
       <div className={styles.header_top}>
         <div className={styles.logo}>
           <Link href="/">House of Alignment</Link>
