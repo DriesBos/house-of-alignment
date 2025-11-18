@@ -131,7 +131,8 @@ export default function Header() {
           }
         );
       } else {
-        // Immediately hide when closing
+        // Kill any running animations and immediately hide
+        gsap.killTweensOf(elements);
         gsap.set(elements, { opacity: 0 });
       }
     },
