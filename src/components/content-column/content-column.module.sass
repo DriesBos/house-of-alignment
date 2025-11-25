@@ -1,7 +1,13 @@
 .contentColumn
   position: relative
   
-.contentColumn_Item
-  opacity: 1
-  will-change: opacity, transform
+  .contentColumn_Item
+    opacity: 1
+    will-change: opacity, transform
   
+  & > div:last-child
+    border-bottom: none
+    border-bottom-width: 0
+    & > div 
+      border-bottom: none
+      border-bottom-width: 0
