@@ -1,9 +1,69 @@
 .contentBlok
+  position: relative
   display: flex
   border-bottom: var(--layout-border)
   width: 100%
   background-size: cover
+  min-height: 100vh
+  min-height: 100svh
   & > div
     position: relative
-    // flex: 1
-    border: 0 !important // Only borders for top-level bloks
+
+.text
+  display: flex
+  flex-direction: column
+  width: 100%
+  padding: var(--spacing-sides)
+  &[data-align='center'] 
+    & > div
+      text-align: center
+      justify-content: center
+  &Main
+    flex: 1
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+  &Caption
+    font-family: var(--font-bradford), 'Bradford', serif
+    padding: var(--spacing-sides)
+    &_Top
+      padding-top: 0
+    &_Bottom
+      padding-bottom: 0
+
+.image
+  position: absolute !important
+  display: flex
+  justify-content: center
+  align-items: center
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  z-index: -1
+  padding: var(--spacing-sides)
+  .imageContainer
+    width: 100%
+    height: auto
+  img
+    width: 100%
+    height: 100%
+    object-fit: contain
+    object-position: center
+  &[data-size='fullscreen']
+    padding: 0
+    .imageContainer
+      height: 100%
+    img
+      padding: 0
+      object-fit: cover
+  &[data-size='large']
+    .imageContainer
+      width: 100%
+  &[data-size='medium']
+    .imageContainer
+      width: 50%
+  &[data-size='small']
+    .imageContainer
+      width: 25%

@@ -6,6 +6,7 @@ import PageThreeColumn from '@/components/storyblok/page-three-column/page-three
 import IndexBlok from '@/components/storyblok/index-blok/index-blok';
 import IndexTwoColumn from '@/components/storyblok/index-two-column/index-two-column';
 import IndexThreeColumn from '@/components/storyblok/index-three-column/index-three-column';
+import ContentContainer from '@/components/storyblok/content-container/content-container';
 import ContentBlok from '@/components/storyblok/content-blok/content-blok';
 import TextBlok from '@/components/storyblok/text-blok/text-blok';
 import ImageBlok from '@/components/storyblok/image-blok/image-blok';
@@ -22,6 +23,7 @@ export const getStoryblokApi = storyblokInit({
     'page-two-column': PageTwoColumn,
     'page-three-column': PageThreeColumn,
     'index-blok': IndexBlok,
+    'content-container': ContentContainer,
     'content-blok': ContentBlok,
     'text-blok': TextBlok,
     'image-blok': ImageBlok,
