@@ -3,7 +3,6 @@ import { apiPlugin, storyblokInit } from '@storyblok/react/rsc';
 import Page from '@/components/storyblok/page/page';
 import PageTwoColumn from '@/components/storyblok/page-two-column/page-two-column';
 import PageThreeColumn from '@/components/storyblok/page-three-column/page-three-column';
-import IndexBlok from '@/components/storyblok/index-blok/index-blok';
 import IndexTwoColumn from '@/components/storyblok/index-two-column/index-two-column';
 import IndexThreeColumn from '@/components/storyblok/index-three-column/index-three-column';
 import ContentContainer from '@/components/storyblok/content-container/content-container';
@@ -22,7 +21,6 @@ export const getStoryblokApi = storyblokInit({
     'index-three-column': IndexThreeColumn,
     'page-two-column': PageTwoColumn,
     'page-three-column': PageThreeColumn,
-    'index-blok': IndexBlok,
     'content-container': ContentContainer,
     'content-blok': ContentBlok,
     'text-blok': TextBlok,
