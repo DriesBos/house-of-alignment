@@ -146,14 +146,14 @@ export default function Header() {
     <header className={styles.header} data-active={isOpen} ref={headerRef}>
       <div className={styles.overlay}>
         <div className={`${styles.overlay_topright} headerFadeIn`}>
-          Trust your vision
+          ( TRUST YOUR VISION )
         </div>
-        <div className={`${styles.overlay_bottomleft} headerFadeIn`}>
+        {/* <div className={`${styles.overlay_bottomleft} headerFadeIn`}>
           Home of visionary founders
         </div>
         <div className={`${styles.overlay_bottomright} headerFadeIn`}>
           Begin your next bold move
-        </div>
+        </div> */}
       </div>
       <div className={styles.header_top}>
         <div className={styles.logo}>
