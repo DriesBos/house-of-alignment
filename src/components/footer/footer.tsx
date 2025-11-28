@@ -8,7 +8,7 @@ export function Footer() {
   const { globalData } = useGlobalData();
 
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} id="seats">
       <div className={styles.footer_content}>
         <div className={styles.footer_content_left}>
           <p>House of Alignment</p>

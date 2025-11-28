@@ -72,12 +72,14 @@ export default function IndexBlok({
           </div>
         )}
         {seats && (
-          <div className={styles.seats}>
-            <IconWrapper>
-              <IconChair />
-            </IconWrapper>
-            <span>{seats}</span>
-          </div>
+          <Link href={'/' + link + '#seats'} scroll={false}>
+            <div className={styles.seats}>
+              <IconWrapper>
+                <IconChair />
+              </IconWrapper>
+              <span>{seats}</span>
+            </div>
+          </Link>
         )}
         {(tags || isActive) && (
           <div className={styles.tags}>

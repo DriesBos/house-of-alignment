@@ -6,6 +6,7 @@ import {
   StoryblokServerComponent,
 } from '@storyblok/react/rsc';
 import React, { useRef, useLayoutEffect, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import ContentColumn from '@/components/content-column/content-column';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
@@ -34,11 +35,26 @@ const PageTwoColumn: React.FunctionComponent<PageTwoColumnProps> = ({
   const column2Ref = useRef<HTMLDivElement>(null);
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
+  const pathname = usePathname();
 
-  // Set layout to 'three' when component mounts
+  // Set layout to 'two' when component mounts
   useEffect(() => {
     setLayout('two');
   }, [setLayout]);
+
+  // Handle anchor scrolling after navigation
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const id = window.location.hash.substring(1);
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [pathname]);
 
   useLayoutEffect(() => {
     // Make sure we have access to the DOM elements
