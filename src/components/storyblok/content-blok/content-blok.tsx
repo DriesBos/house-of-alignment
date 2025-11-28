@@ -28,7 +28,6 @@ export default function ContentBlok({ blok }: ContentBlokProps) {
     <div
       className={styles.contentBlok}
       {...storyblokEditable(blok)}
-      style={blok.background ? { backgroundColor: blok.background } : {}}
       data-background={blok.background || 'none'}
     >
       {blok.background_image && blok.background_image.id !== null && (

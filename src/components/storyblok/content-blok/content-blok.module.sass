@@ -6,6 +6,23 @@
   background-size: cover
   min-height: 100vh
   min-height: 100svh
+  &[data-background='none']
+    background: none
+  &[data-background='white']
+    background: var(--color-bg-white)
+    color: var(--color-bg-white-type)
+  &[data-background='stone']
+    background: var(--color-bg-stone)
+    color: var(--color-bg-stone-type)
+  &[data-background='blue']
+    background: var(--color-bg-blue)
+    color: var(--color-bg-blue-type)
+  &[data-background='burgundy']
+    background: var(--color-bg-burgundy)
+    color: var(--color-bg-burgundy-type)
+  &[data-background='dark-grey']
+    background: var(--color-bg-dark-grey)
+    color: var(--color-bg-dark-grey-type)
   & > div
     position: relative
 

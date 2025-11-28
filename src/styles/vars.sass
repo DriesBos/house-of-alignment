@@ -10,14 +10,23 @@ $break-desktop: 1370px
   --color-white: white
   --color-stone: #edeae6
   --color-blue: #2a52df
-  --color-beige: #9E9080
   --color-burgundy: #3C2420
-  --color-dusk: #6F818D
-  --color-red: #EB4336
   // Colors Themes
   --color-bg: var(--color-white)
   --color-type: var(--color-black)
+  --color-bg-white: var(--color-white)
+  --color-bg-white-type: var(--color-black)
+  --color-bg-stone: var(--color-stone)
+  --color-bg-stone-type: var(--color-type)
+  --color-bg-blue: var(--color-blue)
+  --color-bg-blue-type: var(--color-black)
+  --color-bg-burgundy: var(--color-burgundy)
+  --color-bg-burgundy-type: var(--color-white)
+  --color-bg-dark-grey: var(--color-dark-grey)
+  --color-bg-dark-grey-type: var(--color-white)
+  // Background WHEN header is open
   --color-bg-modal: hsla(0, 0%, 0%, 0.66)
+  // Theme Variants
   --theme-main-bg: var(--color-white)
   --theme-main-type: var(--color-black)
   --theme-main-bg-inverted: var(--color-dark-grey)
@@ -72,12 +81,19 @@ html
   &[data-theme='light']
     --color-bg: var(--theme-main-bg)
     --color-type: var(--theme-main-type)
+    --color-bg-white: var(--color-blue)
   &[data-theme='dark']
     --color-bg: var( --theme-main-bg-inverted)
     --color-type: var(--theme-main-type-inverted)
+    --color-bg-dark-grey: var(--color-white)
+    --color-bg-dark-grey-type: var(--color-black)
+    --color-bg-stone-type: var(--color-black)
   &[data-theme='stone']
     --color-bg: var(--theme-stone-bg)
     --color-type: var(--theme-stone-type)
+    --color-bg-stone: var(--color-blue)
+    --color-bg-stone-type: var(--color-black)
   &[data-theme='blue']
     --color-bg: var(--theme-blue-bg)
     --color-type: var(--theme-blue-type)
+    --color-bg-blue: var(--color-white)
