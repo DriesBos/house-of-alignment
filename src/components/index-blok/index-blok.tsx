@@ -56,7 +56,7 @@ export default function IndexBlok({
             alt={image.alt || title || 'Image'}
             width={800}
             height={600}
-            quality={40}
+            quality={33}
             loading="eager"
             priority={true}
             className="imageLoad"

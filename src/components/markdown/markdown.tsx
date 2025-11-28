@@ -110,7 +110,7 @@ const Markdown: React.FunctionComponent<MarkdownProps> = ({
                 className={styles.image}
                 width={800}
                 height={400}
-                quality={40}
+                quality={33}
                 style={{ width: 'auto', height: 'auto' }}
               />
             ) : null;

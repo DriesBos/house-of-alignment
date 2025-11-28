@@ -58,7 +58,7 @@ const IndexBlok: React.FunctionComponent<IndexBlokProps> = ({ blok }) => {
               width={0}
               height={0}
               sizes={sizes}
-              quality={40}
+              quality={33}
               loading="eager"
               priority={true}
               className="imageLoad"
