@@ -15,7 +15,7 @@ export default function DateDisplay({ date, className }: DateDisplayProps) {
     const month = dateObj.toLocaleDateString('en-US', { month: 'short' });
     const year = dateObj.getFullYear();
 
-    return `${day} ${month}, ${year}`;
+    return `${day} ${month} ${year}`;
   };
 
   if (!date) return null;

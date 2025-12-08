@@ -48,10 +48,6 @@ export default function IndexBlokGeneral({
 
   return (
     <div className={styles.indexBlokGeneral}>
-      <div className={styles.title}>
-        <Link href={'/' + link}>{title}</Link>
-        {event_date && <DateDisplay date={event_date} />}
-      </div>
       <div className={styles.imageContainer}>
         {image && image.filename && !quote && (
           <Image
@@ -104,6 +100,10 @@ export default function IndexBlokGeneral({
               ))}
           </div>
         )}
+      </div>
+      <div className={styles.title}>
+        <Link href={'/' + link}>{title}</Link>
+        {event_date && <DateDisplay date={event_date} />}
       </div>
     </div>
   );

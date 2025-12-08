@@ -2,8 +2,8 @@
   display: flex
   flex-direction: column
   align-items: stretch
-  gap: .5rem
-  padding: 1rem
+  gap: 1rem
+  padding: calc(var(--indexpage-gap) / 2) 1rem
   & > div
     flex: 1
   img
@@ -14,12 +14,20 @@
   .title
     display: flex
     justify-content: space-between
+    align-items: flex-start
+    gap: .1rem
+    a
+      font-size: var(--type-size-large)
+      line-height: var(--type-lineheight-display)
 
   .descr
     display: -webkit-box
     -webkit-line-clamp: 4
     -webkit-box-orient: vertical
     overflow: hidden
+    p
+      font-family: var(--font-bradford), 'Bradford', serif
+      line-height: var(--type-lineheight-display)
 
   .quoteBlok
     display: flex
