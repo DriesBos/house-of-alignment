@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './index-three-column.module.sass';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { ISbStoryData } from '@storyblok/react/rsc';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
@@ -21,76 +21,52 @@ const IndexThreeColumn = () => {
   const column3Ref = useRef<HTMLDivElement>(null);
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
-  const [dinnerStories, setDinnerStories] = useState<ISbStoryData[]>([]);
-  const [interviewStories, setInterviewStories] = useState<ISbStoryData[]>([]);
-  const [parisStories, setParisStories] = useState<ISbStoryData[]>([]);
+  const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
 
   // Set layout to 'three' when component mounts
   useEffect(() => {
     setLayout('three');
   }, [setLayout]);
 
-  // Fetch stories with 'Dinners' tag
+  // Fetch all stories
   useEffect(() => {
-    const fetchDinners = async () => {
+    const fetchAllStories = async () => {
       try {
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=Dinners&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+          `https://api.storyblok.com/v2/cdn/stories?version=published&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
         );
         const data = await response.json();
-        setDinnerStories(data.stories);
+        setAllStories(data.stories);
       } catch (error) {
-        console.error('Error fetching Dinners stories:', error);
+        console.error('Error fetching stories:', error);
       }
     };
 
-    fetchDinners();
+    fetchAllStories();
   }, []);
 
-  // Fetch stories with 'Interviews' tag
-  useEffect(() => {
-    const fetchInterviews = async () => {
-      try {
-        const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=Interviews&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
-        );
-        const data = await response.json();
-        setInterviewStories(data.stories);
-      } catch (error) {
-        console.error('Error fetching Interviews stories:', error);
-      }
+  // Divide stories into three columns (40%, 40%, 20%)
+  const { column1Stories, column2Stories, column3Stories } = useMemo(() => {
+    const total = allStories.length;
+    const col1Count = Math.round(total * 0.45);
+    const col2Count = Math.round(total * 0.35);
+    // col3 gets the remaining stories
+
+    const col1 = allStories.slice(0, col1Count);
+    const col2 = allStories.slice(col1Count, col1Count + col2Count);
+    const col3 = allStories.slice(col1Count + col2Count);
+
+    return {
+      column1Stories: col1,
+      column2Stories: col2,
+      column3Stories: col3,
     };
-
-    fetchInterviews();
-  }, []);
-
-  // Fetch stories with 'Paris' tag
-  useEffect(() => {
-    const fetchParis = async () => {
-      try {
-        const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=Paris&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
-        );
-        const data = await response.json();
-        setParisStories(data.stories);
-      } catch (error) {
-        console.error('Error fetching Paris stories:', error);
-      }
-    };
-
-    fetchParis();
-  }, []);
+  }, [allStories]);
 
   useGSAP(
     () => {
       // Wait for content to be rendered
-      if (
-        !containerRef.current ||
-        dinnerStories.length === 0 ||
-        interviewStories.length === 0 ||
-        parisStories.length === 0
-      )
-        return;
+      if (!containerRef.current || allStories.length === 0) return;
 
       // Use requestAnimationFrame to ensure DOM is fully updated
       requestAnimationFrame(() => {
@@ -149,7 +125,7 @@ const IndexThreeColumn = () => {
     },
     {
       scope: containerRef,
-      dependencies: [layout, dinnerStories, interviewStories, parisStories],
+      dependencies: [layout, allStories],
       revertOnUpdate: true,
     }
   );
@@ -163,7 +139,7 @@ const IndexThreeColumn = () => {
       >
         <div ref={column1Ref} className="columnMedium">
           <ContentColumn>
-            {dinnerStories.map((item) => (
+            {column1Stories.map((item) => (
               <IndexBlok
                 key={item.uuid}
                 title={item.content.page_title}
@@ -179,7 +155,7 @@ const IndexThreeColumn = () => {
         </div>
         <div ref={column2Ref} className="columnSmall">
           <ContentColumn>
-            {interviewStories.map((item) => (
+            {column2Stories.map((item) => (
               <IndexBlok
                 key={item.uuid}
                 title={item.content.page_title}
@@ -195,7 +171,7 @@ const IndexThreeColumn = () => {
         </div>
         <div ref={column3Ref} className="columnSmall">
           <ContentColumn>
-            {parisStories.map((item) => (
+            {column3Stories.map((item) => (
               <IndexBlok
                 key={item.uuid}
                 title={item.content.page_title}
