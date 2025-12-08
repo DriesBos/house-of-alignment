@@ -74,7 +74,6 @@ export default async function RootLayout({
           <LayoutStoreProvider>
             <GlobalDataProvider initialData={globalData}>
               <body className={`${helvetica.variable} ${bradfort.variable}`}>
-                {/* <ThreeDContainer /> */}
                 <Header />
                 <StoreDataProvider>
                   <StorePageDataProvider>
