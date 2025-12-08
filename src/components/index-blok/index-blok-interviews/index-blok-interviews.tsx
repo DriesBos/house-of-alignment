@@ -103,12 +103,14 @@ export default function IndexBlokInterviews({
           </div>
         )}
       </div>
-      <div className={styles.title}>
-        <Link href={'/' + link}>{title}</Link>
-        {event_date && <DateDisplay date={event_date} />}
-      </div>
-      <div className={styles.descr}>
-        <p>{descr}</p>
+      <div className={styles.bottom}>
+        <div className={styles.title}>
+          <Link href={'/' + link}>{title}</Link>
+          {event_date && <DateDisplay date={event_date} />}
+        </div>
+        <div className={styles.descr}>
+          <p>{descr}</p>
+        </div>
       </div>
     </div>
   );
