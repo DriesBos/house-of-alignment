@@ -1,7 +1,7 @@
 'use client';
 
 import { ISbStoryData } from '@storyblok/react/rsc';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import ContentColumn from '@/components/content-column/content-column';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
@@ -24,8 +24,7 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
 
-  const [columnOne, setColumnOne] = useState<ISbStoryData[]>([]);
-  const [columnTwo, setColumnTwo] = useState<ISbStoryData[]>([]);
+  const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
 
   // Set layout to 'two' when component mounts
   useEffect(() => {
@@ -50,17 +49,7 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
           `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=${tagName}&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
         );
         const data = await response.json();
-
-        // Split into two arrays: even indices in columnOne, odd indices in columnTwo
-        const evenStories = data.stories.filter(
-          (_: ISbStoryData, index: number) => index % 2 === 0
-        );
-        const oddStories = data.stories.filter(
-          (_: ISbStoryData, index: number) => index % 2 === 1
-        );
-
-        setColumnOne(evenStories);
-        setColumnTwo(oddStories);
+        setAllStories(data.stories || []);
       } catch (error) {
         console.error('Error fetching stories by tag:', error);
       }
@@ -69,13 +58,50 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
     fetchStoriesByTag();
   }, [tag]);
 
+  // Divide stories into two columns (60%, 40%) using weighted round-robin
+  // Sort by event_date (newest first)
+  const { column1Stories, column2Stories } = useMemo(() => {
+    const sortedStories = [...allStories].sort((a, b) => {
+      const dateA = a.content?.event_date
+        ? new Date(a.content.event_date).getTime()
+        : 0;
+      const dateB = b.content?.event_date
+        ? new Date(b.content.event_date).getTime()
+        : 0;
+      return dateB - dateA; // Newest first
+    });
+
+    const col1: ISbStoryData[] = [];
+    const col2: ISbStoryData[] = [];
+
+    // Weighted round-robin: pattern of 20 stories = 11 col1, 9 col2 (55%, 45%)
+    // Pattern: col1, col2, col1, col2, col1, col2, col1, col2, col1, col2, col1, col2, col1, col2, col1, col2, col1, col2, col1, col1, repeat
+    const pattern = [
+      0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0,
+    ]; // 0 = col1, 1 = col2
+
+    sortedStories.forEach((story, index) => {
+      const columnIndex = pattern[index % 20];
+      if (columnIndex === 0) {
+        col1.push(story);
+      } else {
+        col2.push(story);
+      }
+    });
+
+    return {
+      column1Stories: col1,
+      column2Stories: col2,
+    };
+  }, [allStories]);
+
   useGSAP(
     () => {
       // Wait for content to be rendered
       if (
         !containerRef.current ||
-        columnOne.length === 0 ||
-        columnTwo.length === 0
+        column1Stories.length === 0 ||
+        column2Stories.length === 0
       )
         return;
 
@@ -132,7 +158,7 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
     },
     {
       scope: containerRef,
-      dependencies: [layout, columnOne, columnTwo],
+      dependencies: [layout, column1Stories, column2Stories],
       revertOnUpdate: true,
     }
   );
@@ -141,7 +167,7 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
     <div className={styles.indexTwoColumn} ref={containerRef}>
       <div ref={column1Ref} className="columnMedium">
         <ContentColumn>
-          {columnOne.map((item) => (
+          {column1Stories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
@@ -156,7 +182,7 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
       </div>
       <div ref={column2Ref} className="columnMedium">
         <ContentColumn>
-          {columnTwo.map((item) => (
+          {column2Stories.map((item) => (
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
