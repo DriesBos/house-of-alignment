@@ -1,0 +1,100 @@
+.indexBlokInterviews
+  display: flex
+  flex-direction: column
+  align-items: stretch
+  gap: .5rem
+  padding: 1rem
+  & > div
+    flex: 1
+  img
+    width: 100%
+    max-width: 100%
+    height: auto
+
+  .title
+    display: flex
+    justify-content: space-between
+
+  .descr
+    display: -webkit-box
+    -webkit-line-clamp: 4
+    -webkit-box-orient: vertical
+    overflow: hidden
+
+  .quoteBlok
+    display: flex
+    align-items: center
+    justify-content: center
+    background: currentColor
+    width: 100%
+    padding: 3rem 1.5vw
+    aspect-ratio: 3 / 4
+    span
+      color: white
+      mix-blend-mode: difference
+      text-align: center
+      line-height: 1.2
+
+  .imageContainer
+    position: relative
+    overflow: hidden
+    .tags
+      position: absolute
+      display: flex
+      bottom: .5rem
+      left: .5rem
+      gap: .33rem
+      .tag
+        background: hsla(0, 0%, 100%, 0.33)
+        backdrop-filter: blur(6px)
+        color: black
+        padding: 0 .66rem
+        padding-top: .1rem
+        border-radius: 1000px
+        border: 1px solid hsla(0, 0%, 100%, 1)
+        cursor: pointer
+        transition: background 0.165s ease-in-out, border 0.165s ease-in-out
+        &:hover
+          background: hsla(0, 0%, 100%, 0.66)
+        span
+          line-height: 1
+          font-size: .66rem
+          text-transform: uppercase
+      .eventDate
+        background: hsla(0, 0%, 100%, 1)
+        &:hover
+          background: hsla(0, 0%, 100%, 0.66)
+        span
+          line-height: 1
+          font-size: .66rem
+          text-transform: uppercase
+
+    .seats
+      position: absolute
+      bottom: .5rem
+      right: .5rem
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: center
+      padding: 0 2px
+      padding-top: .25rem
+      gap: .33rem
+      border-radius: 12px
+      background: hsla(0, 0%, 100%, 0.33)
+      transition: background 0.165s ease-in-out
+      color: black
+      &:hover
+        background: hsla(0, 0%, 100%, 0.66)
+      span
+        line-height: 1
+        font-size: .75rem
+
+// @keyframes slowBlink
+//   0%, 100%
+//     background: hsla(0, 0%, 100%, 1)
+//   50%
+//     background: hsla(0, 0%, 100%, 0.33)
+
+// .eventDate
+//   animation: slowBlink 3s ease-in-out infinite

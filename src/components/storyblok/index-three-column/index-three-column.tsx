@@ -46,15 +46,20 @@ const IndexThreeColumn = () => {
   }, []);
 
   // Divide stories into three columns (40%, 40%, 20%)
+  // Only include stories that have at least one tag
   const { column1Stories, column2Stories, column3Stories } = useMemo(() => {
-    const total = allStories.length;
+    const storiesWithTags = allStories.filter(
+      (story) => story.tag_list && story.tag_list.length > 0
+    );
+
+    const total = storiesWithTags.length;
     const col1Count = Math.round(total * 0.45);
     const col2Count = Math.round(total * 0.35);
     // col3 gets the remaining stories
 
-    const col1 = allStories.slice(0, col1Count);
-    const col2 = allStories.slice(col1Count, col1Count + col2Count);
-    const col3 = allStories.slice(col1Count + col2Count);
+    const col1 = storiesWithTags.slice(0, col1Count);
+    const col2 = storiesWithTags.slice(col1Count, col1Count + col2Count);
+    const col3 = storiesWithTags.slice(col1Count + col2Count);
 
     return {
       column1Stories: col1,
@@ -143,6 +148,7 @@ const IndexThreeColumn = () => {
               <IndexBlok
                 key={item.uuid}
                 title={item.content.page_title}
+                descr={item.content.page_descr}
                 image={item.content.page_image}
                 quote={item.content.page_quote}
                 tags={item.tag_list}
@@ -159,6 +165,7 @@ const IndexThreeColumn = () => {
               <IndexBlok
                 key={item.uuid}
                 title={item.content.page_title}
+                descr={item.content.page_descr}
                 image={item.content.page_image}
                 quote={item.content.page_quote}
                 tags={item.tag_list}
@@ -175,6 +182,7 @@ const IndexThreeColumn = () => {
               <IndexBlok
                 key={item.uuid}
                 title={item.content.page_title}
+                descr={item.content.page_descr}
                 image={item.content.page_image}
                 quote={item.content.page_quote}
                 tags={item.tag_list}

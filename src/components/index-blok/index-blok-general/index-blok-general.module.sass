@@ -1,0 +1,68 @@
+.indexBlokGeneral
+  display: flex
+  flex-direction: column
+  align-items: stretch
+  gap: .5rem
+  padding: 1rem
+  & > div
+    flex: 1
+  img
+    width: 100%
+    max-width: 100%
+    height: auto
+
+  .imageContainer
+    position: relative
+    overflow: hidden
+    .tags
+      position: absolute
+      display: flex
+      bottom: .5rem
+      left: .5rem
+      gap: .33rem
+      .tag
+        background: hsla(0, 0%, 100%, 0.33)
+        backdrop-filter: blur(6px)
+        color: black
+        padding: 0 .66rem
+        padding-top: .1rem
+        border-radius: 1000px
+        border: 1px solid hsla(0, 0%, 100%, 1)
+        cursor: pointer
+        transition: background 0.165s ease-in-out, border 0.165s ease-in-out
+        &:hover
+          background: hsla(0, 0%, 100%, 0.66)
+        span
+          line-height: 1
+          font-size: .66rem
+          text-transform: uppercase
+      .eventDate
+        background: hsla(0, 0%, 100%, 1)
+        &:hover
+          background: hsla(0, 0%, 100%, 0.66)
+        span
+          line-height: 1
+          font-size: .66rem
+          text-transform: uppercase
+
+    .seats
+      position: absolute
+      bottom: .5rem
+      right: .5rem
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: center
+      padding: 0 2px
+      padding-top: .25rem
+      gap: .33rem
+      border-radius: 12px
+      background: hsla(0, 0%, 100%, 0.33)
+      transition: background 0.165s ease-in-out
+      color: black
+      &:hover
+        background: hsla(0, 0%, 100%, 0.66)
+      span
+        line-height: 1
+        font-size: .75rem
+        

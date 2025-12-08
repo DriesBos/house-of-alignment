@@ -1,14 +1,11 @@
 'use client';
 
-import Image from 'next/image';
-import styles from './index-blok.module.sass';
-import IconChair from '@/components/icons/chair';
-import IconWrapper from '@/components/icons/icon-wrapper/icon-wrapper';
-import Link from 'next/link';
-import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import IndexBlokGeneral from './index-blok-general/index-blok-general';
+import IndexBlokInterviews from './index-blok-interviews/index-blok-interviews';
 
 interface IndexBlokProps {
   title?: string;
+  descr?: string;
   image?: object & {
     filename: string;
     alt?: string;
@@ -22,6 +19,7 @@ interface IndexBlokProps {
 
 export default function IndexBlok({
   title,
+  descr,
   image,
   link,
   quote,
@@ -32,76 +30,35 @@ export default function IndexBlok({
   // Determine if event is active (in the future)
   const isActive = event_date ? new Date(event_date) > new Date() : false;
 
-  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.style.opacity = '1';
+  // Check if item has 'interviews' tag (case-insensitive)
+  const isInterview = tags?.some((tag) => tag.toLowerCase() === 'interviews');
 
-    // Refresh ScrollTrigger after image loads to recalculate heights
-    if (typeof window !== 'undefined' && ScrollTrigger) {
-      // Use requestAnimationFrame to ensure DOM has updated
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
-    }
-  };
+  if (isInterview) {
+    return (
+      <IndexBlokInterviews
+        title={title}
+        descr={descr}
+        image={image}
+        link={link}
+        quote={quote}
+        tags={tags}
+        event_date={event_date}
+        seats={seats}
+        isActive={isActive}
+      />
+    );
+  }
 
   return (
-    <div className={styles.indexBlok}>
-      <div className={styles.title}>
-        <Link href={'/' + link}>{title}</Link>
-      </div>
-      <div className={styles.imageContainer}>
-        {image && image.filename && (
-          <Image
-            src={image.filename}
-            alt={image.alt || title || 'Image'}
-            width={800}
-            height={600}
-            quality={33}
-            loading="eager"
-            priority={true}
-            className="imageLoad"
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyDYRXGTkKoJHrWp2rStabOyBa1KvKw5YxJ7Sj5wJTnzuHQjdqMcvqEXsZqd/JZfLCqfz8t5rjjX9cfjVf0Jj/c8f8ACSkV4K1/pT9wR/lFaHCp9kqh6ZGC6Vd+lj1/rOAKfZe/w="
-            style={{ width: '100%', height: 'auto' }}
-            onLoad={handleImageLoad}
-          />
-        )}
-        {quote && (
-          <div className={`${styles.quoteBlok} quoteBlok`}>
-            <span>{quote}</span>
-          </div>
-        )}
-        {seats && (
-          <Link href={'/' + link + '#seats'} scroll={false}>
-            <div className={styles.seats}>
-              <IconWrapper>
-                <IconChair />
-              </IconWrapper>
-              <span>{seats}</span>
-            </div>
-          </Link>
-        )}
-        {(tags || isActive) && (
-          <div className={styles.tags}>
-            {isActive && (
-              <div className={`${styles.eventDate} ${styles.tag}`}>
-                <span>Open</span>
-              </div>
-            )}
-
-            {tags &&
-              tags.map((tag) => (
-                <div className={styles.tag} key={tag}>
-                  <Link
-                    href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    <span>{tag}</span>
-                  </Link>
-                </div>
-              ))}
-          </div>
-        )}
-      </div>
-    </div>
+    <IndexBlokGeneral
+      title={title}
+      image={image}
+      link={link}
+      quote={quote}
+      tags={tags}
+      event_date={event_date}
+      seats={seats}
+      isActive={isActive}
+    />
   );
 }
