@@ -21,25 +21,25 @@
       left: .5rem
       gap: .33rem
       .tag
-        background: hsla(0, 0%, 100%, 0.33)
+        background: hsla(0, 0%, 100%, 0.5)
         backdrop-filter: blur(6px)
         color: black
         padding: 0 .66rem
         padding-top: .1rem
         border-radius: 1000px
-        border: 1px solid hsla(0, 0%, 100%, 1)
         cursor: pointer
         transition: background 0.165s ease-in-out, border 0.165s ease-in-out
         &:hover
-          background: hsla(0, 0%, 100%, 0.66)
+          background: hsla(0, 0%, 100%, 1)
         span
           line-height: 1
           font-size: .66rem
           text-transform: uppercase
+          letter-spacing: .03rem
       .eventDate
         background: hsla(0, 0%, 100%, 1)
         &:hover
-          background: hsla(0, 0%, 100%, 0.66)
+          background: hsla(0, 0%, 100%, 1)
         span
           line-height: 1
           font-size: .66rem
@@ -53,16 +53,24 @@
       flex-direction: column
       align-items: center
       justify-content: center
-      padding: 0 2px
+      padding: 0 4px
       padding-top: .25rem
       gap: .33rem
       border-radius: 12px
-      background: hsla(0, 0%, 100%, 0.33)
+      background: hsla(0, 0%, 100%, 0.5)
       transition: background 0.165s ease-in-out
       color: black
       &:hover
-        background: hsla(0, 0%, 100%, 0.66)
+        background: hsla(0, 0%, 100%, 1)
       span
         line-height: 1
         font-size: .75rem
-        
+
+@keyframes slowBlink
+  0%, 100%
+    background: hsla(0, 0%, 100%, 1)
+  50%
+    background: hsla(0, 0%, 100%, 0.33)
+
+.eventDate
+  animation: slowBlink 2s ease-in-out infinite
