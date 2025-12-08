@@ -47,14 +47,23 @@ const IndexThreeColumn = () => {
 
   // Divide stories into three columns (40%, 40%, 20%)
   // Only include stories that have at least one tag
+  // Sort by event_date (newest first)
   const { column1Stories, column2Stories, column3Stories } = useMemo(() => {
-    const storiesWithTags = allStories.filter(
-      (story) => story.tag_list && story.tag_list.length > 0
-    );
+    const storiesWithTags = allStories
+      .filter((story) => story.tag_list && story.tag_list.length > 0)
+      .sort((a, b) => {
+        const dateA = a.content?.event_date
+          ? new Date(a.content.event_date).getTime()
+          : 0;
+        const dateB = b.content?.event_date
+          ? new Date(b.content.event_date).getTime()
+          : 0;
+        return dateB - dateA; // Newest first
+      });
 
     const total = storiesWithTags.length;
-    const col1Count = Math.round(total * 0.45);
-    const col2Count = Math.round(total * 0.35);
+    const col1Count = Math.round(total * 0.38);
+    const col2Count = Math.round(total * 0.37);
     // col3 gets the remaining stories
 
     const col1 = storiesWithTags.slice(0, col1Count);

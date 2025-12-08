@@ -6,6 +6,7 @@ import IconChair from '@/components/icons/chair';
 import IconWrapper from '@/components/icons/icon-wrapper/icon-wrapper';
 import Link from 'next/link';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import DateDisplay from '@/components/date-display/date-display';
 
 interface IndexBlokInterviewsProps {
   title?: string;
@@ -104,7 +105,7 @@ export default function IndexBlokInterviews({
       </div>
       <div className={styles.title}>
         <Link href={'/' + link}>{title}</Link>
-        <span>{event_date}</span>
+        {event_date && <DateDisplay date={event_date} />}
       </div>
       <div className={styles.descr}>
         <p>{descr}</p>

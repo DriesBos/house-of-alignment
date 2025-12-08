@@ -6,6 +6,7 @@ import IconChair from '@/components/icons/chair';
 import IconWrapper from '@/components/icons/icon-wrapper/icon-wrapper';
 import Link from 'next/link';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+import DateDisplay from '@/components/date-display/date-display';
 
 interface IndexBlokGeneralProps {
   title?: string;
@@ -49,7 +50,7 @@ export default function IndexBlokGeneral({
     <div className={styles.indexBlokGeneral}>
       <div className={styles.title}>
         <Link href={'/' + link}>{title}</Link>
-        <span>{event_date}</span>
+        {event_date && <DateDisplay date={event_date} />}
       </div>
       <div className={styles.imageContainer}>
         {image && image.filename && !quote && (
