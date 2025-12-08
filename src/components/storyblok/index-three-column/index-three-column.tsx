@@ -45,7 +45,7 @@ const IndexThreeColumn = () => {
     fetchAllStories();
   }, []);
 
-  // Divide stories into three columns (40%, 40%, 20%)
+  // Divide stories into three columns (40%, 40%, 20%) using weighted round-robin
   // Only include stories that have at least one tag
   // Sort by event_date (newest first)
   const { column1Stories, column2Stories, column3Stories } = useMemo(() => {
@@ -61,14 +61,24 @@ const IndexThreeColumn = () => {
         return dateB - dateA; // Newest first
       });
 
-    const total = storiesWithTags.length;
-    const col1Count = Math.round(total * 0.38);
-    const col2Count = Math.round(total * 0.37);
-    // col3 gets the remaining stories
+    const col1: ISbStoryData[] = [];
+    const col2: ISbStoryData[] = [];
+    const col3: ISbStoryData[] = [];
 
-    const col1 = storiesWithTags.slice(0, col1Count);
-    const col2 = storiesWithTags.slice(col1Count, col1Count + col2Count);
-    const col3 = storiesWithTags.slice(col1Count + col2Count);
+    // Weighted round-robin: pattern of 8 stories = 3 col1, 3 col2, 2 col3 (37.5%, 37.5%, 25%)
+    // Pattern: col1, col2, col3, col1, col2, col1, col2, col3, repeat
+    const pattern = [0, 1, 2, 0, 1, 0, 1, 2]; // 0 = col1, 1 = col2, 2 = col3
+
+    storiesWithTags.forEach((story, index) => {
+      const columnIndex = pattern[index % 5];
+      if (columnIndex === 0) {
+        col1.push(story);
+      } else if (columnIndex === 1) {
+        col2.push(story);
+      } else {
+        col3.push(story);
+      }
+    });
 
     return {
       column1Stories: col1,
