@@ -1,4 +1,4 @@
-import IndexTwoColumnTag from '@/components/index-two-column-tag/index-two-column-tag';
+import IndexTwoColumn from '@/components/storyblok/index-two-column/index-two-column';
 
 type Params = Promise<{ tag: string }>;
 
@@ -6,5 +6,5 @@ export default async function TagPage({ params }: { params: Params }) {
   const { tag } = await params;
   console.log('TagPage tag:', tag);
 
-  return <IndexTwoColumnTag tag={tag} />;
+  return <IndexTwoColumn tag={tag} />;
 }

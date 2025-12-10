@@ -9,9 +9,9 @@ export default function BlokAbout() {
         <br />
         Community,
         <br />
-        Creative Tools{' '}
+        Creative Tools
         <span>
-          <Link href="/about">(more)</Link>
+          <Link href="/about">(about)</Link>
         </span>
       </h1>
     </div>
