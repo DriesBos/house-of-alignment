@@ -4,7 +4,6 @@ type Params = Promise<{ tag: string }>;
 
 export default async function TagPage({ params }: { params: Params }) {
   const { tag } = await params;
-  console.log('TagPage tag:', tag);
 
   return <IndexTwoColumn tag={tag} />;
 }

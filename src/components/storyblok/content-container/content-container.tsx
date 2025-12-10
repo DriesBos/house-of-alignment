@@ -14,8 +14,6 @@ interface ContentBlokProps {
 }
 
 export default function ContentContainer({ blok }: ContentBlokProps) {
-  console.log('ContentContainer', blok);
-
   return (
     <div className={styles.contentContainer} {...storyblokEditable(blok)}>
       {blok.body?.map((nestedBlok) => (

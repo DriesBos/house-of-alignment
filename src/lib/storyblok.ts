@@ -12,6 +12,7 @@ import ImageBlok from '@/components/storyblok/image-blok/image-blok';
 import GlobalData from '@/components/storyblok/globaldata/globaldata';
 import DividerBlok from '@/components/storyblok/divider-blok/divider-blok';
 import ContentData from '@/components/storyblok/content-data/content-data';
+import ContentProfile from '@/components/storyblok/content-data/content-profile/content-profile';
 
 export const getStoryblokApi = storyblokInit({
   accessToken: process.env.NEXT_PUBLIC_STORYBLOK_TOKEN,
@@ -25,6 +26,7 @@ export const getStoryblokApi = storyblokInit({
     'content-container': ContentContainer,
     'content-blok': ContentBlok,
     'content-data': ContentData,
+    'content-profile': ContentProfile,
     'text-blok': TextBlok,
     'image-blok': ImageBlok,
     'divider-blok': DividerBlok,

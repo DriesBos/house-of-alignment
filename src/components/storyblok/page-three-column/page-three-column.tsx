@@ -67,8 +67,6 @@ const PageThreeColumn: React.FunctionComponent<PageThreeColumnProps> = ({
       },
     ];
 
-    console.log('ColumnData', columnData);
-
     // Find the longest column
     const maxHeight = Math.max(...columnData.map((col) => col.height));
     const longestColumnIndex = columnData.findIndex(

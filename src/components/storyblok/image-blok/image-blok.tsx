@@ -17,8 +17,6 @@ interface ImageBlokProps {
 }
 
 const ImageBlok: React.FunctionComponent<ImageBlokProps> = ({ blok }) => {
-  console.log('ImageBlok', blok);
-
   return (
     <div
       className={styles.imageBlok}

@@ -22,8 +22,6 @@ interface ContentBlokProps {
 }
 
 export default function ContentBlok({ blok }: ContentBlokProps) {
-  console.log('ContentBlok', blok);
-
   return (
     <div
       className={styles.contentBlok}

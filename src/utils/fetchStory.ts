@@ -7,7 +7,6 @@ export const fetchStory = async (
 ) => {
   getStoryblokApi();
   const correctSlug = `/${slug ? slug.join('/') : 'home'}`;
-  console.log('FETCHSTORY', correctSlug, version);
 
   return fetch(
     `
