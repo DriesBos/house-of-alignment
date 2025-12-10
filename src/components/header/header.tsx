@@ -169,8 +169,8 @@ export default function Header() {
             {
               opacity: 1,
               duration: 2,
-              stagger: 0.165,
-              delay: 0.25,
+              stagger: 0.1,
+              delay: 0.165,
               ease: 'power2.out',
             }
           );
@@ -183,10 +183,10 @@ export default function Header() {
             { opacity: 0 },
             {
               opacity: 1,
-              duration: 2,
-              stagger: 0.165,
+              duration: 1.5,
+              stagger: 0.033,
               delay: 0.165,
-              ease: 'linear',
+              ease: 'power2.out',
             }
           );
         }
