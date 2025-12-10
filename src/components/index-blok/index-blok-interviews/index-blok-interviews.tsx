@@ -69,7 +69,7 @@ export default function IndexBlokInterviews({
         )}
         {quote && (
           <div className={`${styles.quoteBlok} quoteBlok`}>
-            <span>{quote}</span>
+            <span>"{quote}"</span>
           </div>
         )}
         {(tags || isActive) && (

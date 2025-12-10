@@ -70,7 +70,7 @@ export default function IndexBlokGeneral({
         )}
         {quote && (
           <div className={`${styles.quoteBlok} quoteBlok`}>
-            <span>{quote}</span>
+            <span>"{quote}"</span>
           </div>
         )}
         {seats && isEventInFuture && (
