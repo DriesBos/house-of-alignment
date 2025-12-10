@@ -51,13 +51,14 @@
     padding: .5rem 1rem
     & > div:first-child, & > div:last-child
       flex: 1
-      font-size: 30px
       line-height: 0
       transform: translateY(5px)
     & > div:last-child
       text-align: right
       @media screen and ( max-width: 770px )
         display: none
+    .logo a
+      font-size: var(--type-size-logo)
 
   &_bottom
     display: flex

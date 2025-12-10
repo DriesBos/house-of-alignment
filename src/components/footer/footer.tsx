@@ -11,7 +11,7 @@ export function Footer() {
     <footer className={styles.footer} id="seats">
       <div className={styles.footer_content}>
         <div className={styles.footer_content_left}>
-          <p>House of Alignment</p>
+          <p className={styles.logo}>House of Alignment</p>
           <p className="bradford">
             Home of visionary founders.
             <br />
@@ -20,33 +20,30 @@ export function Footer() {
             Trust your vision. <Link href="/about"> (more)</Link>
           </p>
         </div>
-        <div>
+        <div className={styles.footer_content_center}>
           <Link href="/">Archive</Link>
           <Link href="/about">Dinners</Link>
           <Link href="/one-on-one">Interviews</Link>
           <Link href="/one-on-one">About</Link>
         </div>
         <div className={styles.footer_content_right}>
-          <div>
-            <a
-              href={globalData.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              instagram
-            </a>
-            <br />
-            <a
-              href={`mailto:${globalData.email}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {globalData.email}
-            </a>
-          </div>
-          <div>
+          <div className={styles.slogan}>
             <span>( {globalData.slogan} )</span>
           </div>
+          <a
+            href={globalData.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            instagram
+          </a>
+          <a
+            href={`mailto:${globalData.email}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {globalData.email}
+          </a>
         </div>
       </div>
     </footer>
