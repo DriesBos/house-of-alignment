@@ -11,7 +11,6 @@ interface LinkBlokProps {
   tag: string;
   stories: StoryLink[];
 }
-
 export default function LinkBlok({ tag, stories }: LinkBlokProps) {
   // If tag is "Dinners", show a list of all unique tags (excluding "Dinners")
   const isDinners = tag.toLowerCase() === 'dinners';
