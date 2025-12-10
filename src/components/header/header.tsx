@@ -62,7 +62,6 @@ export default function Header() {
     const fetchTagCounts = async () => {
       try {
         const token = process.env.NEXT_PUBLIC_STORYBLOK_TOKEN;
-        console.log('Storyblok token:', token ? 'found' : 'not found');
         if (!token) {
           console.error('Storyblok token not found');
           return;
@@ -72,7 +71,6 @@ export default function Header() {
           `https://api.storyblok.com/v2/cdn/tags?token=${token}`
         );
         const data = await response.json();
-        console.log('Tag API response:', data);
 
         // Create a map of tag names to their counts
         const counts: { [key: string]: number } = {};
@@ -80,7 +78,6 @@ export default function Header() {
           counts[tag.name] = tag.taggings_count;
         });
 
-        console.log('Tag counts:', counts);
         setTagCounts(counts);
       } catch (error) {
         console.error('Error fetching tag counts:', error);
@@ -274,7 +271,7 @@ export default function Header() {
               <Link href="/">Archive</Link>
             </li>
             <li className="headerNavFadeIn">
-              <Link href="/tags/dinners">
+              <Link href="/tags/dinner">
                 Dinners
                 {tagCounts['Dinners'] || tagCounts['Dinner'] ? (
                   <span>({tagCounts['Dinners'] || tagCounts['Dinner']})</span>
@@ -284,7 +281,7 @@ export default function Header() {
               </Link>
             </li>
             <li className="headerNavFadeIn">
-              <Link href="/tags/interviews">
+              <Link href="/tags/interview">
                 Interviews
                 {tagCounts['Interviews'] || tagCounts['Interview'] ? (
                   <span>

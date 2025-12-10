@@ -14,8 +14,6 @@ interface ContentDataProps {
 }
 
 export default function ContentData({ blok }: ContentDataProps) {
-  console.log('ContentData', blok);
-
   return (
     <div className={styles.contentData} {...storyblokEditable(blok)}>
       {blok.body?.map((nestedBlok) => (

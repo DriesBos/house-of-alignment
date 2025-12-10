@@ -14,7 +14,6 @@ interface ContentInfoProps {
 }
 
 export default function ContentInfo({ blok }: ContentInfoProps) {
-  console.log('ContentInfo', blok);
   return (
     <div className={styles.contentInfo} {...storyblokEditable(blok)}>
       {blok.body?.map((nestedBlok) => (

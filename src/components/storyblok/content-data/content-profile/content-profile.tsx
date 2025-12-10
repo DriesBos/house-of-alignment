@@ -16,7 +16,6 @@ interface ContentProfileProps {
 }
 
 export default function ContentProfile({ blok }: ContentProfileProps) {
-  console.log('ContentProfile', blok);
   return (
     <div className={styles.contentProfile} {...storyblokEditable(blok)}>
       {blok.portrait && blok.portrait.filename && (
