@@ -36,7 +36,18 @@ const Page: React.FunctionComponent<PageProps> = ({ blok }) => {
       setTimeout(() => {
         const element = document.getElementById(id);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const scrollContainer = document.querySelector('.storeDataWrapper');
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition - 250;
+
+          if (scrollContainer) {
+            scrollContainer.scrollBy({
+              top: offsetPosition,
+              behavior: 'smooth',
+            });
+          } else {
+            window.scrollBy({ top: offsetPosition, behavior: 'smooth' });
+          }
         }
       }, 100);
     }
