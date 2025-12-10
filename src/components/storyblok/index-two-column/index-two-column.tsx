@@ -15,6 +15,7 @@ import { useGSAP } from '@gsap/react';
 import styles from './index-two-column.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 import IndexBlok from '@/components/index-blok/index-blok';
+import LinkBlok from './link-blok/link-blok';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -235,6 +236,14 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
       </div>
       <div ref={column2Ref} className="columnMedium">
         <ContentColumn>
+          <LinkBlok
+            tag={tag}
+            stories={allStories.map((story) => ({
+              title: story.content.page_title,
+              tags: story.tag_list,
+              link: story.full_slug,
+            }))}
+          />
           {column2Stories.map((item) => (
             <IndexBlok
               key={item.uuid}
