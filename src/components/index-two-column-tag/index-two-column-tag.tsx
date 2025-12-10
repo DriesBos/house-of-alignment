@@ -171,9 +171,11 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
+              descr={item.content.page_descr}
               image={item.content.page_image}
               quote={item.content.page_quote}
               tags={item.tag_list}
+              event_date={item.content.event_date}
               seats={item.content.chairs}
               link={item.full_slug}
             />
@@ -186,9 +188,11 @@ const IndexTwoColumnTag: React.FC<IndexTwoColumnTagProps> = ({ tag }) => {
             <IndexBlok
               key={item.uuid}
               title={item.content.page_title}
+              descr={item.content.page_descr}
               image={item.content.page_image}
               quote={item.content.page_quote}
               tags={item.tag_list}
+              event_date={item.content.event_date}
               seats={item.content.chairs}
               link={item.full_slug}
             />
