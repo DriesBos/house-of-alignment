@@ -8,6 +8,7 @@
   min-height: var(--spacing-header-height)
   border-bottom: var(--layout-border)
   overflow: hidden
+  user-select: none
 
   .overlay
     position: absolute
@@ -16,6 +17,9 @@
     right: 0
     bottom: 0
     pointer-events: none
+    transition: color var(--transition-theme)
+    color: var(--color-accent)
+    font-size: var(--type-size-logo)
     .headerFadeIn
       opacity: 0
     &_topright
