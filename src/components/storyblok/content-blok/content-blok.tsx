@@ -11,6 +11,7 @@ interface SbContentBlokData extends SbBlokData {
   };
   image_size?: 'fullscreen' | 'large' | 'medium' | 'small';
   text: string;
+  text_background?: boolean;
   text_top: string;
   text_bottom: string;
   text_align: 'left' | 'center';
@@ -53,7 +54,7 @@ export default function ContentBlok({ blok }: ContentBlokProps) {
             {blok.text_top}
           </div>
         )}
-        <div className={styles.textMain}>
+        <div className={styles.textMain} data-background={blok.text_background}>
           {blok.text && <Markdown content={blok.text} />}
         </div>
         {blok.text_bottom && (

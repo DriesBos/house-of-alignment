@@ -42,6 +42,10 @@
     flex-direction: column
     justify-content: center
     align-items: center
+    &[data-background='true']
+      p, h1, h2, h3, h4, h5, h6, li, blockquote
+        background: var(--color-accent)
+        color: var(--color-accent-type)
   &Caption
     font-family: var(--font-bradford), 'Bradford', serif
     padding: var(--spacing-sides) 0
