@@ -20,6 +20,7 @@ interface IndexBlokGeneralProps {
   event_date?: string;
   seats?: number;
   isActive?: boolean;
+  onImageLoad?: () => void;
 }
 
 export default function IndexBlokGeneral({
@@ -31,6 +32,7 @@ export default function IndexBlokGeneral({
   event_date,
   seats,
   isActive,
+  onImageLoad,
 }: IndexBlokGeneralProps) {
   // Determine if event is in the future (not past)
   const isEventInFuture = event_date
@@ -39,6 +41,11 @@ export default function IndexBlokGeneral({
 
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.opacity = '1';
+
+    // Notify parent that image has loaded
+    if (onImageLoad) {
+      onImageLoad();
+    }
 
     // Refresh ScrollTrigger after image loads to recalculate heights
     if (typeof window !== 'undefined' && ScrollTrigger) {

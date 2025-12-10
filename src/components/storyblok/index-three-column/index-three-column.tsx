@@ -1,7 +1,13 @@
 'use client';
 
 import styles from './index-three-column.module.sass';
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
 import { ISbStoryData } from '@storyblok/react/rsc';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
@@ -22,11 +28,36 @@ const IndexThreeColumn = () => {
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
   const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
+  const [isScrollReady, setIsScrollReady] = useState(false);
+  const [loadedImagesCount, setLoadedImagesCount] = useState(0);
+
+  // Callback for when an image loads
+  const handleImageLoad = useCallback(() => {
+    setLoadedImagesCount((prev) => prev + 1);
+  }, []);
 
   // Set layout to 'three' when component mounts
   useEffect(() => {
     setLayout('three');
   }, [setLayout]);
+
+  // Prevent scrolling until ScrollTrigger is ready
+  useEffect(() => {
+    const storeDataWrapper = document.querySelector(
+      '.storeDataWrapper'
+    ) as HTMLElement;
+    if (!storeDataWrapper) return;
+
+    if (!isScrollReady) {
+      storeDataWrapper.style.overflow = 'hidden';
+    } else {
+      storeDataWrapper.style.overflow = 'auto';
+    }
+
+    return () => {
+      storeDataWrapper.style.overflow = 'auto';
+    };
+  }, [isScrollReady]);
 
   // Fetch all stories
   useEffect(() => {
@@ -87,10 +118,24 @@ const IndexThreeColumn = () => {
     };
   }, [allStories]);
 
+  // Count total images (stories with images and no quote)
+  const totalImages = useMemo(() => {
+    const allColumnStories = [
+      ...column1Stories,
+      ...column2Stories,
+      ...column3Stories,
+    ];
+    return allColumnStories.filter(
+      (story) =>
+        story.content?.page_image?.filename && !story.content?.page_quote
+    ).length;
+  }, [column1Stories, column2Stories, column3Stories]);
+
   useGSAP(
     () => {
-      // Wait for content to be rendered
+      // Wait for content to be rendered and all images to load
       if (!containerRef.current || allStories.length === 0) return;
+      if (totalImages > 0 && loadedImagesCount < totalImages) return;
 
       // Use requestAnimationFrame to ensure DOM is fully updated
       requestAnimationFrame(() => {
@@ -145,11 +190,14 @@ const IndexThreeColumn = () => {
             },
           });
         });
+
+        // Enable scrolling after ScrollTrigger is set up
+        setIsScrollReady(true);
       });
     },
     {
       scope: containerRef,
-      dependencies: [layout, allStories],
+      dependencies: [layout, allStories, loadedImagesCount, totalImages],
       revertOnUpdate: true,
     }
   );
@@ -174,6 +222,7 @@ const IndexThreeColumn = () => {
                 event_date={item.content.event_date}
                 seats={item.content.chairs}
                 link={item.full_slug}
+                onImageLoad={handleImageLoad}
               />
             ))}
           </ContentColumn>
@@ -191,6 +240,7 @@ const IndexThreeColumn = () => {
                 event_date={item.content.event_date}
                 seats={item.content.chairs}
                 link={item.full_slug}
+                onImageLoad={handleImageLoad}
               />
             ))}
           </ContentColumn>
@@ -208,6 +258,7 @@ const IndexThreeColumn = () => {
                 event_date={item.content.event_date}
                 seats={item.content.chairs}
                 link={item.full_slug}
+                onImageLoad={handleImageLoad}
               />
             ))}
           </ContentColumn>

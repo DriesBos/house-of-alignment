@@ -2,8 +2,6 @@
 
 import Image from 'next/image';
 import styles from './index-blok-interviews.module.sass';
-import IconChair from '@/components/icons/chair';
-import IconWrapper from '@/components/icons/icon-wrapper/icon-wrapper';
 import Link from 'next/link';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import DateDisplay from '@/components/date-display/date-display';
@@ -19,8 +17,8 @@ interface IndexBlokInterviewsProps {
   quote?: string;
   tags?: Array<string>;
   event_date?: string;
-  seats?: number;
   isActive?: boolean;
+  onImageLoad?: () => void;
 }
 
 export default function IndexBlokInterviews({
@@ -31,13 +29,18 @@ export default function IndexBlokInterviews({
   quote,
   tags,
   event_date,
-  seats,
   isActive,
+  onImageLoad,
 }: IndexBlokInterviewsProps) {
   // Determine if event is active (in the future)
 
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.opacity = '1';
+
+    // Notify parent that image has loaded
+    if (onImageLoad) {
+      onImageLoad();
+    }
 
     // Refresh ScrollTrigger after image loads to recalculate heights
     if (typeof window !== 'undefined' && ScrollTrigger) {

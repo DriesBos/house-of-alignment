@@ -1,7 +1,13 @@
 'use client';
 
 import { ISbStoryData } from '@storyblok/react/rsc';
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
 import ContentColumn from '@/components/content-column/content-column';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
@@ -25,11 +31,36 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
   const setLayout = useLayoutStore((state) => state.setLayout);
 
   const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
+  const [isScrollReady, setIsScrollReady] = useState(false);
+  const [loadedImagesCount, setLoadedImagesCount] = useState(0);
+
+  // Callback for when an image loads
+  const handleImageLoad = useCallback(() => {
+    setLoadedImagesCount((prev) => prev + 1);
+  }, []);
 
   // Set layout to 'two' when component mounts
   useEffect(() => {
     setLayout('two');
   }, [setLayout]);
+
+  // Prevent scrolling until ScrollTrigger is ready
+  useEffect(() => {
+    const storeDataWrapper = document.querySelector(
+      '.storeDataWrapper'
+    ) as HTMLElement;
+    if (!storeDataWrapper) return;
+
+    if (!isScrollReady) {
+      storeDataWrapper.style.overflow = 'hidden';
+    } else {
+      storeDataWrapper.style.overflow = 'auto';
+    }
+
+    return () => {
+      storeDataWrapper.style.overflow = 'auto';
+    };
+  }, [isScrollReady]);
 
   // Fetch stories filtered by tag
   useEffect(() => {
@@ -95,15 +126,25 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
     };
   }, [allStories]);
 
+  // Count total images (stories with images and no quote)
+  const totalImages = useMemo(() => {
+    const allColumnStories = [...column1Stories, ...column2Stories];
+    return allColumnStories.filter(
+      (story) =>
+        story.content?.page_image?.filename && !story.content?.page_quote
+    ).length;
+  }, [column1Stories, column2Stories]);
+
   useGSAP(
     () => {
-      // Wait for content to be rendered
+      // Wait for content to be rendered and all images to load
       if (
         !containerRef.current ||
         column1Stories.length === 0 ||
         column2Stories.length === 0
       )
         return;
+      if (totalImages > 0 && loadedImagesCount < totalImages) return;
 
       // Use requestAnimationFrame to ensure DOM is fully updated
       requestAnimationFrame(() => {
@@ -154,11 +195,20 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
             },
           });
         });
+
+        // Enable scrolling after ScrollTrigger is set up
+        setIsScrollReady(true);
       });
     },
     {
       scope: containerRef,
-      dependencies: [layout, column1Stories, column2Stories],
+      dependencies: [
+        layout,
+        column1Stories,
+        column2Stories,
+        loadedImagesCount,
+        totalImages,
+      ],
       revertOnUpdate: true,
     }
   );
@@ -178,6 +228,7 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
               event_date={item.content.event_date}
               seats={item.content.chairs}
               link={item.full_slug}
+              onImageLoad={handleImageLoad}
             />
           ))}
         </ContentColumn>
@@ -195,6 +246,7 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
               event_date={item.content.event_date}
               seats={item.content.chairs}
               link={item.full_slug}
+              onImageLoad={handleImageLoad}
             />
           ))}
         </ContentColumn>

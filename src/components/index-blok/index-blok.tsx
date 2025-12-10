@@ -15,6 +15,7 @@ interface IndexBlokProps {
   tags?: Array<string>;
   event_date?: string;
   seats?: number;
+  onImageLoad?: () => void;
 }
 
 export default function IndexBlok({
@@ -26,6 +27,7 @@ export default function IndexBlok({
   tags,
   event_date,
   seats,
+  onImageLoad,
 }: IndexBlokProps) {
   // Determine if event is active (in the future)
   const isActive = event_date ? new Date(event_date) > new Date() : false;
@@ -43,8 +45,8 @@ export default function IndexBlok({
         quote={quote}
         tags={tags}
         event_date={event_date}
-        seats={seats}
         isActive={isActive}
+        onImageLoad={onImageLoad}
       />
     );
   }
@@ -59,6 +61,7 @@ export default function IndexBlok({
       event_date={event_date}
       seats={seats}
       isActive={isActive}
+      onImageLoad={onImageLoad}
     />
   );
 }
