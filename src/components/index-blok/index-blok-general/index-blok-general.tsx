@@ -32,7 +32,10 @@ export default function IndexBlokGeneral({
   seats,
   isActive,
 }: IndexBlokGeneralProps) {
-  // Determine if event is active (in the future)
+  // Determine if event is in the future (not past)
+  const isEventInFuture = event_date
+    ? new Date(event_date) >= new Date(new Date().toDateString())
+    : false;
 
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.opacity = '1';
@@ -70,7 +73,7 @@ export default function IndexBlokGeneral({
             <span>{quote}</span>
           </div>
         )}
-        {seats && (
+        {seats && isEventInFuture && (
           <Link href={'/' + link + '#seats'} scroll={false}>
             <div className={styles.seats}>
               <IconWrapper>

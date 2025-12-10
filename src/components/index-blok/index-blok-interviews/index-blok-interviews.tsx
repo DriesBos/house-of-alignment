@@ -72,16 +72,6 @@ export default function IndexBlokInterviews({
             <span>{quote}</span>
           </div>
         )}
-        {seats && (
-          <Link href={'/' + link + '#seats'} scroll={false}>
-            <div className={styles.seats}>
-              <IconWrapper>
-                <IconChair />
-              </IconWrapper>
-              <span>{seats}</span>
-            </div>
-          </Link>
-        )}
         {(tags || isActive) && (
           <div className={styles.tags}>
             {isActive && (
