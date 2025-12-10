@@ -24,13 +24,14 @@
     display: flex
     align-items: center
     justify-content: center
-    background: currentColor
+    transition: background var(--transition-theme)
+    background: var(--color-bg-quote)
     width: 100%
     padding: 3rem 1.5vw
     aspect-ratio: 3 / 4
     span
-      color: white
-      mix-blend-mode: difference
+      transition: color var(--transition-theme)
+      color: var(--color-bg-quote-type)
       text-align: center
       line-height: 1.2
 
