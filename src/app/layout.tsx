@@ -16,6 +16,7 @@ import StorePageDataProvider from '@/providers/store-page-data-provider';
 import { GlobalDataProvider } from '@/providers/global-data-provider';
 import { fetchGlobalData } from '@/utils/fetchGlobalData';
 import CornerSmiley from '@/components/corner-smiley/corner-smiley';
+import ScrollToTop from '@/components/scroll-to-top/scroll-to-top';
 
 const helvetica = localFont({
   src: [
@@ -74,6 +75,7 @@ export default async function RootLayout({
           <LayoutStoreProvider>
             <GlobalDataProvider initialData={globalData}>
               <body className={`${helvetica.variable} ${bradfort.variable}`}>
+                <ScrollToTop />
                 <Header />
                 <StoreDataProvider>
                   <StorePageDataProvider>
