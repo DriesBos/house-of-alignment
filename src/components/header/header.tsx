@@ -57,7 +57,7 @@ export default function Header() {
     return () => window.removeEventListener('resize', calculateOpenHeight);
   }, [tagCounts]);
 
-  // Fetch tag counts for Dinners and Interviews
+  // Fetch tag counts for Dinner and Interview
   useEffect(() => {
     const fetchTagCounts = async () => {
       try {
@@ -265,20 +265,20 @@ export default function Header() {
               <Link href="/">Archive</Link>
             </li>
             <li className="headerNavFadeIn">
-              <Link href="/tags/dinners">
+              <Link href="/tags/dinner">
                 Dinners
-                {tagCounts['Dinners'] ? (
-                  <span>({tagCounts['Dinners']})</span>
+                {tagCounts['Dinner'] ? (
+                  <span>({tagCounts['Dinner']})</span>
                 ) : (
                   ''
                 )}
               </Link>
             </li>
             <li className="headerNavFadeIn">
-              <Link href="/tags/interviews">
+              <Link href="/tags/interview">
                 Interviews
-                {tagCounts['Interviews'] ? (
-                  <span>({tagCounts['Interviews']})</span>
+                {tagCounts['Interview'] ? (
+                  <span>({tagCounts['Interview']})</span>
                 ) : (
                   ''
                 )}

@@ -12,17 +12,17 @@ interface LinkBlokProps {
   stories: StoryLink[];
 }
 export default function LinkBlok({ tag, stories }: LinkBlokProps) {
-  // If tag is "Dinners", show a list of all unique tags (excluding "Dinners")
-  const isDinners = tag.toLowerCase() === 'dinners';
+  // If tag is "Dinner", show a list of all unique tags (excluding "Dinner")
+  const isDinner = tag.toLowerCase() === 'dinner';
 
   // Get all unique tags from stories, excluding the current tag
-  const uniqueTags = isDinners
+  const uniqueTags = isDinner
     ? [...new Set(stories.flatMap((story) => story.tags))]
-        .filter((t) => t.toLowerCase() !== 'dinners')
+        .filter((t) => t.toLowerCase() !== 'dinner')
         .sort()
     : [];
 
-  if (isDinners) {
+  if (isDinner) {
     return (
       <div className={styles.linkBlok}>
         {uniqueTags.map((tagName) => (

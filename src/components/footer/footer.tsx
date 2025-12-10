@@ -22,9 +22,9 @@ export function Footer() {
         </div>
         <div className={styles.footer_content_center}>
           <Link href="/">Archive</Link>
-          <Link href="/about">Dinners</Link>
-          <Link href="/one-on-one">Interviews</Link>
-          <Link href="/one-on-one">About</Link>
+          <Link href="/tags/dinner">Dinners</Link>
+          <Link href="/tags/interview">Interviews</Link>
+          <Link href="/about">About</Link>
         </div>
         <div className={styles.footer_content_right}>
           <div className={styles.slogan}>

@@ -32,8 +32,8 @@ export default function IndexBlok({
   // Determine if event is active (in the future)
   const isActive = event_date ? new Date(event_date) > new Date() : false;
 
-  // Check if item has 'interviews' tag (case-insensitive)
-  const isInterview = tags?.some((tag) => tag.toLowerCase() === 'interviews');
+  // Check if item has 'interview' tag (case-insensitive)
+  const isInterview = tags?.some((tag) => tag.toLowerCase() === 'interview');
 
   if (isInterview) {
     return (
