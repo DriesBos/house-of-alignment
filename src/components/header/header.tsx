@@ -61,17 +61,26 @@ export default function Header() {
   useEffect(() => {
     const fetchTagCounts = async () => {
       try {
+        const token = process.env.NEXT_PUBLIC_STORYBLOK_TOKEN;
+        console.log('Storyblok token:', token ? 'found' : 'not found');
+        if (!token) {
+          console.error('Storyblok token not found');
+          return;
+        }
+
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/tags?token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+          `https://api.storyblok.com/v2/cdn/tags?token=${token}`
         );
         const data = await response.json();
+        console.log('Tag API response:', data);
 
         // Create a map of tag names to their counts
         const counts: { [key: string]: number } = {};
-        data.tags.forEach((tag: TagCount) => {
+        data.tags?.forEach((tag: TagCount) => {
           counts[tag.name] = tag.taggings_count;
         });
 
+        console.log('Tag counts:', counts);
         setTagCounts(counts);
       } catch (error) {
         console.error('Error fetching tag counts:', error);
@@ -265,20 +274,22 @@ export default function Header() {
               <Link href="/">Archive</Link>
             </li>
             <li className="headerNavFadeIn">
-              <Link href="/tags/dinner">
+              <Link href="/tags/dinners">
                 Dinners
-                {tagCounts['Dinner'] ? (
-                  <span>({tagCounts['Dinner']})</span>
+                {tagCounts['Dinners'] || tagCounts['Dinner'] ? (
+                  <span>({tagCounts['Dinners'] || tagCounts['Dinner']})</span>
                 ) : (
                   ''
                 )}
               </Link>
             </li>
             <li className="headerNavFadeIn">
-              <Link href="/tags/interview">
+              <Link href="/tags/interviews">
                 Interviews
-                {tagCounts['Interview'] ? (
-                  <span>({tagCounts['Interview']})</span>
+                {tagCounts['Interviews'] || tagCounts['Interview'] ? (
+                  <span>
+                    ({tagCounts['Interviews'] || tagCounts['Interview']})
+                  </span>
                 ) : (
                   ''
                 )}
