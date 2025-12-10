@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-// import { useGlobalData } from '@/providers/global-data-provider';
+import { useGlobalData } from '@/providers/global-data-provider';
 
 // Register GSAP plugins
 gsap.registerPlugin(useGSAP);
@@ -33,7 +33,7 @@ export default function Header() {
   const theme = useThemeStore((state) => state.theme);
   const setTheme = useThemeStore((state) => state.setTheme);
   const pathname = usePathname();
-  // const { globalData } = useGlobalData();
+  const { globalData } = useGlobalData();
 
   // Calculate the open height dynamically on mount
   useLayoutEffect(() => {
@@ -234,7 +234,7 @@ export default function Header() {
     <header className={styles.header} data-active={isOpen} ref={headerRef}>
       <div className={styles.overlay}>
         <div className={`${styles.overlay_topright} headerFadeIn`}>
-          ( TRUST YOUR VISION )
+          ( {globalData.slogan} )
         </div>
         {/* <div className={`${styles.overlay_bottomleft} headerFadeIn`}>
           Home of visionary founders
