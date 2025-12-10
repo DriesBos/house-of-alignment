@@ -56,11 +56,11 @@ export default function IndexBlokInterviews({
       <div className={styles.imageContainer}>
         {image && image.filename && !quote && (
           <Image
-            src={image.filename}
+            src={`${image.filename}/m/filters:quality(60)`}
             alt={image.alt || title || 'Image'}
             width={800}
             height={600}
-            quality={33}
+            unoptimized
             loading="eager"
             priority={true}
             className="imageLoad"
