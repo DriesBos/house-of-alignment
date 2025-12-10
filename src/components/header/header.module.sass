@@ -8,10 +8,9 @@
   min-height: var(--spacing-header-height)
   border-bottom: var(--layout-border)
   overflow: hidden
-  transition: background var(--transition-theme), color var(--transition-theme), height var(--transition-general), min-height var(--transition-general)
+  transition: background var(--transition-theme), color var(--transition-theme)
   &[data-active="true"]
-    height: auto
-    min-height: calc(var(--spacing-header-height) + 6rem + (83px * 4))
+    // Height is now controlled by GSAP
 
   .overlay
     position: absolute

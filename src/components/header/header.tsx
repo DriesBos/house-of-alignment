@@ -2,7 +2,13 @@
 
 import styles from './header.module.sass';
 import { useThemeStore } from '@/providers/theme-store-provider';
-import { useCallback, useState, useEffect, useRef } from 'react';
+import {
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+} from 'react';
 import type { ThemeState } from '@/stores/theme-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -21,11 +27,35 @@ interface TagCount {
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [tagCounts, setTagCounts] = useState<{ [key: string]: number }>({});
+  const [openHeight, setOpenHeight] = useState<number>(0);
   const headerRef = useRef<HTMLElement>(null);
+  const headerBottomRef = useRef<HTMLDivElement>(null);
   const theme = useThemeStore((state) => state.theme);
   const setTheme = useThemeStore((state) => state.setTheme);
   const pathname = usePathname();
   // const { globalData } = useGlobalData();
+
+  // Calculate the open height dynamically on mount
+  useLayoutEffect(() => {
+    const calculateOpenHeight = () => {
+      if (headerBottomRef.current && headerRef.current) {
+        const headerTopHeight =
+          headerRef.current
+            .querySelector(`.${styles.header_top}`)
+            ?.getBoundingClientRect().height || 0;
+        const headerBottomHeight = headerBottomRef.current.scrollHeight;
+        const totalHeight = headerTopHeight + headerBottomHeight;
+        setOpenHeight(totalHeight);
+      }
+    };
+
+    // Calculate after fonts and content are loaded
+    calculateOpenHeight();
+
+    // Recalculate on window resize
+    window.addEventListener('resize', calculateOpenHeight);
+    return () => window.removeEventListener('resize', calculateOpenHeight);
+  }, [tagCounts]);
 
   // Fetch tag counts for Dinners and Interviews
   useEffect(() => {
@@ -110,35 +140,81 @@ export default function Header() {
     setIsOpen((prev) => !prev);
   }, []);
 
-  // Animate headerFadeIn elements when menu opens
+  // Animate header height and fade elements when menu opens/closes
   useGSAP(
     () => {
-      const elements = headerRef.current?.querySelectorAll('.headerFadeIn');
+      if (!headerRef.current || openHeight === 0) return;
 
-      if (!elements || elements.length === 0) return;
+      const elements = headerRef.current.querySelectorAll('.headerFadeIn');
+      const navElements =
+        headerRef.current.querySelectorAll('.headerNavFadeIn');
+      const closedHeight = getComputedStyle(document.documentElement)
+        .getPropertyValue('--spacing-header-height')
+        .trim();
 
       if (isOpen) {
-        // Fade in with stagger when opening
-        gsap.fromTo(
-          elements,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            duration: 2,
-            stagger: 0.165,
-            delay: 0.25,
-            ease: 'power2.out',
-          }
-        );
+        // Animate header height open
+        gsap.to(headerRef.current, {
+          height: openHeight,
+          minHeight: openHeight,
+          duration: 0.25,
+          ease: 'power1.out',
+        });
+
+        // Fade in overlay elements with stagger
+        if (elements.length > 0) {
+          gsap.fromTo(
+            elements,
+            { opacity: 0 },
+            {
+              opacity: 1,
+              duration: 2,
+              stagger: 0.165,
+              delay: 0.25,
+              ease: 'power2.out',
+            }
+          );
+        }
+
+        // Fade in nav elements with stagger
+        if (navElements.length > 0) {
+          gsap.fromTo(
+            navElements,
+            { opacity: 0 },
+            {
+              opacity: 1,
+              duration: 2,
+              stagger: 0.165,
+              delay: 0.165,
+              ease: 'linear',
+            }
+          );
+        }
       } else {
-        // Kill any running animations and immediately hide
-        gsap.killTweensOf(elements);
-        gsap.set(elements, { opacity: 0 });
+        // Animate header height closed
+        gsap.to(headerRef.current, {
+          height: closedHeight,
+          minHeight: closedHeight,
+          duration: 0.25,
+          ease: 'power1.out',
+        });
+
+        // Kill fade animations and hide elements
+        if (elements.length > 0) {
+          gsap.killTweensOf(elements);
+          gsap.set(elements, { opacity: 0 });
+        }
+
+        // Kill nav fade animations and hide elements
+        if (navElements.length > 0) {
+          gsap.killTweensOf(navElements);
+          gsap.set(navElements, { opacity: 0 });
+        }
       }
     },
     {
       scope: headerRef,
-      dependencies: [isOpen],
+      dependencies: [isOpen, openHeight],
     }
   );
 
@@ -170,13 +246,13 @@ export default function Header() {
         {/* <div className={styles.slogan}>( {globalData.slogan} )</div> */}
         <div className={styles.slogan}></div>
       </div>
-      <div className={styles.header_bottom}>
+      <div className={styles.header_bottom} ref={headerBottomRef}>
         <nav className={styles.header_nav}>
           <ul>
-            <li>
+            <li className="headerNavFadeIn">
               <Link href="/">Archive</Link>
             </li>
-            <li>
+            <li className="headerNavFadeIn">
               <Link href="/tags/dinners">
                 Dinners
                 {tagCounts['Dinners'] ? (
@@ -186,7 +262,7 @@ export default function Header() {
                 )}
               </Link>
             </li>
-            <li>
+            <li className="headerNavFadeIn">
               <Link href="/tags/interviews">
                 Interviews
                 {tagCounts['Interviews'] ? (
@@ -196,7 +272,7 @@ export default function Header() {
                 )}
               </Link>
             </li>
-            <li>
+            <li className="headerNavFadeIn">
               <Link href="/about">About</Link>
             </li>
           </ul>
