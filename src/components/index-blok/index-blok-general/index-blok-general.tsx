@@ -94,7 +94,7 @@ export default function IndexBlokGeneral({
           <div className={styles.tags}>
             {isActive && (
               <div className={`${styles.eventDateOpen} ${styles.tag}`}>
-                <span>Open</span>
+                <span>RSVP</span>
               </div>
             )}
 
