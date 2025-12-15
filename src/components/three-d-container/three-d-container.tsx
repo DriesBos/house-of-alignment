@@ -1,11 +1,16 @@
 'use client';
 
 import styles from './three-d-container.module.sass';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import {
+  Canvas,
+  useFrame,
+  useThree as useThreeFiber,
+} from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { useRef, useEffect } from 'react';
 
 // function Smiley() {
@@ -16,75 +21,85 @@ import { useRef, useEffect } from 'react';
 function Scene() {
   const meshRef = useRef<THREE.Group>(null);
   const gltf = useLoader(GLTFLoader, '/models/HOA-blender-rotation.glb');
-  const { gl } = useThree();
+  const { scene, gl } = useThreeFiber();
 
   useEffect(() => {
     if (gltf.scene && gl) {
-      // Create environment map for reflections
-      // Create a simple environment scene for reflections
-      const envScene = new THREE.Scene();
+      // Set fog color (matching Material Browser)
+      scene.fog = new THREE.Fog(0xffffff, 0, 1000);
 
-      // Create a large sphere with gradient-like lighting for environment
-      const envGeometry = new THREE.SphereGeometry(100, 32, 32);
-      const envMaterial = new THREE.MeshBasicMaterial({
-        color: 0x222222,
-        side: THREE.BackSide,
+      // Use RoomEnvironment like Material Browser does
+      // This provides realistic indoor lighting environment with proper lighting setup
+      const pmremGenerator = new THREE.PMREMGenerator(gl);
+      pmremGenerator.compileEquirectangularShader();
+
+      // Create RoomEnvironment (includes its own lighting setup)
+      const roomEnvironment = new RoomEnvironment();
+      const envMap = pmremGenerator.fromScene(roomEnvironment, 0.04).texture;
+
+      // Set environment on scene (Material Browser does this)
+      // This automatically provides environment lighting to all materials
+      scene.environment = envMap;
+
+      // Create material with enhanced settings for shiny aluminum
+      // Based on MeshPhysicalMaterial documentation: https://threejs.org/docs/#MeshPhysicalMaterial
+      const aluminumMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x949494,
+        emissive: 0x000000,
+
+        // Core metallic properties
+        metalness: 1.0, // Fully metallic
+        roughness: 0.05, // Lower roughness = more shiny (was 0.15)
+
+        // Reflection properties
+        reflectivity: 0.9, // Higher reflectivity for more shine (was 0.5)
+        ior: 1.5, // Index of refraction
+
+        // Clearcoat layer for extra shine (like polished aluminum)
+        clearcoat: 1.0, // Full clearcoat layer for maximum shine
+        clearcoatRoughness: 0.05, // Smooth clearcoat for mirror-like finish
+
+        // Specular properties
+        specularIntensity: 1.0,
+        specularColor: 0xffffff,
+
+        // Anisotropy for directional shine (optional, can enhance metallic look)
+        anisotropy: 0.0, // Set to 0.1-0.5 for brushed aluminum effect, 0 for smooth
+        anisotropyRotation: 0,
+
+        // Sheen and iridescence (not needed for aluminum, but keeping for reference)
+        sheen: 0,
+        sheenColor: 0x000000,
+        iridescence: 0,
+        iridescenceIOR: 1.3,
+        sheenRoughness: 1,
+
+        // Environment map
+        envMap: envMap,
+        envMapIntensity: 2.0, // Higher intensity for stronger reflections (was 1.5)
+
+        // Material properties
+        fog: true,
+        opacity: 0,
+        alphaTest: 0,
+        side: THREE.FrontSide,
       });
-      const envMesh = new THREE.Mesh(envGeometry, envMaterial);
-      envScene.add(envMesh);
 
-      // Add directional lights to create interesting reflections
-      const envLight1 = new THREE.DirectionalLight(0xffffff, 0.6);
-      envLight1.position.set(10, 10, 10);
-      envScene.add(envLight1);
-
-      const envLight2 = new THREE.DirectionalLight(0xaaaaaa, 0.4);
-      envLight2.position.set(-10, -10, -10);
-      envScene.add(envLight2);
-
-      const envLight3 = new THREE.DirectionalLight(0xcccccc, 0.3);
-      envLight3.position.set(0, 10, -10);
-      envScene.add(envLight3);
-
-      // Create cube render target for environment map
-      const renderTarget = new THREE.WebGLCubeRenderTarget(256, {
-        format: THREE.RGBAFormat,
-        type: THREE.HalfFloatType,
-      });
-
-      const cubeCamera = new THREE.CubeCamera(0.1, 1000, renderTarget);
-      cubeCamera.update(gl, envScene);
-
-      // Use the cube texture as environment map for reflections
-      const envMap = renderTarget.texture;
-
-      // Create aluminum material with environment map
-      const aluminumMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffffff, // Natural aluminum color (bright silver)
-        metalness: 1, // High metalness for metallic look
-        roughness: 0.33, // Slightly higher roughness for natural aluminum
-        envMap: envMap, // Environment map for reflections
-        envMapIntensity: 2, // Higher environment reflection for brightness
-      });
-
-      // Apply aluminum material to all meshes in the scene
+      // Apply material to all meshes in the scene
       gltf.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.material = aluminumMaterial;
-          child.castShadow = true;
-          child.receiveShadow = true;
         }
       });
 
       // Cleanup
       return () => {
-        renderTarget.dispose();
+        pmremGenerator.dispose();
         envMap.dispose();
-        envGeometry.dispose();
-        envMaterial.dispose();
+        aluminumMaterial.dispose();
       };
     }
-  }, [gltf.scene, gl]);
+  }, [gltf.scene, scene, gl]);
 
   useFrame((state, delta) => {
     if (meshRef.current) {
@@ -130,11 +145,7 @@ const ThreeDContainer: React.FC<ThreeDContainerProps> = ({
         linear
         flat
       >
-        {/* Enhanced lighting for bright metallic material */}
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[-10, 10, 5]} intensity={2.5} castShadow />
-        <pointLight position={[-10, -10, -5]} intensity={1.2} />
-        <hemisphereLight args={[0xffffff, 0x444444, 0.6]} />
+        {/* RoomEnvironment provides lighting, no additional lights needed */}
         <Scene />
       </Canvas>
     </div>
