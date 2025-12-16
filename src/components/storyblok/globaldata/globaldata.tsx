@@ -5,7 +5,7 @@ interface GlobalDataProps {
     _uid: string;
     component: 'globaldata';
     name?: string;
-    slogan?: string;
+    slogans?: string[];
     email?: string;
     instagram?: string;
   };

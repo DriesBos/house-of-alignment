@@ -1,8 +1,14 @@
 import { getStoryblokApi } from '@/lib/storyblok';
 
+export interface SloganItem {
+  _uid: string;
+  slogan: string;
+  component: string;
+}
+
 export interface GlobalData {
   name?: string;
-  slogan?: string;
+  slogans?: SloganItem[];
   email?: string;
   instagram?: string;
 }
@@ -43,7 +49,7 @@ export const fetchGlobalData = async (
 
     return {
       name: globalContent?.companyname || '',
-      slogan: globalContent?.slogan || '',
+      slogans: globalContent?.slogans || [],
       email: globalContent?.email || '',
       instagram: globalContent?.instagram || '',
     };

@@ -3,6 +3,7 @@
 import styles from './footer.module.sass';
 import Link from 'next/link';
 import { useGlobalData } from '@/providers/global-data-provider';
+import { ScrambledSlogans } from '@/components/scrambled-slogans/scrambled-slogans';
 
 export function Footer() {
   const { globalData } = useGlobalData();
@@ -28,7 +29,11 @@ export function Footer() {
         </div>
         <div className={styles.footer_content_right}>
           <div className={styles.slogan}>
-            <span>( {globalData.slogan} )</span>
+            {globalData.slogans &&
+              Array.isArray(globalData.slogans) &&
+              globalData.slogans.length > 0 && (
+                <ScrambledSlogans slogans={globalData.slogans} />
+              )}
           </div>
           <a
             href={globalData.instagram}

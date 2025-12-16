@@ -10,41 +10,23 @@
   overflow: hidden
   user-select: none
 
-  .overlay
-    position: absolute
-    top: 0
-    left: 0
-    right: 0
-    bottom: 0
-    pointer-events: none
-    transition: color var(--transition-theme)
-    color: var(--color-accent)
-    font-size: var(--type-size-base)
-    text-transform: uppercase
-    .headerFadeIn
-      opacity: 0
-    &_topright
-      position: absolute
-      top: 0
-      right: 0
-      padding: 1rem var(--spacing-sides)
-      text-align: right
-      line-height: 1
-
   &_top
     display: flex
-    align-items: center
     padding: .5rem var(--spacing-sides)
     & > div:first-child, & > div:last-child
+      display: flex
+      align-items: center
       flex: 1
-      line-height: 0
-      transform: translateY(.4rem)
+    & > div:first-child a 
+      font-size: var(--type-size-logo)
     & > div:last-child
       text-align: right
+      color: var(--color-accent)
+      font-size: var(--type-size-base)
+      text-transform: uppercase
+      justify-content: flex-end
       @media screen and ( max-width: 770px )
         display: none
-    .logo a
-      font-size: var(--type-size-logo)
 
   &_bottom
     display: flex

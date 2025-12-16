@@ -15,6 +15,7 @@ import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useGlobalData } from '@/providers/global-data-provider';
+import { ScrambledSlogans } from '@/components/scrambled-slogans/scrambled-slogans';
 
 // Register GSAP plugins
 gsap.registerPlugin(useGSAP);
@@ -238,17 +239,6 @@ export default function Header() {
 
   return (
     <header className={styles.header} data-active={isOpen} ref={headerRef}>
-      <div className={styles.overlay}>
-        <div className={`${styles.overlay_topright} headerFadeIn`}>
-          ( {globalData.slogan} )
-        </div>
-        {/* <div className={`${styles.overlay_bottomleft} headerFadeIn`}>
-          Home of visionary founders
-        </div>
-        <div className={`${styles.overlay_bottomright} headerFadeIn`}>
-          Begin your next bold move
-        </div> */}
-      </div>
       <div className={styles.header_top}>
         <div className={styles.logo}>
           <Link href="/">House of Alignment</Link>
@@ -261,8 +251,13 @@ export default function Header() {
           <div className={styles.menuIcon_bar} />
           <div className={styles.menuIcon_bar} />
         </div>
-        {/* <div className={styles.slogan}>( {globalData.slogan} )</div> */}
-        <div className={styles.slogan}></div>
+        <div className={styles.slogans}>
+          {globalData.slogans &&
+            Array.isArray(globalData.slogans) &&
+            globalData.slogans.length > 0 && (
+              <ScrambledSlogans slogans={globalData.slogans} />
+            )}
+        </div>
       </div>
       <div className={styles.header_bottom} ref={headerBottomRef}>
         <nav className={styles.header_nav}>
