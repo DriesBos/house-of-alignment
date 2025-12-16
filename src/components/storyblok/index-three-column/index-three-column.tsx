@@ -139,6 +139,13 @@ const IndexThreeColumn = () => {
 
       // Use requestAnimationFrame to ensure DOM is fully updated
       requestAnimationFrame(() => {
+        // Normalize scroll for Safari (handles touch + scroll inconsistencies)
+        ScrollTrigger.normalizeScroll({
+          allowNestedScroll: true,
+          lockAxis: false,
+          type: 'touch,wheel,pointer',
+        });
+
         // Set up ScrollTrigger default configuration
         ScrollTrigger.defaults({
           scroller: '.storeDataWrapper',
@@ -180,13 +187,13 @@ const IndexThreeColumn = () => {
             y: pixelsToMove,
             ease: 'none',
             force3D: true,
+            willChange: 'transform',
             scrollTrigger: {
               trigger: containerRef.current,
               start: 'top top',
               end: 'bottom bottom',
               scrub: true,
               invalidateOnRefresh: true,
-              anticipatePin: 1,
             },
           });
         });

@@ -192,7 +192,6 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
               end: 'bottom bottom',
               scrub: true,
               invalidateOnRefresh: true,
-              anticipatePin: 1,
             },
           });
         });
