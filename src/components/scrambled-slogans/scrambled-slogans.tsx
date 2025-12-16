@@ -23,8 +23,8 @@ export function ScrambledSlogans({
 
   // Configuration constants
   const CYCLE_DURATION = 10000; // Total duration for one cycle (scramble + display)
-  const SCRAMBLE_DURATION = 4000; // Duration of scramble animation
-  const ITERATIONS = 4; // Number of scramble iterations per character
+  const SCRAMBLE_DURATION = 6000; // Duration of scramble animation (slower for better visibility)
+  const ITERATIONS = 6; // Number of scramble iterations per character (more iterations = slower reveal)
 
   // Function to perform scramble animation
   const performScramble = useCallback(
@@ -124,12 +124,7 @@ export function ScrambledSlogans({
   }
 
   return (
-    <div
-      className={className}
-      ref={sloganRef}
-      onMouseEnter={handleMouseEnter}
-      style={{ cursor: 'pointer' }}
-    >
+    <div className={className} ref={sloganRef} onMouseEnter={handleMouseEnter}>
       ( {slogans[currentSloganIndex]?.slogan} )
     </div>
   );
