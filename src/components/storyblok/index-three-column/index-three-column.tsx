@@ -151,37 +151,29 @@ const IndexThreeColumn = () => {
           scroller: '.storeDataWrapper',
         });
 
-        // Get all column references and their heights
-        const columnData = [
-          {
-            ref: column1Ref.current,
-            height: column1Ref.current?.offsetHeight || 0,
-          },
-          {
-            ref: column2Ref.current,
-            height: column2Ref.current?.offsetHeight || 0,
-          },
-          {
-            ref: column3Ref.current,
-            height: column3Ref.current?.offsetHeight || 0,
-          },
-        ];
+        // Get column heights - column 1 (left) is longest and scrolls normally
+        const column1Height = column1Ref.current?.offsetHeight || 0;
+        const column2Height = column2Ref.current?.offsetHeight || 0;
+        const column3Height = column3Ref.current?.offsetHeight || 0;
 
         // Validate that columns have height before creating animations
-        if (columnData.some((col) => col.height === 0)) return;
+        if (!column1Height || !column2Height || !column3Height) return;
 
-        // Find the longest column
-        const maxHeight = Math.max(...columnData.map((col) => col.height));
-        const longestColumnIndex = columnData.findIndex(
-          (col) => col.height === maxHeight
-        );
+        // Column 1 is the anchor (longest, scrolls normally, determines container height)
+        // Columns 2 & 3 animate to catch up by scrolling slower (translate down)
+        const animatedColumns = [
+          { ref: column2Ref.current, height: column2Height },
+          { ref: column3Ref.current, height: column3Height },
+        ];
 
-        // Apply animations to columns, skipping the longest one
-        columnData.forEach((col, index) => {
-          if (!col.ref || index === longestColumnIndex) return;
+        animatedColumns.forEach((col) => {
+          if (!col.ref) return;
 
-          // Calculate how many pixels this column should move
-          const pixelsToMove = maxHeight - col.height;
+          // Calculate pixels to move down relative to column 1 (positive = slower scroll)
+          const pixelsToMove = column1Height - col.height;
+
+          // Skip if heights are exactly equal
+          if (pixelsToMove === 0) return;
 
           gsap.to(col.ref, {
             y: pixelsToMove,
