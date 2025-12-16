@@ -96,6 +96,8 @@ const PageTwoColumn: React.FunctionComponent<PageTwoColumnProps> = ({
       const tl = gsap.to(col.ref, {
         y: pixelsToMove,
         ease: 'none',
+        force3D: true,
+        willChange: 'transform',
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
