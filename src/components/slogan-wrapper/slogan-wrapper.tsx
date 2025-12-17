@@ -4,11 +4,7 @@ import { useGlobalData } from '@/providers/global-data-provider';
 import { ScrambledSlogans } from '@/components/scrambled-slogans/scrambled-slogans';
 import styles from './slogan-wrapper.module.sass';
 
-interface SloganWrapperProps {
-  className?: string;
-}
-
-export function SloganWrapper({ className }: SloganWrapperProps) {
+export function SloganWrapper() {
   const { globalData } = useGlobalData();
 
   if (
