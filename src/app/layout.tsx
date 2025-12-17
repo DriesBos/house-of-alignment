@@ -83,9 +83,9 @@ export default async function RootLayout({
                   <StorePageDataProvider>
                     {children}
                     <LayoutLines />
-                    <CornerSmiley />
                   </StorePageDataProvider>
                   <Footer />
+                  <CornerSmiley />
                 </StoreDataProvider>
               </body>
             </GlobalDataProvider>
