@@ -1,15 +1,13 @@
 'use client';
 
 import styles from './header.module.sass';
-import { useThemeStore } from '@/providers/theme-store-provider';
 import { useCallback, useState, useEffect, useRef } from 'react';
-import type { ThemeState } from '@/stores/theme-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { useGlobalData } from '@/providers/global-data-provider';
-import { ScrambledSlogans } from '@/components/scrambled-slogans/scrambled-slogans';
+import { ThemeToggle } from '@/components/theme-toggle/theme-toggle';
+import { SloganWrapper } from '@/components/slogan-wrapper/slogan-wrapper';
 
 // Register GSAP plugins
 gsap.registerPlugin(useGSAP);
@@ -24,10 +22,7 @@ export default function Header() {
   const [tagCounts, setTagCounts] = useState<{ [key: string]: number }>({});
   const headerRef = useRef<HTMLElement>(null);
   const headerBottomRef = useRef<HTMLDivElement>(null);
-  const theme = useThemeStore((state) => state.theme);
-  const setTheme = useThemeStore((state) => state.setTheme);
   const pathname = usePathname();
-  const { globalData } = useGlobalData();
 
   // Helper function to calculate open height dynamically
   const getOpenHeight = () => {
@@ -128,14 +123,6 @@ export default function Header() {
     }
   }, [isOpen]);
 
-  const handleThemeChange = useCallback(() => {
-    const themes: ThemeState[] = ['light', 'dark', 'stone', 'blue'];
-    const currentIndex = themes.indexOf(theme);
-    const nextIndex = (currentIndex + 1) % themes.length;
-    const nextTheme = themes[nextIndex];
-    setTheme(nextTheme);
-  }, [setTheme, theme]);
-
   const toggleHeader = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
@@ -235,13 +222,7 @@ export default function Header() {
           <div className={styles.menuIcon_bar} />
           <div className={styles.menuIcon_bar} />
         </div>
-        <div className={styles.slogans}>
-          {globalData.slogans &&
-            Array.isArray(globalData.slogans) &&
-            globalData.slogans.length > 0 && (
-              <ScrambledSlogans slogans={globalData.slogans} />
-            )}
-        </div>
+        <SloganWrapper />
       </div>
       <div className={styles.header_bottom} ref={headerBottomRef}>
         <nav className={styles.header_nav}>
@@ -276,8 +257,8 @@ export default function Header() {
             </li>
           </ul>
         </nav>
-        <div className={styles.header_buttons}>
-          <button onClick={handleThemeChange}>( Theme: {theme} )</button>
+        <div className={styles.buttons}>
+          <ThemeToggle />
         </div>
       </div>
     </header>

@@ -3,7 +3,8 @@
 import styles from './footer.module.sass';
 import Link from 'next/link';
 import { useGlobalData } from '@/providers/global-data-provider';
-import { ScrambledSlogans } from '@/components/scrambled-slogans/scrambled-slogans';
+import { ThemeToggle } from '@/components/theme-toggle/theme-toggle';
+import { SloganWrapper } from '@/components/slogan-wrapper/slogan-wrapper';
 
 export function Footer() {
   const { globalData } = useGlobalData();
@@ -28,27 +29,26 @@ export function Footer() {
           <Link href="/about">About</Link>
         </div>
         <div className={styles.footer_content_right}>
-          <div className={styles.slogan}>
-            {globalData.slogans &&
-              Array.isArray(globalData.slogans) &&
-              globalData.slogans.length > 0 && (
-                <ScrambledSlogans slogans={globalData.slogans} />
-              )}
+          <div>
+            <SloganWrapper />
+            <ThemeToggle />
           </div>
-          <a
-            href={globalData.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            instagram
-          </a>
-          <a
-            href={`mailto:${globalData.email}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {globalData.email}
-          </a>
+          <div>
+            <a
+              href={globalData.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              instagram
+            </a>
+            <a
+              href={`mailto:${globalData.email}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {globalData.email}
+            </a>
+          </div>
         </div>
       </div>
     </footer>

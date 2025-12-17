@@ -21,7 +21,6 @@
     & > div:last-child
       text-align: right
       color: var(--color-accent)
-      font-size: var(--type-size-base)
       text-transform: uppercase
       justify-content: flex-end
       @media screen and ( max-width: 770px )
@@ -47,21 +46,15 @@
       &:hover
         opacity: var(--opacity-link-hover)
 
-  &_buttons
+  .buttons
     display: flex
-    flex-direction: column
-    align-items: center
-    gap: .5rem
+    justify-content: center
+    width: 100%
     padding: 0 1rem 2rem
-    button
-      text-transform: uppercase
-      font-size: var(--type-size-buttons)
-      color: currentColor
 
   &[data-active="true"]
     .header_bottom
       height: auto
-      // padding: 2rem 1rem
 
 .background
   position: fixed
