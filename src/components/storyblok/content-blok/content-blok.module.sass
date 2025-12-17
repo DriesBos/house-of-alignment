@@ -32,7 +32,7 @@
   flex-direction: column
   width: 100%
   padding: var(--spacing-sides)
-  &[data-align='center'] 
+  &[data-align='center']
     & > div
       text-align: center
       justify-content: center
@@ -47,12 +47,15 @@
         background: var(--color-accent)
         color: var(--color-accent-type)
   &Caption
-    font-family: var(--font-bradford), 'Bradford', serif
     padding: var(--spacing-sides) 0
     &_Top
       padding-top: 0
+      text-transform: uppercase
+      font-size: var(--type-size-base)
     &_Bottom
       padding-bottom: 0
+      text-transform: uppercase
+      font-size: var(--type-size-base)
 
 .image
   position: absolute !important

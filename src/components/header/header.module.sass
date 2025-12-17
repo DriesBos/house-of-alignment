@@ -45,6 +45,9 @@
       transition: opacity var(--transition-link-hover)
       &:hover
         opacity: var(--opacity-link-hover)
+    span
+      color: var(--color-accent)
+      transition: color var(--transition-theme)
 
   .buttons
     display: flex
@@ -53,9 +56,14 @@
     padding: 0 1rem 2rem
     opacity: 0
 
+  &[data-active="false"]
+    .buttons
+      pointer-events: none
+
   &[data-active="true"]
     .header_bottom
       height: auto
+      pointer-events: auto
 
 .background
   position: fixed
