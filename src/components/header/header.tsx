@@ -257,7 +257,7 @@ export default function Header() {
             </li>
           </ul>
         </nav>
-        <div className={styles.buttons}>
+        <div className={`${styles.buttons} headerNavFadeIn`}>
           <ThemeToggle />
         </div>
       </div>
