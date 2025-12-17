@@ -1,12 +1,23 @@
 .contentData
+  position: relative
   min-height: 100vh
-  padding: 4rem var(--spacing-sides)
+  padding: 2rem var(--spacing-sides)
   display: flex
   flex-direction: column
-  justify-content: center
   align-items: center
   gap: 2rem
   border-bottom: var(--layout-border)
   & > div
     width: 100%
     max-width: 800px
+
+  .textCaption
+    font-family: var(--font-bradford), 'Bradford', serif
+    display: flex
+    flex: 1
+    &_Top
+      justify-content: center
+      align-items: flex-start
+    &_Bottom
+      justify-content: center
+      align-items: flex-end
