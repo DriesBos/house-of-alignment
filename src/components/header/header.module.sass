@@ -17,8 +17,10 @@
       display: flex
       align-items: center
       flex: 1
-    & > div:first-child a 
+    & > div:first-child a
       font-size: var(--type-size-logo)
+      line-height: 1
+      padding-top: 0.33em
     & > div:last-child
       text-align: right
       color: var(--color-accent)
@@ -112,7 +114,7 @@
   50%
     transform: translateY(0) rotate(0deg)
   100%
-    transform:  translateY(0) rotate(45deg)
+    transform: translateY(0) rotate(45deg)
 
 @keyframes menuIconBottomOpen
   0%
@@ -124,7 +126,7 @@
 
 @keyframes menuIconTopClose
   0%
-    transform:  translateY(0) rotate(45deg)
+    transform: translateY(0) rotate(45deg)
   50%
     transform: translateY(0) rotate(0deg)
   100%
@@ -137,4 +139,3 @@
     transform: translateY(0) rotate(0deg)
   100%
     transform: translateY(-5.75px) rotate(0deg)
-    
