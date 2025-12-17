@@ -4,10 +4,7 @@
   flex-direction: column
   text-transform: uppercase
   width: 100vw
-  // height: var(--spacing-header-height)
-  // min-height: var(--spacing-header-height)
   border-bottom: var(--layout-border)
-  overflow: hidden
   user-select: none
 
   &_top
@@ -31,15 +28,17 @@
         display: none
 
   &_bottom
+    height: 0
     display: flex
     flex-direction: column
-    padding: 2rem 1rem
+    padding: 0
     gap: 2rem
 
   &_nav ul
     display: flex
     flex-direction: column
     align-items: center
+    padding: 2rem 1rem 0
     a
       font-size: var(--type-size-nav)
       line-height: 1
@@ -53,11 +52,16 @@
     flex-direction: column
     align-items: center
     gap: .5rem
-    // z-index: 100
+    padding: 0 1rem 2rem
     button
       text-transform: uppercase
       font-size: var(--type-size-buttons)
       color: currentColor
+
+  &[data-active="true"]
+    .header_bottom
+      height: auto
+      // padding: 2rem 1rem
 
 .background
   position: fixed
