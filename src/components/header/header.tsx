@@ -2,13 +2,7 @@
 
 import styles from './header.module.sass';
 import { useThemeStore } from '@/providers/theme-store-provider';
-import {
-  useCallback,
-  useState,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-} from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import type { ThemeState } from '@/stores/theme-store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -28,7 +22,6 @@ interface TagCount {
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [tagCounts, setTagCounts] = useState<{ [key: string]: number }>({});
-  const [openHeight, setOpenHeight] = useState<number>(0);
   const headerRef = useRef<HTMLElement>(null);
   const headerBottomRef = useRef<HTMLDivElement>(null);
   const theme = useThemeStore((state) => state.theme);
@@ -36,27 +29,15 @@ export default function Header() {
   const pathname = usePathname();
   const { globalData } = useGlobalData();
 
-  // Calculate the open height dynamically on mount
-  useLayoutEffect(() => {
-    const calculateOpenHeight = () => {
-      if (headerBottomRef.current && headerRef.current) {
-        const headerTopHeight =
-          headerRef.current
-            .querySelector(`.${styles.header_top}`)
-            ?.getBoundingClientRect().height || 0;
-        const headerBottomHeight = headerBottomRef.current.scrollHeight;
-        const totalHeight = headerTopHeight + headerBottomHeight;
-        setOpenHeight(totalHeight);
-      }
-    };
-
-    // Calculate after fonts and content are loaded
-    calculateOpenHeight();
-
-    // Recalculate on window resize
-    window.addEventListener('resize', calculateOpenHeight);
-    return () => window.removeEventListener('resize', calculateOpenHeight);
-  }, [tagCounts]);
+  // Helper function to calculate open height dynamically
+  const getOpenHeight = () => {
+    if (!headerBottomRef.current || !headerRef.current) return 0;
+    const headerTopHeight =
+      headerRef.current.querySelector(`.${styles.header_top}`)?.scrollHeight ||
+      0;
+    const headerBottomHeight = headerBottomRef.current.scrollHeight;
+    return headerTopHeight + headerBottomHeight;
+  };
 
   // Fetch tag counts for Dinner and Interview
   useEffect(() => {
@@ -162,7 +143,7 @@ export default function Header() {
   // Animate header height and fade elements when menu opens/closes
   useGSAP(
     () => {
-      if (!headerRef.current || openHeight === 0) return;
+      if (!headerRef.current) return;
 
       const elements = headerRef.current.querySelectorAll('.headerFadeIn');
       const navElements =
@@ -172,6 +153,9 @@ export default function Header() {
         .trim();
 
       if (isOpen) {
+        // Calculate open height dynamically when opening
+        const openHeight = getOpenHeight();
+
         // Animate header height open
         gsap.to(headerRef.current, {
           height: openHeight,
@@ -233,7 +217,7 @@ export default function Header() {
     },
     {
       scope: headerRef,
-      dependencies: [isOpen, openHeight],
+      dependencies: [isOpen],
     }
   );
 
