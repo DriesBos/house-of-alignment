@@ -3,7 +3,7 @@
   // &::-webkit-scrollbar 
   //   display: none
   //   scrollbar-width: none
-  
+
 html
   scroll-behavior: smooth
   transition: background var(--transition-theme), color var(--transition-theme)
@@ -88,12 +88,9 @@ html
     & > div
       height: 100%
       border-right: var(--layout-border)
-      transition: width var(--transition-general), border var(--transition-general)
+      transition: width var(--transition-lines), border var(--transition-general)
       &:last-child
         border-right: 0
-  .cornerSmiley
-    opacity: 1
-    transition: opacity .3s ease
   &[data-layout="one"]
     .layoutLines
       & > div
@@ -122,8 +119,6 @@ html
           width: 20vw
         & > div:last-child
           width: 70vw
-    .cornerSmiley
-      opacity: 1
   &[data-layout="three"]
     .layoutLines
       & > div:first-child
@@ -141,7 +136,7 @@ html
           width: 80vw
     .cornerSmiley
       opacity: 1
-      
+
 .testButtons
   position: fixed
   top: 0
