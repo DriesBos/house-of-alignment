@@ -5,11 +5,12 @@ import {
   createContext,
   useRef,
   useContext,
-  useEffect,
 } from 'react';
 import { useStore } from 'zustand';
 
 import { type ThemeStore, createThemeStore } from '@/stores/theme-store';
+import { useTheme } from '@/hooks/useTheme';
+import { useEffect } from 'react';
 
 export type ThemeStoreApi = ReturnType<typeof createThemeStore>;
 
@@ -21,34 +22,31 @@ export interface ThemeStoreProviderProps {
   children: ReactNode;
 }
 
+/**
+ * ThemeProvider component that applies the active theme to the DOM
+ * Separated from ThemeStoreProvider to properly handle hooks
+ */
+function ThemeApplier() {
+  const theme = useTheme();
+
+  useEffect(() => {
+    // Update the html data-theme attribute when theme changes
+    // Note: Initial theme is set by the blocking script in layout.tsx
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  return null;
+}
+
 export const ThemeStoreProvider = ({ children }: ThemeStoreProviderProps) => {
   const storeRef = useRef<ThemeStoreApi | null>(null);
   if (storeRef.current === null) {
     storeRef.current = createThemeStore();
   }
 
-  // Update DOM theme attribute when theme changes
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const root = window.document.documentElement;
-    const unsubscribe = storeRef.current?.subscribe((state) => {
-      root.setAttribute('data-theme', state.theme);
-    });
-
-    // Set initial theme
-    const initialTheme = storeRef.current?.getState().theme;
-    if (initialTheme) {
-      root.setAttribute('data-theme', initialTheme);
-    }
-
-    return () => {
-      unsubscribe?.();
-    };
-  }, []);
-
   return (
     <ThemeStoreContext.Provider value={storeRef.current}>
+      <ThemeApplier />
       {children}
     </ThemeStoreContext.Provider>
   );

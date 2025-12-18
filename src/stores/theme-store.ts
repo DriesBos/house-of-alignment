@@ -3,37 +3,59 @@ import { createStore } from 'zustand/vanilla';
 export type ThemeState = 'light' | 'dark' | 'stone' | 'blue';
 
 export type ThemeActions = {
-  setTheme: (theme: ThemeState) => void;
+  setUserTheme: (theme: ThemeState | null) => void;
 };
 
 export type ThemeStore = {
-  theme: ThemeState;
+  userTheme: ThemeState | null; // null means "use system theme"
 } & ThemeActions;
 
-export const defaultInitState: ThemeState = 'light';
+const THEME_STORAGE_KEY = 'hoa-theme-preference';
+
+export const defaultInitState: ThemeState | null = null;
+
+// Get initial theme from localStorage or default to null (system)
+function getInitialTheme(): ThemeState | null {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored && ['light', 'dark', 'stone', 'blue'].includes(stored)) {
+      return stored as ThemeState;
+    }
+  } catch {
+    // localStorage might be unavailable
+  }
+
+  return null;
+}
 
 export const createThemeStore = (
-  initialState: ThemeState = defaultInitState
+  initialState: ThemeState | null = defaultInitState
 ) => {
+  // Use stored preference if available, otherwise use initialState
+  const theme =
+    typeof window !== 'undefined' ? getInitialTheme() : initialState;
+
   const store = createStore<ThemeStore>()((set) => ({
-    theme: initialState,
-    setTheme: (theme: ThemeState) => {
-      set((state) => ({ ...state, theme }));
+    userTheme: theme,
+    setUserTheme: (theme: ThemeState | null) => {
+      set({ userTheme: theme });
+
+      // Persist to localStorage
+      if (typeof window !== 'undefined') {
+        try {
+          if (theme === null) {
+            localStorage.removeItem(THEME_STORAGE_KEY);
+          } else {
+            localStorage.setItem(THEME_STORAGE_KEY, theme);
+          }
+        } catch {
+          // localStorage might be unavailable
+        }
+      }
     },
   }));
-
-  // Check system theme preference if running in browser
-  if (typeof window !== 'undefined') {
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-    // Initial check
-    store.setState({ theme: systemTheme.matches ? 'dark' : 'light' });
-
-    // Listen for changes
-    systemTheme.addEventListener('change', (e) => {
-      store.setState({ theme: e.matches ? 'dark' : 'light' });
-    });
-  }
 
   return store;
 };

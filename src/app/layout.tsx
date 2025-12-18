@@ -70,12 +70,39 @@ export default async function RootLayout({
   // Fetch global data on the server
   const globalData = await fetchGlobalData('published');
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <StoryblokProvider>
         <ThemeStoreProvider>
           <LayoutStoreProvider>
             <GlobalDataProvider initialData={globalData}>
               <body className={`${helvetica.variable} ${bradfort.variable}`}>
+                {/* Blocking script to apply theme before React hydrates - prevents flash */}
+                <script
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      (function() {
+                        try {
+                          const THEME_KEY = 'hoa-theme-preference';
+                          const stored = localStorage.getItem(THEME_KEY);
+                          
+                          let theme = 'light'; // default
+                          
+                          // If user has a stored preference, use it
+                          if (stored && ['light', 'dark', 'stone', 'blue'].includes(stored)) {
+                            theme = stored;
+                          } else {
+                            // Otherwise, use system preference (only light/dark available from system)
+                            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                          }
+                          
+                          document.documentElement.setAttribute('data-theme', theme);
+                        } catch (e) {
+                          // If anything fails, default theme from CSS will be used
+                        }
+                      })();
+                    `,
+                  }}
+                />
                 <Cursor />
                 <ScrollToTop />
                 <Header />
