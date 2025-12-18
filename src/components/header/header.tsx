@@ -24,14 +24,27 @@ export default function Header() {
   const headerBottomRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  // Helper function to calculate open height dynamically
+  // Helper function to calculate open height with manual calculation
   const getOpenHeight = () => {
-    if (!headerBottomRef.current || !headerRef.current) return 0;
-    const headerTopHeight =
-      headerRef.current.querySelector(`.${styles.header_top}`)?.scrollHeight ||
-      0;
-    const headerBottomHeight = headerBottomRef.current.scrollHeight;
-    return headerTopHeight + headerBottomHeight;
+    // Manual calculation based on: --header-size-expanded
+    // 1rem + 38px + (83px * 4) + 1rem + 6rem = 1rem + 38px + 332px + 1rem + 6rem
+    const remToPixels = parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    );
+    const pixelValue =
+      remToPixels + 38 + 83 * 4 + remToPixels + 6 * remToPixels;
+    return `${pixelValue}px`;
+  };
+
+  // Helper function to calculate closed height with manual calculation
+  const getClosedHeight = () => {
+    // Manual calculation based on: --header-size
+    // 1rem + 38px + 2px
+    const remToPixels = parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    );
+    const pixelValue = remToPixels + 38 + 2;
+    return `${pixelValue}px`;
   };
 
   // Fetch tag counts for Dinner and Interview
@@ -135,18 +148,12 @@ export default function Header() {
       const elements = headerRef.current.querySelectorAll('.headerFadeIn');
       const navElements =
         headerRef.current.querySelectorAll('.headerNavFadeIn');
-      const closedHeight = getComputedStyle(document.documentElement)
-        .getPropertyValue('--spacing-header-height')
-        .trim();
 
       if (isOpen) {
-        // Calculate open height dynamically when opening
-        const openHeight = getOpenHeight();
-
         // Animate header height open
         gsap.to(headerRef.current, {
-          height: openHeight,
-          minHeight: openHeight,
+          height: getOpenHeight(),
+          minHeight: getOpenHeight(),
           duration: 0.25,
           ease: 'power1.out',
         });
@@ -181,23 +188,29 @@ export default function Header() {
           );
         }
       } else {
+        // Kill any ongoing fade animations before closing
+        if (elements.length > 0) {
+          gsap.killTweensOf(elements);
+        }
+        if (navElements.length > 0) {
+          gsap.killTweensOf(navElements);
+        }
+
         // Animate header height closed
         gsap.to(headerRef.current, {
-          height: closedHeight,
-          minHeight: closedHeight,
+          height: getClosedHeight(),
+          minHeight: getClosedHeight(),
           duration: 0.25,
           ease: 'power1.out',
         });
 
-        // Kill fade animations and hide elements
+        // Hide elements immediately
         if (elements.length > 0) {
-          gsap.killTweensOf(elements);
           gsap.set(elements, { opacity: 0 });
         }
 
-        // Kill nav fade animations and hide elements
+        // Hide nav elements immediately
         if (navElements.length > 0) {
-          gsap.killTweensOf(navElements);
           gsap.set(navElements, { opacity: 0 });
         }
       }

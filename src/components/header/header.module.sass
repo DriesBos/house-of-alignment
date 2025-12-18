@@ -4,6 +4,7 @@
   flex-direction: column
   text-transform: uppercase
   width: 100vw
+  min-height: var(--header-size)
   border-bottom: var(--layout-border)
   user-select: none
 
@@ -32,6 +33,9 @@
     flex-direction: column
     padding: 0
     gap: 2rem
+    pointer-events: none
+    &[data-active="true"]
+      pointer-events: auto
 
   &_nav ul
     display: flex
