@@ -8,22 +8,38 @@ export default function Cursor() {
   const [isHidden, setIsHidden] = useState(true);
   const [isClicking, setIsClicking] = useState(false);
   const [isHoveringInteract, setIsHoveringInteract] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(true);
+  const [hasPointer, setHasPointer] = useState(false);
   const lastPositionRef = useRef({ x: 0, y: 0 });
 
-  // Detect if device supports touch and set up cursor listeners
+  // Detect if device has a fine pointer (mouse/trackpad/stylus) using matchMedia API
   useEffect(() => {
-    const hasTouch = () => {
-      return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    };
+    // Check for fine pointer capability - this is a JavaScript browser API
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
 
-    // Exit early if it's a touch device
-    if (hasTouch()) {
-      setIsTouchDevice(true);
+    // Exit early if no pointer device - saves resources on mobile
+    if (!hasFinePointer) {
+      setHasPointer(false);
       return;
     }
 
-    setIsTouchDevice(false);
+    setHasPointer(true);
+
+    // Optional: Listen for pointer device changes (e.g., plugging in a mouse)
+    const mediaQuery = window.matchMedia('(pointer: fine)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      setHasPointer(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
+  // Set up cursor listeners only when pointer device exists
+  useEffect(() => {
+    if (!hasPointer) return;
 
     const cursor = cursorRef.current;
     if (!cursor) return;
@@ -100,10 +116,10 @@ export default function Cursor() {
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, []);
+  }, [hasPointer]);
 
-  // Don't render anything if it's a touch device
-  if (isTouchDevice) {
+  // Don't render anything if no pointer device detected - saves all resources
+  if (!hasPointer) {
     return null;
   }
 
