@@ -1,4 +1,5 @@
-@use './vars.sass' as vars
+@use './vars.sass'
+@use './_mixins.sass' as mixins
 
 // html, body, #__next, main
 //   overscroll-behavior: none
@@ -162,7 +163,7 @@ html
         width: 50vw
       & > div:last-child
         width: 50vw
-      @include vars.max-mobile
+      @include mixins.max-mobile
         & > div:first-child
           width: 10vw
         & > div:nth-child(2)
@@ -177,7 +178,7 @@ html
         width: 25vw
       & > div:last-child
         width: 25vw
-      @include vars.max-mobile
+      @include mixins.max-mobile
         & > div:first-child
           width: 5vw
         & > div:nth-child(2)

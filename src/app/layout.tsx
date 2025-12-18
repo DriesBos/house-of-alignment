@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@/styles/reset.css';
-import '@/styles/vars.sass';
-import '@/styles/mixins.sass';
 import '@/styles/typography.sass';
 import '@/styles/globals.sass';
 import { ThemeStoreProvider } from '@/providers/theme-store-provider';
