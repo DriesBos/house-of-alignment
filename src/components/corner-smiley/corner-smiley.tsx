@@ -3,7 +3,7 @@ import styles from './corner-smiley.module.sass';
 
 const CornerSmiley = () => {
   return (
-    <div className={`${styles.cornerSmiley} cornerSmiley`}>
+    <div className={`${styles.cornerSmiley} cornerSmiley cursorInteract`}>
       <ThreeDContainer />
     </div>
   );
