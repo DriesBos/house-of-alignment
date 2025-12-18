@@ -25,7 +25,10 @@ export function ThemeToggle() {
   }, [setUserTheme, theme]);
 
   return (
-    <button className={styles.themeToggle} onClick={handleThemeChange}>
+    <button
+      className={`${styles.themeToggle} cursorInteract`}
+      onClick={handleThemeChange}
+    >
       ( Theme: {isMounted ? theme : 'light'} )
     </button>
   );

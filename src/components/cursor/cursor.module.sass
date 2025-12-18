@@ -8,11 +8,17 @@
   border-radius: 50%
   pointer-events: none
   z-index: 9999
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%) scale(1)
   transition: transform 0.1s ease-out, opacity 0.2s ease-out
 
   &[data-hidden="true"]
     opacity: 0
 
   &[data-clicking="true"]
+    transform: translate(-50%, -50%) scale(0.8)
+
+  &[data-hovering-interact="true"]
+    transform: translate(-50%, -50%) scale(1.5)
+
+  &[data-hovering-interact="true"][data-clicking="true"]
     transform: translate(-50%, -50%) scale(0.8)

@@ -11,7 +11,9 @@ export default function BlokAbout() {
         <br />
         Creative Tools
         <span>
-          <Link href="/about">( about )</Link>
+          <Link className="cursorInteract" href="/about">
+            ( about )
+          </Link>
         </span>
       </h1>
     </div>

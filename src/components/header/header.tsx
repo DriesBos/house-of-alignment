@@ -225,10 +225,12 @@ export default function Header() {
     <header className={styles.header} data-active={isOpen} ref={headerRef}>
       <div className={styles.header_top}>
         <div className={styles.logo}>
-          <Link href="/">House of Alignment</Link>
+          <Link className="cursorInteract" href="/">
+            House of Alignment
+          </Link>
         </div>
         <div
-          className={styles.menuIcon}
+          className={`${styles.menuIcon} cursorInteract`}
           onClick={toggleHeader}
           data-active={isOpen}
         >
@@ -240,10 +242,10 @@ export default function Header() {
       <div className={styles.header_bottom} ref={headerBottomRef}>
         <nav className={styles.header_nav}>
           <ul>
-            <li className="headerNavFadeIn">
+            <li className="headerNavFadeIn cursorInteract">
               <Link href="/">Archive</Link>
             </li>
-            <li className="headerNavFadeIn">
+            <li className="headerNavFadeIn cursorInteract">
               <Link href="/tags/dinner">
                 Dinners
                 {tagCounts['Dinners'] || tagCounts['Dinner'] ? (
@@ -253,7 +255,7 @@ export default function Header() {
                 )}
               </Link>
             </li>
-            <li className="headerNavFadeIn">
+            <li className="headerNavFadeIn cursorInteract">
               <Link href="/tags/interview">
                 Interviews
                 {tagCounts['Interviews'] || tagCounts['Interview'] ? (
@@ -265,12 +267,12 @@ export default function Header() {
                 )}
               </Link>
             </li>
-            <li className="headerNavFadeIn">
+            <li className="headerNavFadeIn cursorInteract">
               <Link href="/about">About</Link>
             </li>
           </ul>
         </nav>
-        <div className={`${styles.buttons} headerNavFadeIn`}>
+        <div className={`${styles.buttons} headerNavFadeIn cursorInteract`}>
           <ThemeToggle />
         </div>
       </div>

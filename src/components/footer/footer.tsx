@@ -19,14 +19,26 @@ export function Footer() {
             <br />
             Where your next bold move begins.
             <br />
-            Trust your vision. <Link href="/about"> (more)</Link>
+            Trust your vision.{' '}
+            <Link className="cursorInteract" href="/about">
+              {' '}
+              (more)
+            </Link>
           </p>
         </div>
         <div className={styles.footer_content_center}>
-          <Link href="/">Archive</Link>
-          <Link href="/tags/dinner">Dinners</Link>
-          <Link href="/tags/interview">Interviews</Link>
-          <Link href="/about">About</Link>
+          <Link className="cursorInteract" href="/">
+            Archive
+          </Link>
+          <Link className="cursorInteract" href="/tags/dinner">
+            Dinners
+          </Link>
+          <Link className="cursorInteract" href="/tags/interview">
+            Interviews
+          </Link>
+          <Link className="cursorInteract" href="/about">
+            About
+          </Link>
         </div>
         <div className={styles.footer_content_right}>
           <div>
@@ -38,6 +50,7 @@ export function Footer() {
               href={globalData.instagram}
               target="_blank"
               rel="noopener noreferrer"
+              className="cursorInteract"
             >
               instagram
             </a>
@@ -45,6 +58,7 @@ export function Footer() {
               href={`mailto:${globalData.email}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="cursorInteract"
             >
               {globalData.email}
             </a>

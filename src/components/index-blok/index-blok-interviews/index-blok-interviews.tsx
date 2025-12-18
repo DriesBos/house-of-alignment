@@ -87,6 +87,7 @@ export default function IndexBlokInterviews({
               tags.map((tag) => (
                 <div className={styles.tag} key={tag}>
                   <Link
+                    className="cursorInteract"
                     href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     <span>{tag}</span>
@@ -98,7 +99,9 @@ export default function IndexBlokInterviews({
       </div>
       <div className={styles.bottom}>
         <div className={styles.title}>
-          <Link href={'/' + link}>{title}</Link>
+          <Link className="cursorInteract" href={'/' + link}>
+            {title}
+          </Link>
           {event_date && <DateDisplay date={event_date} />}
         </div>
         <div className={styles.descr}>
