@@ -1,3 +1,5 @@
+@use './vars.sass' as vars
+
 // html, body, #__next, main
 //   overscroll-behavior: none
   // &::-webkit-scrollbar 
@@ -111,7 +113,7 @@ html
         width: 50vw
       & > div:last-child
         width: 50vw
-      @media screen and ( max-width: 770px )
+      @include vars.mobile
         & > div:first-child
           width: 10vw
         & > div:nth-child(2)
@@ -126,7 +128,7 @@ html
         width: 25vw
       & > div:last-child
         width: 25vw
-      @media screen and ( max-width: 770px )
+      @include vars.mobile
         & > div:first-child
           width: 5vw
         & > div:nth-child(2)

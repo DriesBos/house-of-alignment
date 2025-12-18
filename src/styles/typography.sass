@@ -1,13 +1,15 @@
+@use './vars.sass' as vars
+
 // https://www.madebymike.com.au/writing/fluid-type-calc-examples/
 // https://type-scale.com/
 html
   font-size: 14px
 
-@media screen and (min-width: 770px)
+@include vars.min-mobile
   html
     font-size: calc(14px + 4 * ((100vw - 770px) / 600))
 
-@media screen and (min-width: 1370px)
+@include vars.desktop
   html
     font-size: 18px
 

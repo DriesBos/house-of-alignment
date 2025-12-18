@@ -1,3 +1,5 @@
+@use '../../../styles/vars.sass' as vars
+
 .blokAbout
   position: relative
   z-index: 1
@@ -18,7 +20,7 @@
     text-align: center
     font-size: var(--type-size-nav)
     text-transform: uppercase
-    @media screen and ( max-width: 770px )
+    @include vars.mobile
       font-size: 6.6666666667vh
   span, a
     color: var(--color-accent)

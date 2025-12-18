@@ -1,3 +1,5 @@
+@use '../../../styles/vars.sass' as vars
+
 .pageThreeColumn
   display: flex
   flex-direction: row
@@ -6,7 +8,7 @@
   padding-bottom: 2rem
   align-items: flex-start
 
-  @media screen and ( max-width: 770px )
+  @include vars.mobile
     flex-direction: column
     align-items: flex-end
 
@@ -17,7 +19,7 @@
   & > div:nth-child(3)
     width: 25vw
     
-  @media screen and ( max-width: 770px )
+  @include vars.mobile
     & > div:first-child
       width: 80vw
     & > div:nth-child(2)
