@@ -30,6 +30,55 @@ html, body, main
 main
   min-height: 100vh
 
+// Data Background Attributes
+*
+  &[data-background="none"]
+    background-color: transparent
+  &[data-background="#edeae6"], &[data-background="#9E9080"]
+    h1, h2, h3, h4, h5, h6, p, a
+      color: var(--color-black)
+  &[data-background="#171717"], &[data-background="#3C2420"]
+    h1, h2, h3, h4, h5, h6, p, a
+      color: var(--color-white)
+
+// Theme Attributes
+html
+  &[data-theme='light']
+    --color-bg: var(--theme-main-bg)
+    --color-type: var(--theme-main-type)
+    --color-bg-white: var(--color-blue)
+    --color-bg-quote: var(--color-black)
+    --color-bg-quote-type: var(--color-white)
+    --color-accent: var(--color-blue)
+    --color-accent-type: var(--color-white)
+  &[data-theme='dark']
+    --color-bg: var( --theme-main-bg-inverted)
+    --color-type: var(--theme-main-type-inverted)
+    --color-bg-dark-grey: var(--color-white)
+    --color-bg-dark-grey-type: var(--color-black)
+    --color-bg-stone-type: var(--color-black)
+    --color-bg-quote: var(--color-white)
+    --color-bg-quote-type: var(--color-black)
+    --color-accent: var(--color-blue)
+    --color-accent-type: var(--color-white)
+  &[data-theme='stone']
+    --color-bg: var(--theme-stone-bg)
+    --color-type: var(--theme-stone-type)
+    --color-bg-stone: var(--color-blue)
+    --color-bg-stone-type: var(--color-black)
+    --color-bg-quote: var(--color-blue)
+    --color-bg-quote-type: var(--color-black)
+    --color-accent: var(--color-black)
+    --color-accent-type: var(--color-white)
+  &[data-theme='blue']
+    --color-bg: var(--theme-blue-bg)
+    --color-type: var(--theme-blue-type)
+    --color-bg-blue: var(--color-white)
+    --color-bg-quote: var(--color-black)
+    --color-bg-quote-type: var(--color-white)
+    --color-accent: var(--color-white)
+    --color-accent-type: var(--color-black)
+
 .storeDataWrapper
   position: relative
   overflow-y: auto
@@ -113,7 +162,7 @@ html
         width: 50vw
       & > div:last-child
         width: 50vw
-      @include vars.mobile
+      @include vars.max-mobile
         & > div:first-child
           width: 10vw
         & > div:nth-child(2)
@@ -128,7 +177,7 @@ html
         width: 25vw
       & > div:last-child
         width: 25vw
-      @include vars.mobile
+      @include vars.max-mobile
         & > div:first-child
           width: 5vw
         & > div:nth-child(2)
