@@ -1,6 +1,6 @@
 'use client';
 
-import { useThemeStore } from '@/providers/theme-store-provider';
+import { useTheme } from '@/hooks/useTheme';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 
 export default function StorePageDataProvider({
@@ -8,7 +8,7 @@ export default function StorePageDataProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const theme = useThemeStore((state) => state.theme);
+  const theme = useTheme();
   const layout = useLayoutStore((state) => state.layout);
   return (
     <main
