@@ -8,9 +8,23 @@ export default function Cursor() {
   const [isHidden, setIsHidden] = useState(true);
   const [isClicking, setIsClicking] = useState(false);
   const [isHoveringInteract, setIsHoveringInteract] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(true);
   const lastPositionRef = useRef({ x: 0, y: 0 });
 
+  // Detect if device supports touch and set up cursor listeners
   useEffect(() => {
+    const hasTouch = () => {
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    };
+
+    // Exit early if it's a touch device
+    if (hasTouch()) {
+      setIsTouchDevice(true);
+      return;
+    }
+
+    setIsTouchDevice(false);
+
     const cursor = cursorRef.current;
     if (!cursor) return;
 
@@ -87,6 +101,11 @@ export default function Cursor() {
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, []);
+
+  // Don't render anything if it's a touch device
+  if (isTouchDevice) {
+    return null;
+  }
 
   return (
     <div
