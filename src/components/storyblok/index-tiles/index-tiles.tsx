@@ -2,10 +2,9 @@
 
 import { ISbStoryData } from '@storyblok/react/rsc';
 import React, { useRef, useEffect, useState } from 'react';
-import ContentColumn from '@/components/content-column/content-column';
 import styles from './index-tiles.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
-import IndexBlok from '@/components/index-blok/index-blok';
+import Link from 'next/link';
 
 
 const IndexTiles: React.FC = () => {
@@ -53,23 +52,15 @@ const IndexTiles: React.FC = () => {
 
   return (
     <div className={styles.indexTiles} ref={containerRef}>
-      <ContentColumn>
-        <div className={styles.tilesGrid}>
+        <div className={styles.indexTiles_Grid}>
           {allStories.map((item) => (
-            <IndexBlok
-              key={item.uuid}
-              title={item.content.page_title}
-              descr={item.content.page_descr}
-              image={item.content.page_image}
-              quote={item.content.page_quote}
-              tags={item.tag_list}
-              event_date={item.content.event_date}
-              seats={item.content.chairs}
-              link={item.full_slug}
-            />
+            <Link href={item.full_slug} key={item.uuid} className={styles.indexTiles_Tile}>
+
+              <h1>{item.content.page_title}</h1>
+              <p>{item.content.page_descr}</p>
+            </Link>
           ))}
         </div>
-      </ContentColumn>
     </div>
   );
 };

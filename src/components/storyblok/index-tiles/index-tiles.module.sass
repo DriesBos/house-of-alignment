@@ -1,8 +1,36 @@
 .indexTiles
   width: 100%
+  height: calc(100vh - var(--header-size))
 
-.tilesGrid
-  display: grid
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
-  gap: 2rem
-  width: 100%
+  &_Grid
+    display: grid
+    grid-template-columns: repeat(4, 1fr)
+    grid-template-rows: repeat(2, 1fr)
+    width: 100%
+    height: 100%
+
+  &_Tile
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    h1
+      font-size: var(--type-size-xlarge)
+      line-height: var(--type-lineheight-display)
+      letter-spacing: var(--type-letterspacing-display)
+      text-transform: uppercase
+    p
+      font-size: var(--type-size-base)
+      line-height: var(--type-lineheight)
+      font-family: var(--font-bradford)
+
+    &:nth-child(1)
+      grid-area: 1 / 1 / 2 / 3
+      border-right: var(--layout-border)
+      border-bottom: var(--layout-border)
+    &:nth-child(2)
+      grid-area: 1 / 3 / 2 / 5
+      border-bottom: var(--layout-border)
+    &:nth-child(3)
+      grid-area: 2 / 1 / 4 / 4
+      border-right: var(--layout-border)
