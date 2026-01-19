@@ -58,7 +58,7 @@ export default function Header() {
         }
 
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/tags?token=${token}`
+          `https://api.storyblok.com/v2/cdn/tags?token=${token}&cv=${Date.now()}`
         );
         const data = await response.json();
 
@@ -256,7 +256,16 @@ export default function Header() {
               </Link>
             </li>
             <li className="headerNavFadeIn cursorInteract">
-              <Link href="/mentorship">Mentorship</Link>
+              <Link href="/mentorship">
+                Mentorship
+                {tagCounts['Mentorship'] || tagCounts['Mentorships'] ? (
+                  <span>
+                    ({tagCounts['Mentorship'] || tagCounts['Mentorships']})
+                  </span>
+                ) : (
+                  ''
+                )}
+              </Link>
             </li>
             <li className="headerNavFadeIn cursorInteract">
               <Link href="/tags/interview">
