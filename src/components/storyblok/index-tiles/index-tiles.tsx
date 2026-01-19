@@ -19,42 +19,82 @@ const IndexTiles: React.FC = () => {
   // GSAP animation for mouse-based grid row adjustment
   useGSAP(() => {
     const container = containerRef.current;
-    if (!container) return;
+    const grid = gridRef.current;
+    if (!container || !grid) return;
+
+    // Create a single reusable GSAP context for better performance
+    const ctx = gsap.context(() => {});
+    
+    // Cache rect to avoid constant getBoundingClientRect calls
+    let rect = container.getBoundingClientRect();
+    
+    // Update rect on resize
+    const updateRect = () => {
+      rect = container.getBoundingClientRect();
+    };
+    window.addEventListener('resize', updateRect);
+
+    // Use requestAnimationFrame for smooth updates
+    let rafId: number | undefined;
+    let mouseX = 0;
+    let mouseY = 0;
+    let isMouseMoving = false;
+
+    // Store the last tween to kill it before creating a new one
+    let currentTween: gsap.core.Tween | null = null;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+      
+      if (!isMouseMoving) {
+        isMouseMoving = true;
+        rafId = requestAnimationFrame(updateAnimation);
+      }
+    };
 
+    const updateAnimation = () => {
       // Calculate normalized positions (0 to 1)
-      const normalizedX = mouseX / rect.width;
-      const normalizedY = mouseY / rect.height;
+      const normalizedX = Math.max(0, Math.min(1, mouseX / rect.width));
+      const normalizedY = Math.max(0, Math.min(1, mouseY / rect.height));
       
       // Map normalized Y position to row percentages
-      // 0 (top) = 55% 45%, 1 (bottom) = 45% 55%
+      // 0 (top) = 60% 40%, 1 (bottom) = 40% 60%
       const row1Percent = 60 - (normalizedY * 20);
       const row2Percent = 40 + (normalizedY * 20);
 
-      // Map normalized X position to column widths (flipped)
-      // 0 (left) = 25vw 30vw 20vw 25vw, 1 (right) = 25vw 20vw 30vw 25vw
+      // Map normalized X position to column widths
+      // 0 (left) = 35vw 15vw, 1 (right) = 15vw 35vw
       const col2Width = 35 - (normalizedX * 20);
       const col3Width = 15 + (normalizedX * 20);
 
-      // Animate grid based on mouse position
-      gsap.to(gridRef.current, {
+      // Kill the previous tween to avoid queue buildup
+      if (currentTween) {
+        currentTween.kill();
+      }
+
+      // Create optimized tween with overwrite mode
+      currentTween = gsap.to(grid, {
         '--grid-rows-1': `${row1Percent}%`,
         '--grid-rows-2': `${row2Percent}%`,
         '--grid-col-2': `${col2Width}vw`,
         '--grid-col-3': `${col3Width}vw`,
-        duration: 0.33,
-        // ease: 'power2.out',
+        duration: 0.4,
+        ease: 'power2.out',
+        overwrite: 'auto',
       });
+
+      isMouseMoving = false;
     };
 
     container.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       container.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', updateRect);
+      if (rafId) cancelAnimationFrame(rafId);
+      if (currentTween) currentTween.kill();
+      ctx.revert();
     };
   }, { scope: containerRef });
 
