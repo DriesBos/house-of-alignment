@@ -32,7 +32,7 @@ export default function Header() {
       getComputedStyle(document.documentElement).fontSize
     );
     const pixelValue =
-      remToPixels + 38 + 83 * 4 + remToPixels + 6 * remToPixels;
+      remToPixels + 38 + 83 * 5 + remToPixels + 6 * remToPixels;
     return `${pixelValue}px`;
   };
 
@@ -243,11 +243,11 @@ export default function Header() {
         <nav className={styles.header_nav}>
           <ul>
             <li className="headerNavFadeIn cursorInteract">
-              <Link href="/">Archive</Link>
+              <Link href="/">Index</Link>
             </li>
             <li className="headerNavFadeIn cursorInteract">
               <Link href="/tags/dinner">
-                Dinners
+                Events
                 {tagCounts['Dinners'] || tagCounts['Dinner'] ? (
                   <span>({tagCounts['Dinners'] || tagCounts['Dinner']})</span>
                 ) : (
@@ -256,8 +256,11 @@ export default function Header() {
               </Link>
             </li>
             <li className="headerNavFadeIn cursorInteract">
+              <Link href="/mentorship">Mentorship</Link>
+            </li>
+            <li className="headerNavFadeIn cursorInteract">
               <Link href="/tags/interview">
-                Interviews
+                Conversations
                 {tagCounts['Interviews'] || tagCounts['Interview'] ? (
                   <span>
                     ({tagCounts['Interviews'] || tagCounts['Interview']})
