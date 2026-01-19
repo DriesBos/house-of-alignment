@@ -60,8 +60,8 @@ const IndexTiles: React.FC = () => {
       
       // Map normalized Y position to row percentages
       // 0 (top) = 60% 40%, 1 (bottom) = 40% 60%
-      const row1Percent = 60 - (normalizedY * 20);
-      const row2Percent = 40 + (normalizedY * 20);
+      const row1Percent = 70 - (normalizedY * 40);
+      const row2Percent = 30 + (normalizedY * 40);
 
       // Map normalized X position to column widths
       // 0 (left) = 35vw 15vw, 1 (right) = 15vw 35vw
