@@ -102,6 +102,7 @@ export default async function RootLayout({
                   }}
                 />
                 <Cursor />
+                <CornerSmiley />
                 <ScrollToTop />
                 <Header />
                 <StoreDataProvider>
@@ -110,7 +111,6 @@ export default async function RootLayout({
                     <LayoutLines />
                   </StorePageDataProvider>
                   <Footer />
-                  <CornerSmiley />
                 </StoreDataProvider>
               </body>
             </GlobalDataProvider>

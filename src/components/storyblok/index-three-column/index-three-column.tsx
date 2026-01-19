@@ -137,10 +137,17 @@ const IndexThreeColumn = () => {
       if (!containerRef.current || allStories.length === 0) return;
       if (totalImages > 0 && loadedImagesCount < totalImages) return;
 
+      const scroller = document.querySelector(
+        '.storeDataWrapper'
+      ) as HTMLElement | null;
+      if (!scroller) return;
+
       // Use requestAnimationFrame to ensure DOM is fully updated
       requestAnimationFrame(() => {
         // Normalize scroll for Safari (handles touch + scroll inconsistencies)
+        // Scope it to the custom scroller to avoid Window-based errors.
         ScrollTrigger.normalizeScroll({
+          target: scroller,
           allowNestedScroll: true,
           lockAxis: false,
           type: 'touch,wheel,pointer',
@@ -148,7 +155,7 @@ const IndexThreeColumn = () => {
 
         // Set up ScrollTrigger default configuration
         ScrollTrigger.defaults({
-          scroller: '.storeDataWrapper',
+          scroller,
         });
 
         // Get column heights - column 1 (left) is longest and scrolls normally

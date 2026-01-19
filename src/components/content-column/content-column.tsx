@@ -19,15 +19,17 @@ export default function ContentColumn({
   const animateChildren = useCallback(() => {
     const elements = containerRef.current?.children;
     if (!elements) return;
+    const elementArray = Array.from(elements);
+    if (elementArray.length === 0) return;
 
     // Reset elements to initial state
-    gsap.set([...elements], {
+    gsap.set(elementArray, {
       opacity: 0,
       y: 50,
     });
 
     // Animate each child sequentially
-    gsap.to([...elements], {
+    gsap.to(elementArray, {
       opacity: 1,
       y: 0,
       ease: 'power1.inOut',

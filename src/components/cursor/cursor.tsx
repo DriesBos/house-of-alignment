@@ -57,6 +57,14 @@ export default function Cursor() {
       setIsHoveringInteract(hasInteractElement);
     };
 
+    // Function to check if we're interacting with 3D content
+    const isOver3DContent = (x: number, y: number) => {
+      const elements = document.elementsFromPoint(x, y);
+      return elements.some(
+        (el) => el.tagName === 'CANVAS' || el.closest('.cornerSmiley')
+      );
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       cursor.style.left = `${e.clientX}px`;
       cursor.style.top = `${e.clientY}px`;
@@ -77,11 +85,19 @@ export default function Cursor() {
       setIsHidden(false);
     };
 
-    const handleMouseDown = () => {
+    const handleMouseDown = (e: MouseEvent) => {
+      // Don't interfere with 3D content interactions
+      if (isOver3DContent(e.clientX, e.clientY)) {
+        return;
+      }
       setIsClicking(true);
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (e: MouseEvent) => {
+      // Don't interfere with 3D content interactions
+      if (isOver3DContent(e.clientX, e.clientY)) {
+        return;
+      }
       setIsClicking(false);
     };
 
