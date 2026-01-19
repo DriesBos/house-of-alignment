@@ -22,6 +22,15 @@ const IndexTiles: React.FC = () => {
     const grid = gridRef.current;
     if (!container || !grid) return;
 
+    // Set initial center values to prevent jump on first mouse enter
+    // Center position: normalizedX = 0.5, normalizedY = 0.5
+    gsap.set(grid, {
+      '--grid-rows-1': '50%', // 70 - (0.5 * 40) = 50
+      '--grid-rows-2': '50%', // 30 + (0.5 * 40) = 50
+      '--grid-col-2': '25vw', // 35 - (0.5 * 20) = 25
+      '--grid-col-3': '25vw', // 15 + (0.5 * 20) = 25
+    });
+
     // Create a single reusable GSAP context for better performance
     const ctx = gsap.context(() => {});
     
