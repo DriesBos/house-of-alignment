@@ -16,6 +16,7 @@ import ContentProfile from '@/components/storyblok/content-data/content-profile/
 import ContentInfo from '@/components/storyblok/content-data/content-info/content-info';
 import ContentInfoItem from '@/components/storyblok/content-data/content-info/content-info-item/content-info-item';
 import ContentRsvp from '@/components/storyblok/content-data/content-rsvp/content-rsvp';
+import IndexTiles from '@/components/storyblok/index-tiles/index-tiles';
 
 export const getStoryblokApi = storyblokInit({
   accessToken: process.env.NEXT_PUBLIC_STORYBLOK_TOKEN,
@@ -24,6 +25,7 @@ export const getStoryblokApi = storyblokInit({
     page: Page,
     'index-two-column': IndexTwoColumn,
     'index-three-column': IndexThreeColumn,
+    'index-tiles': IndexTiles,
     'page-two-column': PageTwoColumn,
     'page-three-column': PageThreeColumn,
     'content-container': ContentContainer,
