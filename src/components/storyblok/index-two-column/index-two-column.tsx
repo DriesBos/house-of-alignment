@@ -35,6 +35,9 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
   const [isScrollReady, setIsScrollReady] = useState(false);
   const [loadedImagesCount, setLoadedImagesCount] = useState(0);
 
+  console.log("TAG", tag);
+  console.log("STORIES", allStories, allStories.length);
+
   // Callback for when an image loads
   const handleImageLoad = useCallback(() => {
     setLoadedImagesCount((prev) => prev + 1);

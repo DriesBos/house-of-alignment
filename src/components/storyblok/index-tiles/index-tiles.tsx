@@ -7,14 +7,12 @@ import styles from './index-tiles.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 import IndexBlok from '@/components/index-blok/index-blok';
 
-interface IndexTilesProps {
-  tag: string;
-}
 
-const IndexTiles: React.FC<IndexTilesProps> = ({ tag }) => {
+const IndexTiles: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const setLayout = useLayoutStore((state) => state.setLayout);
   const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
+  const tag = 'mentorship';
 
   // Set layout to 'tiles' when component mounts
   useEffect(() => {
@@ -30,8 +28,18 @@ const IndexTiles: React.FC<IndexTilesProps> = ({ tag }) => {
           return;
         }
 
+        // Convert URL-friendly slug to properly formatted tag
+        // Replace '-' and '_' with spaces, then capitalize each word
+        const tagName = tag
+          .replace(/[-_]/g, ' ')
+          .split(' ')
+          .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+          )
+          .join(' ');
+
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=${tag}&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=${tagName}&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
         );
         const data = await response.json();
         setAllStories(data.stories || []);
@@ -42,9 +50,6 @@ const IndexTiles: React.FC<IndexTilesProps> = ({ tag }) => {
 
     fetchStoriesByTag();
   }, [tag]);
-
-  console.log("STORIES", allStories, allStories.length);
-  console.log("TAG", tag);
 
   return (
     <div className={styles.indexTiles} ref={containerRef}>
