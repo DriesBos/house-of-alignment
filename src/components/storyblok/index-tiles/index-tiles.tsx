@@ -32,13 +32,13 @@ const IndexTiles: React.FC = () => {
       
       // Map normalized Y position to row percentages
       // 0 (top) = 55% 45%, 1 (bottom) = 45% 55%
-      const row1Percent = 55 - (normalizedY * 10);
-      const row2Percent = 45 + (normalizedY * 10);
+      const row1Percent = 60 - (normalizedY * 20);
+      const row2Percent = 40 + (normalizedY * 20);
 
       // Map normalized X position to column widths (flipped)
       // 0 (left) = 25vw 30vw 20vw 25vw, 1 (right) = 25vw 20vw 30vw 25vw
-      const col2Width = 30 - (normalizedX * 10);
-      const col3Width = 20 + (normalizedX * 10);
+      const col2Width = 35 - (normalizedX * 20);
+      const col3Width = 15 + (normalizedX * 20);
 
       // Animate grid based on mouse position
       gsap.to(gridRef.current, {
@@ -46,7 +46,7 @@ const IndexTiles: React.FC = () => {
         '--grid-rows-2': `${row2Percent}%`,
         '--grid-col-2': `${col2Width}vw`,
         '--grid-col-3': `${col3Width}vw`,
-        duration: 0,
+        duration: 0.33,
         // ease: 'power2.out',
       });
     };
