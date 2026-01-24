@@ -14,8 +14,18 @@ interface SbContentBlokData extends SbBlokData {
   text_background?: boolean;
   text_top: string;
   text_bottom: string;
-  text_align: 'left' | 'center';
+  text_align:
+    | 'topleft'
+    | 'left'
+    | 'bottomleft'
+    | 'topcenter'
+    | 'center'
+    | 'bottomcenter'
+    | 'topright'
+    | 'right'
+    | 'bottomright';
   background?: string;
+  width?: 'full' | 'concise';
 }
 
 interface ContentBlokProps {
@@ -38,7 +48,7 @@ export default function ContentBlok({ blok }: ContentBlokProps) {
               fill
               sizes="100vw"
               unoptimized
-              className={`${styles.image} imageload`}
+              className={`imageload`}
               placeholder="blur"
               blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               onLoad={(e) => {
@@ -55,7 +65,9 @@ export default function ContentBlok({ blok }: ContentBlokProps) {
           </div>
         )}
         <div className={styles.textMain} data-background={blok.text_background}>
-          {blok.text && <Markdown content={blok.text} />}
+          {blok.text && (
+            <Markdown content={blok.text} width={blok.width || 'full'} />
+          )}
         </div>
         {blok.text_bottom && (
           <div className={`${styles.textCaption} ${styles.textCaption_Bottom}`}>

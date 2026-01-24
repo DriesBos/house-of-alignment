@@ -6,11 +6,13 @@ import styles from './markdown.module.sass';
 
 interface MarkdownProps {
   content: string;
+  width?: 'full' | 'concise';
   className?: string;
 }
 
 const Markdown: React.FunctionComponent<MarkdownProps> = ({
   content,
+  width = 'full',
   className = '',
 }) => {
   if (!content) {
@@ -18,7 +20,7 @@ const Markdown: React.FunctionComponent<MarkdownProps> = ({
   }
 
   return (
-    <div className={`${styles.markdown} ${className}`}>
+    <div className={`${styles.markdown} ${className}`} data-width={width}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}

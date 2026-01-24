@@ -7,23 +7,12 @@
   min-height: 100vh
   min-height: 100svh
   transition: background var(--transition-theme), color var(--transition-theme)
-  &[data-background='none']
+  &[data-background='default']
     background: none
-  &[data-background='white']
-    background: var(--color-bg-white)
-    color: var(--color-bg-white-type)
-  &[data-background='stone']
-    background: var(--color-bg-stone)
-    color: var(--color-bg-stone-type)
-  &[data-background='blue']
-    background: var(--color-bg-blue)
-    color: var(--color-bg-blue-type)
-  &[data-background='burgundy']
-    background: var(--color-bg-burgundy)
-    color: var(--color-bg-burgundy-type)
-  &[data-background='dark-grey']
-    background: var(--color-bg-dark-grey)
-    color: var(--color-bg-dark-grey-type)
+  &[data-background='accent']
+    background: var(--color-accent)
+    color: var(--color-accent-type)
+    border-bottom: 1px solid var(--color-type)
   & > div
     position: relative
 
@@ -32,10 +21,48 @@
   flex-direction: column
   width: 100%
   padding: var(--spacing-sides)
+  &[data-align='topleft']
+    & > div
+      text-align: left
+      justify-content: flex-start
+      align-items: flex-start
+  &[data-align='left']
+    & > div
+      text-align: left
+      justify-content: flex-start
+  &[data-align='bottomleft']
+    & > div
+      text-align: left
+      justify-content: flex-end
+      align-items: flex-end
+  &[data-align='topcenter']
+    & > div
+      text-align: center
+      justify-content: center
+      align-items: flex-start
   &[data-align='center']
     & > div
       text-align: center
       justify-content: center
+  &[data-align='bottomcenter']
+    & > div
+      text-align: center
+      justify-content: center
+      align-items: flex-end
+  &[data-align='topright']
+    & > div
+      text-align: right
+      justify-content: flex-end
+      align-items: flex-start
+  &[data-align='right']
+    & > div
+      text-align: right
+      justify-content: flex-end
+  &[data-align='bottomright']
+    & > div
+      text-align: right
+      justify-content: flex-end
+      align-items: flex-end
   &Main
     flex: 1
     display: flex
@@ -48,6 +75,7 @@
         color: var(--color-accent-type)
   &Caption
     padding: var(--spacing-sides) 0
+    font-family: var(--font-bradford), 'Bradford', serif
     &_Top
       padding-top: 0
       text-transform: uppercase
@@ -72,10 +100,8 @@
     width: 100%
     height: auto
   img
+    position: relative !important
     width: 100%
-    height: 100%
-    object-fit: contain
-    object-position: center
   &[data-size='fullscreen']
     padding: 0
     .imageContainer
@@ -88,7 +114,7 @@
       width: 100%
   &[data-size='medium']
     .imageContainer
-      width: 50%
+      width: 75%
   &[data-size='small']
     .imageContainer
-      width: 25%
+      width: 50%
