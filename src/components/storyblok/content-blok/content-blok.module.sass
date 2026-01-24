@@ -44,7 +44,7 @@
       text-align: center
       justify-content: center
       align-items: flex-start
-  &[data-align='middle']
+  &[data-align='middle'], &[data-align='center']
     & > div
       text-align: center
       justify-content: center
@@ -73,10 +73,6 @@
     flex-direction: column
     justify-content: center
     align-items: center
-    &[data-background='true']
-      p, h1, h2, h3, h4, h5, h6, li, blockquote
-        background: var(--color-accent)
-        color: var(--color-accent-type)
   &Caption
     padding: var(--spacing-sides) 0
     font-family: var(--font-bradford), 'Bradford', serif
