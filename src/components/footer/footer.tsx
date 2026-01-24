@@ -28,13 +28,16 @@ export function Footer() {
         </div>
         <div className={styles.footer_content_center}>
           <Link className="cursorInteract" href="/">
-            Archive
+            Index
+          </Link>
+          <Link className="cursorInteract" href="/mentorship">
+            Mentorship
           </Link>
           <Link className="cursorInteract" href="/tags/dinner">
-            Dinners
+            Events
           </Link>
           <Link className="cursorInteract" href="/tags/interview">
-            Interviews
+            Conversations
           </Link>
           <Link className="cursorInteract" href="/about">
             About
