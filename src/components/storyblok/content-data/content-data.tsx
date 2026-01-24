@@ -9,6 +9,7 @@ interface SbContentDataData extends SbBlokData {
   body: SbBlokData[];
   text_top: string;
   text_bottom: string;
+  background?: string;
 }
 
 interface ContentDataProps {
@@ -17,7 +18,11 @@ interface ContentDataProps {
 
 export default function ContentData({ blok }: ContentDataProps) {
   return (
-    <div className={styles.contentData} {...storyblokEditable(blok)}>
+    <div
+      className={styles.contentData}
+      {...storyblokEditable(blok)}
+      data-background={blok.background || 'default'}
+    >
       {blok.text_top && (
         <div className={`${styles.textCaption} ${styles.textCaption_Top}`}>
           {blok.text_top}

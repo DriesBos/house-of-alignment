@@ -10,6 +10,16 @@ interface SbContentBlokData extends SbBlokData {
     id: string | null;
   };
   image_size?: 'fullscreen' | 'large' | 'medium' | 'small';
+  img_align?:
+    | 'topleft'
+    | 'left'
+    | 'bottomleft'
+    | 'topcenter'
+    | 'center'
+    | 'bottomcenter'
+    | 'topright'
+    | 'right'
+    | 'bottomright';
   text: string;
   text_background?: boolean;
   text_top: string;
@@ -37,10 +47,14 @@ export default function ContentBlok({ blok }: ContentBlokProps) {
     <div
       className={styles.contentBlok}
       {...storyblokEditable(blok)}
-      data-background={blok.background || 'none'}
+      data-background={blok.background || 'default'}
     >
       {blok.background_image && blok.background_image.id !== null && (
-        <div className={styles.image} data-size={blok.image_size || 'medium'}>
+        <div
+          className={styles.image}
+          data-size={blok.image_size || 'medium'}
+          data-align={blok.img_align || 'center'}
+        >
           <div className={styles.imageContainer}>
             <Image
               src={`${blok.background_image.filename}/m/filters:quality(60)`}

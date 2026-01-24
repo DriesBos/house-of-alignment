@@ -22,9 +22,9 @@
   width: 100%
   padding: var(--spacing-base) var(--spacing-sides)
   &[data-caption-top='false']
-    padding-top: var(--spacing-four)
+    padding-top: var(--spacing-two)
   &[data-caption-bottom='false']
-    padding-bottom: var(--spacing-base)
+    padding-bottom: var(--spacing-two)
   &[data-align='topleft']
     & > div
       text-align: left
@@ -44,7 +44,7 @@
       text-align: center
       justify-content: center
       align-items: flex-start
-  &[data-align='center']
+  &[data-align='middle']
     & > div
       text-align: center
       justify-content: center
@@ -99,6 +99,33 @@
   width: 100%
   height: 100%
   padding: var(--spacing-sides)
+  &[data-align='topleft']
+    justify-content: flex-start
+    align-items: flex-start
+  &[data-align='centerleft']
+    justify-content: center
+    align-items: center
+  &[data-align='bottomleft']
+    justify-content: flex-start
+    align-items: flex-end
+  &[data-align='topcenter']
+    justify-content: center
+    align-items: flex-start
+  &[data-align='middle']
+    justify-content: center
+    align-items: center
+  &[data-align='bottomcenter']
+    justify-content: center
+    align-items: flex-end
+  &[data-align='topright']
+    justify-content: flex-end
+    align-items: flex-end
+  &[data-align='centerright']
+    justify-content: center
+    align-items: center
+  &[data-align='bottomright']
+    justify-content: flex-end
+    align-items: flex-end
   .imageContainer
     position: relative
     width: 100%
