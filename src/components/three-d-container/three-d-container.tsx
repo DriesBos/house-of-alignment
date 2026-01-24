@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useEffect, useMemo, useRef } from 'react';
 
 // function Smiley() {
 //   const { scene } = useGLTF('./scenes/HOA-blender-rotation.glb');
@@ -22,9 +22,10 @@ function Scene() {
   const meshRef = useRef<THREE.Group>(null);
   const gltf = useLoader(GLTFLoader, '/models/HOA-blender-rotation.glb');
   const { scene, gl } = useThreeFiber();
+  const sceneInstance = useMemo(() => gltf.scene.clone(true), [gltf.scene]);
 
   useEffect(() => {
-    if (gltf.scene && gl) {
+    if (sceneInstance && gl) {
       // Set fog color (matching Material Browser)
       scene.fog = new THREE.Fog(0xffffff, 0, 1000);
 
@@ -86,7 +87,7 @@ function Scene() {
       });
 
       // Apply material to all meshes in the scene
-      gltf.scene.traverse((child) => {
+      sceneInstance.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.material = aluminumMaterial;
         }
@@ -99,7 +100,7 @@ function Scene() {
         aluminumMaterial.dispose();
       };
     }
-  }, [gltf.scene, scene, gl]);
+  }, [sceneInstance, scene, gl]);
 
   useFrame((state, delta) => {
     if (meshRef.current) {
@@ -116,7 +117,7 @@ function Scene() {
         minPolarAngle={Math.PI / 2}
         maxPolarAngle={Math.PI / 2}
       />
-      <primitive ref={meshRef} object={gltf.scene} />
+      <primitive ref={meshRef} object={sceneInstance} />
     </>
   );
 }
