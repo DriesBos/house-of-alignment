@@ -16,7 +16,7 @@ export function SloganWrapper() {
   }
 
   return (
-    <div className={`${styles.sloganWrapper} cursorInteract`}>
+    <div className={`${styles.sloganWrapper}`}>
       <ScrambledSlogans slogans={globalData.slogans} />
     </div>
   );
