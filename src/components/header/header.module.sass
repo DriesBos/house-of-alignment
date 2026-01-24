@@ -36,14 +36,18 @@
     padding: 0
     gap: 2rem
     pointer-events: none
+    visibility: hidden
     &[data-active="true"]
       pointer-events: auto
+      visibility: visible
 
   &_nav ul
     display: flex
     flex-direction: column
     align-items: center
     padding: 2rem 1rem 0
+    li
+      opacity: 0
     a
       font-size: var(--type-size-nav)
       line-height: 1

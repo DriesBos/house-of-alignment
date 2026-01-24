@@ -36,8 +36,6 @@ export default function Header() {
     return `${pixelValue}px`;
   };
 
-  console.log('ISOPEN is toggled', isOpen);
-
   // Helper function to calculate closed height with manual calculation
   const getClosedHeight = () => {
     // Manual calculation based on: --header-size
@@ -80,8 +78,14 @@ export default function Header() {
   }, []);
 
   // Close menu when route changes
+  const isOpenRef = useRef(isOpen);
+  isOpenRef.current = isOpen;
+  
   useEffect(() => {
-    setIsOpen(false);
+    // Only close if currently open - avoids unnecessary state changes
+    if (isOpenRef.current) {
+      setIsOpen(false);
+    }
   }, [pathname]);
 
   // Close menu when pressing Escape key
@@ -142,9 +146,24 @@ export default function Header() {
     }
   }, [isOpen]);
 
-  const toggleHeader = useCallback(() => {
-    setIsOpen((prev) => !prev);
+  const openHeader = useCallback(() => {
+    setIsOpen(true);
   }, []);
+
+  const closeHeader = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const handleMenuIconClick = useCallback((e: React.MouseEvent) => {
+    // Only respond to genuine user clicks, not synthetic events from GSAP
+    if (!e.isTrusted) return;
+    
+    if (isOpen) {
+      closeHeader();
+    } else {
+      openHeader();
+    }
+  }, [isOpen, openHeader, closeHeader]);
 
   // Animate header height and fade elements when menu opens/closes
   useGSAP(
@@ -154,6 +173,15 @@ export default function Header() {
       const elements = headerRef.current.querySelectorAll('.headerFadeIn');
       const navElements =
         headerRef.current.querySelectorAll('.headerNavFadeIn');
+
+      // Always kill any ongoing animations first to prevent conflicts
+      gsap.killTweensOf(headerRef.current);
+      if (elements.length > 0) {
+        gsap.killTweensOf(elements);
+      }
+      if (navElements.length > 0) {
+        gsap.killTweensOf(navElements);
+      }
 
       if (isOpen) {
         // Animate header height open
@@ -194,12 +222,12 @@ export default function Header() {
           );
         }
       } else {
-        // Kill any ongoing fade animations before closing
+        // Hide elements immediately
         if (elements.length > 0) {
-          gsap.killTweensOf(elements);
+          gsap.set(elements, { opacity: 0 });
         }
         if (navElements.length > 0) {
-          gsap.killTweensOf(navElements);
+          gsap.set(navElements, { opacity: 0 });
         }
 
         // Animate header height closed
@@ -209,16 +237,6 @@ export default function Header() {
           duration: 0.25,
           ease: 'power1.out',
         });
-
-        // Hide elements immediately
-        if (elements.length > 0) {
-          gsap.set(elements, { opacity: 0 });
-        }
-
-        // Hide nav elements immediately
-        if (navElements.length > 0) {
-          gsap.set(navElements, { opacity: 0 });
-        }
       }
     },
     {
@@ -237,7 +255,7 @@ export default function Header() {
         </div>
         <div
           className={`${styles.menuIcon} cursorInteract`}
-          onClick={toggleHeader}
+          onClick={handleMenuIconClick}
           data-active={isOpen}
         >
           <div className={styles.menuIcon_bar} />
@@ -245,7 +263,7 @@ export default function Header() {
         </div>
         <SloganWrapper />
       </div>
-      <div className={styles.header_bottom} ref={headerBottomRef}>
+      <div className={styles.header_bottom} ref={headerBottomRef} data-active={isOpen}>
         <nav className={styles.header_nav}>
           <ul>
             <li className="headerNavFadeIn cursorInteract">
