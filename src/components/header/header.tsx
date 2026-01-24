@@ -29,19 +29,21 @@ export default function Header() {
     // Manual calculation based on: --header-size-expanded
     // 1rem + 38px + (83px * 4) + 1rem + 6rem = 1rem + 38px + 332px + 1rem + 6rem
     const remToPixels = parseFloat(
-      getComputedStyle(document.documentElement).fontSize
+      getComputedStyle(document.documentElement).fontSize,
     );
     const pixelValue =
       remToPixels + 38 + 83 * 5 + remToPixels + 6 * remToPixels;
     return `${pixelValue}px`;
   };
 
+  console.log('ISOPEN is toggled', isOpen);
+
   // Helper function to calculate closed height with manual calculation
   const getClosedHeight = () => {
     // Manual calculation based on: --header-size
     // 1rem + 38px + 2px
     const remToPixels = parseFloat(
-      getComputedStyle(document.documentElement).fontSize
+      getComputedStyle(document.documentElement).fontSize,
     );
     const pixelValue = remToPixels + 38 + 2;
     return `${pixelValue}px`;
@@ -58,7 +60,7 @@ export default function Header() {
         }
 
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/tags?token=${token}&cv=${Date.now()}`
+          `https://api.storyblok.com/v2/cdn/tags?token=${token}&cv=${Date.now()}`,
         );
         const data = await response.json();
 
@@ -96,6 +98,8 @@ export default function Header() {
 
   // Close menu when clicking outside
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (
         headerRef.current &&
@@ -105,12 +109,14 @@ export default function Header() {
       }
     };
 
-    // Only add listener if menu is open
-    if (isOpen) {
+    // Use setTimeout to add the listener on the next tick,
+    // preventing the same click that opened the menu from immediately closing it
+    const timeoutId = setTimeout(() => {
       document.addEventListener('mousedown', handleClickOutside);
-    }
+    }, 0);
 
     return () => {
+      clearTimeout(timeoutId);
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
@@ -169,7 +175,7 @@ export default function Header() {
               stagger: 0.1,
               delay: 0.165,
               ease: 'power2.out',
-            }
+            },
           );
         }
 
@@ -184,7 +190,7 @@ export default function Header() {
               stagger: 0.033,
               delay: 0.165,
               ease: 'power2.out',
-            }
+            },
           );
         }
       } else {
@@ -218,7 +224,7 @@ export default function Header() {
     {
       scope: headerRef,
       dependencies: [isOpen],
-    }
+    },
   );
 
   return (
