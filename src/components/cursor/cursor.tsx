@@ -8,6 +8,7 @@ export default function Cursor() {
   const [isHidden, setIsHidden] = useState(true);
   const [isClicking, setIsClicking] = useState(false);
   const [isHoveringInteract, setIsHoveringInteract] = useState(false);
+  const [isHoveringAccent, setIsHoveringAccent] = useState(false);
   const [hasPointer, setHasPointer] = useState(false);
   const lastPositionRef = useRef({ x: 0, y: 0 });
 
@@ -75,10 +76,18 @@ export default function Cursor() {
 
       // Check hover state using elementsFromPoint
       checkHoverState(e.clientX, e.clientY);
+
+      // Check if hovering over accent background container
+      const elements = document.elementsFromPoint(e.clientX, e.clientY);
+      const hasAccentBg = elements.some(
+        (el) => el.getAttribute('data-background') === 'accent'
+      );
+      setIsHoveringAccent(hasAccentBg);
     };
 
     const handleMouseLeave = () => {
       setIsHidden(true);
+      setIsHoveringAccent(false);
     };
 
     const handleMouseEnter = () => {
@@ -146,6 +155,7 @@ export default function Cursor() {
       data-hidden={isHidden.toString()}
       data-clicking={isClicking.toString()}
       data-hovering-interact={isHoveringInteract.toString()}
+      data-hovering-accent={isHoveringAccent.toString()}
     />
   );
 }
