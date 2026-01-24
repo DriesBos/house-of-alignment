@@ -58,7 +58,12 @@ export default function ContentBlok({ blok }: ContentBlokProps) {
           </div>
         </div>
       )}
-      <div className={styles.text} data-align={blok.text_align || 'center'}>
+      <div
+        className={styles.text}
+        data-align={blok.text_align || 'center'}
+        data-caption-top={blok.text_top ? true : false}
+        data-caption-bottom={blok.text_bottom ? true : false}
+      >
         {blok.text_top && (
           <div className={`${styles.textCaption} ${styles.textCaption_Top}`}>
             {blok.text_top}

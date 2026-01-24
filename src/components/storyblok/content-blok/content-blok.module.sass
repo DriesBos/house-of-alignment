@@ -20,7 +20,11 @@
   display: flex
   flex-direction: column
   width: 100%
-  padding: var(--spacing-sides)
+  padding: var(--spacing-base) var(--spacing-sides)
+  &[data-caption-top='false']
+    padding-top: var(--spacing-four)
+  &[data-caption-bottom='false']
+    padding-bottom: var(--spacing-base)
   &[data-align='topleft']
     & > div
       text-align: left
