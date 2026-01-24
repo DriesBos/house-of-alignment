@@ -101,7 +101,7 @@ export default function IndexBlokGeneral({
                 <div
                   className={`${styles.eventDateOpen} ${styles.tag} cursorInteract`}
                 >
-                  <span>RSVP</span>
+                  <span>Upcoming</span>
                 </div>
               )}
 

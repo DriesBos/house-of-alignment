@@ -34,7 +34,14 @@ interface SbContentBlokData extends SbBlokData {
     | 'topright'
     | 'right'
     | 'bottomright';
-  background?: string;
+  background?:
+    | 'default'
+    | 'accent'
+    | 'white'
+    | 'stone'
+    | 'blue'
+    | 'burgundy'
+    | 'black';
   width?: 'full' | 'concise';
 }
 

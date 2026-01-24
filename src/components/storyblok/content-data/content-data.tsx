@@ -9,7 +9,14 @@ interface SbContentDataData extends SbBlokData {
   body: SbBlokData[];
   text_top: string;
   text_bottom: string;
-  background?: string;
+  background?:
+    | 'default'
+    | 'accent'
+    | 'white'
+    | 'stone'
+    | 'blue'
+    | 'burgundy'
+    | 'black';
 }
 
 interface ContentDataProps {
