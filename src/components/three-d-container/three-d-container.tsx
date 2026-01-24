@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 
 // function Smiley() {
 //   const { scene } = useGLTF('./scenes/HOA-blender-rotation.glb');
@@ -147,7 +147,9 @@ const ThreeDContainer: React.FC<ThreeDContainerProps> = ({
         style={{ touchAction: 'none' }}
       >
         {/* RoomEnvironment provides lighting, no additional lights needed */}
-        <Scene />
+        <Suspense fallback={null}>
+          <Scene />
+        </Suspense>
       </Canvas>
     </div>
   );
