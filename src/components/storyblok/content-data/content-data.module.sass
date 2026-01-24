@@ -2,7 +2,8 @@
   position: relative
   min-height: 100vh
   min-height: 100svh
-  padding: 2rem var(--spacing-sides)
+  width: 100%
+  padding: var(--spacing-base) var(--spacing-sides)
   display: flex
   flex-direction: column
   align-items: center
@@ -19,10 +20,12 @@
   & > div
     width: 100%
     max-width: 800px
+    flex: 1
 
   .textCaption
+    font-family: var(--font-bradford), 'Bradford', serif
     display: flex
-    flex: 1
+    flex-grow: 0
     &_Top
       justify-content: center
       align-items: flex-start
