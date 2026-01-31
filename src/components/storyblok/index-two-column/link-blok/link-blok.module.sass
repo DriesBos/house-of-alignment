@@ -1,3 +1,5 @@
+@use '../../../../styles/_mixins.sass' as mixins
+
 .linkBlok
   display: flex
   flex-direction: column
@@ -9,3 +11,5 @@
     font-size: var(--type-size-xlarge)
     line-height: 1.25
     letter-spacing: .033rem
+    @include mixins.max-mobile
+      font-size: var(--type-size-large)

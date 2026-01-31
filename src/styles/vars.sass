@@ -1,4 +1,4 @@
-@use './_mixins.sass' as *
+@use './_mixins.sass' as mixins
 
 :root
   // Colors
@@ -34,6 +34,8 @@
   --theme-blue-type: var(--color-black)
   // Layout
   --layout-border: 2px solid currentColor
+  @include mixins.max-mobile
+    --layout-border: 2px solid currentColor
   // Spacing
   --spacing-base: 1rem
   --spacing-two: 2rem
@@ -80,8 +82,9 @@
   --type-size-buttons: 0.777rem
   // Menu Nav
   --type-size-nav: 83px
-  // IIndex Pages
+  // Index Pages
   --indexpage-gap: 4rem
 
-  @include max-mobile
+  @include mixins.max-mobile
     --type-size-buttons: 0.777rem
+    --indexpage-gap: 2rem
