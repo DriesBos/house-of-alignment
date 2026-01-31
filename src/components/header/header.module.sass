@@ -1,4 +1,4 @@
-@use '../../styles/_mixins.sass' as vars
+@use '../../styles/_mixins.sass' as mixins
 
 .header
   position: relative
@@ -26,17 +26,20 @@
       color: var(--color-accent)
       text-transform: uppercase
       justify-content: flex-end
-      @include vars.max-mobile
+      @include mixins.max-mobile
         display: none
 
   &_bottom
     height: 0
     display: flex
     flex-direction: column
+    justify-content: center
     padding: 0
     gap: 2rem
     pointer-events: none
     visibility: hidden
+    @include mixins.max-mobile
+      flex: 1
     &[data-active="true"]
       pointer-events: auto
       visibility: visible
@@ -53,8 +56,11 @@
       line-height: 1
       text-align: center
       transition: opacity var(--transition-link-hover)
+      @include mixins.max-mobile
+        font-size: 11vw
       &:hover
-        opacity: var(--opacity-link-hover)
+        @media (hover: hover)
+          opacity: var(--opacity-link-hover)
     span
       color: var(--color-accent)
       transition: color var(--transition-theme)

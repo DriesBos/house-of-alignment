@@ -1,4 +1,4 @@
-@use '../../../styles/_mixins.sass' as vars
+@use '../../../styles/_mixins.sass' as mixins
 
 .blokAbout
   position: relative
@@ -7,21 +7,23 @@
   align-items: center
   justify-content: center
   width: 100%
-  height: 33vh
-  min-height: 500px
+  min-height: 50vh
   padding: 8vh
   pointer-events: none
   transition: background var(--transition-theme), color var(--transition-theme)
   background: var(--color-bg)
   user-select: none
+  @include mixins.max-mobile
+    padding: 1rem var(--spacing-sides)
   h1
     font-size: 4.1666666667vh
     line-height: 1
     text-align: center
     font-size: var(--type-size-nav)
     text-transform: uppercase
-    @include vars.max-mobile
-      font-size: 6.6666666667vh
+    width: 100%
+    @include mixins.max-mobile
+      font-size: 11vw
   span, a
     color: var(--color-accent)
     transition: color var(--transition-theme)
