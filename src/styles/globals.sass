@@ -125,64 +125,6 @@ html
 //     background: var(--color-type)
 //     aspect-ratio: 13 / 3
 
-// SPECIFIC COMPONENTS
-html
-  .layoutLines
-    position: absolute
-    left: 0
-    top: 0
-    right: 0
-    bottom: 0
-    display: flex
-    pointer-events: none
-    & > div
-      height: 100%
-      border-right: var(--layout-border)
-      transition: width var(--transition-lines), border var(--transition-general)
-      &:last-child
-        border-right: 0
-  &[data-layout="one"]
-    .layoutLines
-      & > div
-        border-right-color: transparent
-      & > div:first-child
-        width: 0
-      & > div:nth-child(2)
-        width: 0
-      & > div:last-child
-        width: 100vw
-  &[data-layout="two"]
-    .layoutLines
-      & > div:first-child
-        width: 0
-        border-right-color: transparent
-      & > div:nth-child(2)
-        width: 50vw
-      & > div:last-child
-        width: 50vw
-      @include mixins.max-mobile
-        & > div:first-child
-          width: 10vw
-        & > div:nth-child(2)
-          width: 20vw
-        & > div:last-child
-          width: 70vw
-  &[data-layout="three"]
-    .layoutLines
-      & > div:first-child
-        width: 50vw
-      & > div:nth-child(2)
-        width: 25vw
-      & > div:last-child
-        width: 25vw
-      @include mixins.max-mobile
-        & > div:first-child
-          width: 5vw
-        & > div:nth-child(2)
-          width: 15vw
-        & > div:last-child
-          width: 80vw
-
 .testButtons
   position: fixed
   top: 0

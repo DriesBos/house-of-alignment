@@ -35,8 +35,8 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
   const [isScrollReady, setIsScrollReady] = useState(false);
   const [loadedImagesCount, setLoadedImagesCount] = useState(0);
 
-  console.log("TAG", tag);
-  console.log("STORIES", allStories, allStories.length);
+  console.log('TAG', tag);
+  console.log('STORIES', allStories, allStories.length);
 
   // Callback for when an image loads
   const handleImageLoad = useCallback(() => {
@@ -45,13 +45,13 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
 
   // Set layout to 'two' when component mounts
   useEffect(() => {
-    setLayout('two');
+    setLayout('twoIndex');
   }, [setLayout]);
 
   // Prevent scrolling until ScrollTrigger is ready
   useEffect(() => {
     const storeDataWrapper = document.querySelector(
-      '.storeDataWrapper'
+      '.storeDataWrapper',
     ) as HTMLElement;
     if (!storeDataWrapper) return;
 
@@ -76,12 +76,13 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
           .replace(/[-_]/g, ' ')
           .split(' ')
           .map(
-            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            (word) =>
+              word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
           )
           .join(' ');
 
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=${tagName}&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
+          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=${tagName}&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`,
         );
         const data = await response.json();
         setAllStories(data.stories || []);
@@ -135,7 +136,7 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
     const allColumnStories = [...column1Stories, ...column2Stories];
     return allColumnStories.filter(
       (story) =>
-        story.content?.page_image?.filename && !story.content?.page_quote
+        story.content?.page_image?.filename && !story.content?.page_quote,
     ).length;
   }, [column1Stories, column2Stories]);
 
@@ -182,7 +183,7 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
         // Find the longest column
         const maxHeight = Math.max(...columnData.map((col) => col.height));
         const longestColumnIndex = columnData.findIndex(
-          (col) => col.height === maxHeight
+          (col) => col.height === maxHeight,
         );
 
         // Apply animations to columns, skipping the longest one
@@ -221,7 +222,7 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
         totalImages,
       ],
       revertOnUpdate: true,
-    }
+    },
   );
 
   return (
