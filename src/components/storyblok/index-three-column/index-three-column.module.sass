@@ -7,9 +7,6 @@
   padding-bottom: 2rem
   align-items: flex-start
   border-top: var(--layout-border)
-  @include vars.max-mobile
-    flex-direction: column
-    align-items: flex-end
 
   & > div
     will-change: transform
@@ -19,18 +16,14 @@
     -webkit-backface-visibility: hidden
     transition: background var(--transition-theme)
     background: var(--color-bg)
-    
+
   & > div:first-child
     width: 50vw
   & > div:nth-child(2)
     width: 25vw
   & > div:nth-child(3)
     width: 25vw
-    
-  @include vars.max-mobile
-    & > div:first-child
-      width: 80vw
-    & > div:nth-child(2)
-      width: 80vw
-    & > div:nth-child(3)
-      width: 80vw
+
+  // @include vars.max-mobile
+  //   & > div
+  //     width: 50vw !important
