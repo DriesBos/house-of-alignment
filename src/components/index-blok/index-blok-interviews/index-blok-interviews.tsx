@@ -92,6 +92,7 @@ export default function IndexBlokInterviews({
                     <Link
                       className="cursorInteract"
                       href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <span>{tag}</span>
                     </Link>
