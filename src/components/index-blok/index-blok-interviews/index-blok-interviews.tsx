@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import styles from './index-blok-interviews.module.sass';
-import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import DateDisplay from '@/components/date-display/date-display';
 import { useRouter } from 'next/navigation';
 
@@ -18,7 +17,6 @@ interface IndexBlokInterviewsProps {
   tags?: Array<string>;
   event_date?: string;
   isActive?: boolean;
-  onImageLoad?: () => void;
 }
 
 export default function IndexBlokInterviews({
@@ -30,26 +28,8 @@ export default function IndexBlokInterviews({
   tags,
   event_date,
   isActive,
-  onImageLoad,
 }: IndexBlokInterviewsProps) {
   const router = useRouter();
-
-  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.style.opacity = '1';
-
-    // Notify parent that image has loaded
-    if (onImageLoad) {
-      onImageLoad();
-    }
-
-    // Refresh ScrollTrigger after image loads to recalculate heights
-    if (typeof window !== 'undefined' && ScrollTrigger) {
-      // Use requestAnimationFrame to ensure DOM has updated
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
-    }
-  };
 
   return (
     <div
@@ -68,13 +48,14 @@ export default function IndexBlokInterviews({
             width={800}
             height={600}
             unoptimized
-            loading="eager"
-            priority={true}
+            loading="lazy"
             className="imageLoad cursorInteract"
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyDYRXGTkKoJHrWp2rStabOyBa1KvKw5YxJ7Sj5wJTnzuHQjdqMcvqEXsZqd/JZfLCqfz8t5rjjX9cfjVf0Jj/c8f8ACSkV4K1/pT9wR/lFaHCp9kqh6ZGC6Vd+lj1/rOAKfZe/w="
             style={{ width: '100%', height: '100%' }}
-            onLoad={handleImageLoad}
+            onLoad={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
           />
         )}
         {quote && (
