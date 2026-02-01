@@ -57,20 +57,16 @@ const PageTwoColumn: React.FunctionComponent<PageTwoColumnProps> = ({
   }, [pathname]);
 
   useLayoutEffect(() => {
-    // Make sure we have access to the DOM elements
     if (!containerRef.current) return;
+    if (window.matchMedia('(max-width: 770px)').matches) return;
 
-    // Create an array to store our ScrollTrigger instances
     const triggers: ScrollTrigger[] = [];
 
-    // Use requestAnimationFrame to ensure DOM is fully updated
     requestAnimationFrame(() => {
-      // Set up ScrollTrigger default configuration
       ScrollTrigger.defaults({
         scroller: '.storeDataWrapper',
       });
 
-      // Get all column references and their heights
       const columnData = [
         {
           ref: column1Ref.current,
@@ -82,17 +78,14 @@ const PageTwoColumn: React.FunctionComponent<PageTwoColumnProps> = ({
         },
       ];
 
-      // Find the longest column
       const maxHeight = Math.max(...columnData.map((col) => col.height));
       const longestColumnIndex = columnData.findIndex(
         (col) => col.height === maxHeight
       );
 
-      // Apply animations to columns, skipping the longest one
       columnData.forEach((col, index) => {
         if (!col.ref || index === longestColumnIndex) return;
 
-        // Calculate how many pixels this column should move (negative for slower movement)
         const pixelsToMove = maxHeight - col.height;
 
         const tl = gsap.to(col.ref, {
@@ -115,11 +108,10 @@ const PageTwoColumn: React.FunctionComponent<PageTwoColumnProps> = ({
       });
     });
 
-    // Cleanup function
     return () => {
       triggers.forEach((trigger) => trigger.kill());
     };
-  }, [layout]); // Empty dependency array since we only want this to run once
+  }, [layout]);
 
   return (
     <div

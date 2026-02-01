@@ -32,12 +32,14 @@
     & > div:last-child
       width: 50vw
     @include mixins.max-mobile
+      & > div
+        border-right-color: transparent
       & > div:first-child
-        width: 10vw
+        width: 0
       & > div:nth-child(2)
-        width: 20vw
+        width: 0
       & > div:last-child
-        width: 70vw
+        width: 100vw
   &[data-layout="twoIndex"]
     & > div:first-child
       width: 0

@@ -1,23 +1,17 @@
-@use '../../../styles/_mixins.sass' as vars
+@use '../../../styles/_mixins.sass' as mixins
 
 .pageTwoColumn
   display: flex
   flex-direction: row
-  flex-wrap: wrap
   align-items: flex-start
-
-  @include vars.max-mobile
-    flex-direction: column
-    align-items: flex-end
 
   & > div:first-child
     width: 50vw
   & > div:nth-child(2)
     width: 50vw
 
-  @include vars.max-mobile
+  @include mixins.max-mobile
     flex-direction: column
-    align-items: flex-end
     & > div:first-child
       width: 100vw
     & > div:nth-child(2)
