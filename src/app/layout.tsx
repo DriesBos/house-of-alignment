@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@/styles/reset.css';
 import '@/styles/typography.sass';
@@ -39,16 +39,25 @@ const bradfort = localFont({
   variable: '--font-bradford',
 });
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-};
-
 export const metadata: Metadata = {
   title: 'House of Alignment',
   description: 'Make energy your priority',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'House of Alignment',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    minimumScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: 'cover',
+  },
   icons: {
     icon: [
       {
