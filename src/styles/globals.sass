@@ -116,3 +116,12 @@ button
   color: var(--color-type)
   font-size: var(--type-size-data)
   outline: none
+
+.show-on-mobile
+  display: none
+  @include mixins.max-mobile
+    display: block
+.show-on-desktop
+  display: block
+  @include mixins.max-mobile
+    display: none
