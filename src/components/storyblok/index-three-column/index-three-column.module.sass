@@ -1,4 +1,4 @@
-@use '../../../styles/_mixins.sass' as vars
+@use '../../../styles/_mixins.sass' as mixins
 
 .indexThreeColumn
   display: flex
@@ -6,6 +6,9 @@
   flex-wrap: wrap
   align-items: flex-start
   border-top: var(--layout-border)
+  padding-top: 1rem
+  @include mixins.max-mobile
+    padding-top: 0
 
   & > div
     will-change: transform

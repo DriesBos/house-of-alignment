@@ -1,8 +1,13 @@
+@use '../../../styles/_mixins.sass' as mixins
+
 .indexTwoColumn
   display: flex
   flex-direction: row
   flex-wrap: wrap
   align-items: flex-start
+  padding-top: 1rem
+  @include mixins.max-mobile
+    padding-top: 0
 
   & > div
     will-change: transform
