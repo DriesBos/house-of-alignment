@@ -28,6 +28,17 @@ const IndexThreeColumn = () => {
   const setLayout = useLayoutStore((state) => state.setLayout);
   const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
   const [isScrollReady, setIsScrollReady] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Track window size for responsive column layout
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 770);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Set layout to 'three' when component mounts
   useEffect(() => {
@@ -79,9 +90,10 @@ const IndexThreeColumn = () => {
     fetchAllStories();
   }, []);
 
-  // Divide stories into three columns (40%, 40%, 20%) using weighted round-robin
+  // Divide stories into columns using weighted round-robin
   // Only include stories that have at least one tag
   // Sort by event_date (newest first)
+  // Mobile (<770px): 2 columns, Desktop: 3 columns
   const { column1Stories, column2Stories, column3Stories } = useMemo(() => {
     const storiesWithTags = allStories
       .filter((story) => story.tag_list && story.tag_list.length > 0)
@@ -99,27 +111,38 @@ const IndexThreeColumn = () => {
     const col2: ISbStoryData[] = [];
     const col3: ISbStoryData[] = [];
 
-    // Weighted round-robin: pattern of 8 stories = 3 col1, 3 col2, 2 col3 (37.5%, 37.5%, 25%)
-    // Pattern: col1, col2, col3, col1, col2, col1, col2, col3, repeat
-    const pattern = [0, 1, 2, 0, 1, 0, 1, 2]; // 0 = col1, 1 = col2, 2 = col3
-
-    storiesWithTags.forEach((story, index) => {
-      const columnIndex = pattern[index % 5];
-      if (columnIndex === 0) {
-        col1.push(story);
-      } else if (columnIndex === 1) {
-        col2.push(story);
-      } else {
-        col3.push(story);
-      }
-    });
+    if (isMobile) {
+      // Two-column distribution (55%, 45%)
+      const pattern = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0];
+      storiesWithTags.forEach((story, index) => {
+        const columnIndex = pattern[index % 20];
+        if (columnIndex === 0) {
+          col1.push(story);
+        } else {
+          col2.push(story);
+        }
+      });
+    } else {
+      // Three-column distribution (37.5%, 37.5%, 25%)
+      const pattern = [0, 1, 2, 0, 1, 0, 1, 2];
+      storiesWithTags.forEach((story, index) => {
+        const columnIndex = pattern[index % 5];
+        if (columnIndex === 0) {
+          col1.push(story);
+        } else if (columnIndex === 1) {
+          col2.push(story);
+        } else {
+          col3.push(story);
+        }
+      });
+    }
 
     return {
       column1Stories: col1,
       column2Stories: col2,
       column3Stories: col3,
     };
-  }, [allStories]);
+  }, [allStories, isMobile]);
 
   useGSAP(
     () => {
@@ -148,13 +171,20 @@ const IndexThreeColumn = () => {
             scroller,
           });
 
-          // Get column heights - column 1 (left) is longest and scrolls normally
-          const column1Height = column1Ref.current?.offsetHeight || 0;
-          const column2Height = column2Ref.current?.offsetHeight || 0;
-          const column3Height = column3Ref.current?.offsetHeight || 0;
+          // Build column data based on current layout mode
+          const columnData = isMobile
+            ? [
+                { ref: column1Ref.current, height: column1Ref.current?.offsetHeight || 0 },
+                { ref: column2Ref.current, height: column2Ref.current?.offsetHeight || 0 },
+              ]
+            : [
+                { ref: column1Ref.current, height: column1Ref.current?.offsetHeight || 0 },
+                { ref: column2Ref.current, height: column2Ref.current?.offsetHeight || 0 },
+                { ref: column3Ref.current, height: column3Ref.current?.offsetHeight || 0 },
+              ];
 
           // Validate that columns have height before creating animations
-          if (!column1Height || !column2Height || !column3Height) {
+          if (columnData.some((col) => col.height === 0)) {
             console.warn(
               'Columns have no height - enabling scroll without animation'
             );
@@ -162,20 +192,16 @@ const IndexThreeColumn = () => {
             return;
           }
 
-          // Column 1 is the anchor (longest, scrolls normally, determines container height)
-          // Columns 2 & 3 animate to catch up by scrolling slower (translate down)
-          const animatedColumns = [
-            { ref: column2Ref.current, height: column2Height },
-            { ref: column3Ref.current, height: column3Height },
-          ];
+          // Find the longest column - it scrolls normally, others animate to catch up
+          const maxHeight = Math.max(...columnData.map((col) => col.height));
+          const longestColumnIndex = columnData.findIndex(
+            (col) => col.height === maxHeight
+          );
 
-          animatedColumns.forEach((col) => {
-            if (!col.ref) return;
+          columnData.forEach((col, index) => {
+            if (!col.ref || index === longestColumnIndex) return;
 
-            // Calculate pixels to move down relative to column 1 (positive = slower scroll)
-            const pixelsToMove = column1Height - col.height;
-
-            // Skip if heights are exactly equal
+            const pixelsToMove = maxHeight - col.height;
             if (pixelsToMove === 0) return;
 
             gsap.to(col.ref, {
@@ -204,7 +230,7 @@ const IndexThreeColumn = () => {
     },
     {
       scope: containerRef,
-      dependencies: [layout, allStories],
+      dependencies: [layout, allStories, isMobile],
       revertOnUpdate: true,
     }
   );
@@ -250,23 +276,25 @@ const IndexThreeColumn = () => {
             ))}
           </ContentColumn>
         </div>
-        <div ref={column3Ref} className="columnSmall">
-          <ContentColumn>
-            {column3Stories.map((item) => (
-              <IndexBlok
-                key={item.uuid}
-                title={item.content.page_title}
-                descr={item.content.page_descr}
-                image={item.content.page_image}
-                quote={item.content.page_quote}
-                tags={item.tag_list}
-                event_date={item.content.event_date}
-                seats={item.content.chairs}
-                link={item.full_slug}
-              />
-            ))}
-          </ContentColumn>
-        </div>
+        {!isMobile && (
+          <div ref={column3Ref} className="columnSmall">
+            <ContentColumn>
+              {column3Stories.map((item) => (
+                <IndexBlok
+                  key={item.uuid}
+                  title={item.content.page_title}
+                  descr={item.content.page_descr}
+                  image={item.content.page_image}
+                  quote={item.content.page_quote}
+                  tags={item.tag_list}
+                  event_date={item.content.event_date}
+                  seats={item.content.chairs}
+                  link={item.full_slug}
+                />
+              ))}
+            </ContentColumn>
+          </div>
+        )}
       </div>
     </>
   );

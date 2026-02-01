@@ -26,6 +26,8 @@
   & > div:nth-child(3)
     width: 25vw
 
-  // @include vars.max-mobile
-  //   & > div
-  //     width: 50vw !important
+  @include mixins.max-mobile
+    & > div:first-child
+      width: 50vw
+    & > div:nth-child(2)
+      width: 50vw
