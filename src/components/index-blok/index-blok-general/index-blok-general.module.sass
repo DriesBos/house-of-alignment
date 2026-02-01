@@ -29,12 +29,15 @@
       font-size: var(--type-size-data)
       margin-top: 0.5em
       gap: .5rem
+      @include mixins.max-mobile
+        flex-direction: column
       &_Date
         display: flex
         align-items: center
         gap: .5rem
       &_Tags
         flex: 1
+        flex-wrap: wrap
         display: flex
         justify-content: flex-end
         align-items: center
