@@ -11,7 +11,7 @@
   & > div
     height: 100%
     border-right: var(--layout-border)
-    transition: width var(--transition-lines), border var(--transition-general)
+    transition: width var(--transition-lines), border var(--transition-lines)
     &:last-child
       border-right: 0
   &[data-layout="one"]
@@ -55,11 +55,11 @@
       width: 25vw
     & > div:last-child
       width: 25vw
-    // @include mixins.max-mobile
-    //   & > div:first-child
-    //     width: 0
-    //     border-right-color: transparent
-    //   & > div:nth-child(2)
-    //     width: 50vw
-    //   & > div:last-child
-    //     width: 50vw
+    @include mixins.max-mobile
+      & > div:first-child
+        width: 0
+        border-right-color: transparent
+      & > div:nth-child(2)
+        width: 50vw
+      & > div:last-child
+        width: 50vw
