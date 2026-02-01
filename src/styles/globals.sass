@@ -35,11 +35,6 @@ html, body, main, .storeDataWrapper
   -moz-user-select: none
   -ms-user-select: none
 
-main, .storePageDataWrapper
-  position: relative
-  height: 100%
-  min-height: calc(100lvh - var(--header-size))
-
 // Data Background Attributes
 *
   &[data-background="none"]
@@ -88,6 +83,15 @@ html
     --color-bg-quote-type: var(--color-white)
     --color-accent: var(--color-white)
     --color-accent-type: var(--color-black)
+
+main
+  position: relative
+  height: 100%
+  min-height: calc(100lvh - var(--header-size))
+  padding-top: env(safe-area-inset-top)
+  padding-right: env(safe-area-inset-right)
+  padding-bottom: env(safe-area-inset-bottom)
+  padding-left: env(safe-area-inset-left)
 
 .column
   &Small
