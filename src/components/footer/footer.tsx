@@ -15,7 +15,7 @@ export function Footer() {
         <div className={styles.footer_content_left}>
           <div className={styles.logo}>House of Alignment</div>
           <div className="show-on-mobile">
-            <p className="bradford">
+            <p>
               Home of visionary founders. Where your next bold move begins.
               Trust your vision.
               <br />
@@ -26,7 +26,7 @@ export function Footer() {
             </p>
           </div>
           <div className="show-on-desktop">
-            <p className="bradford">
+            <p>
               Home of visionary founders.
               <br />
               Where your next bold move begins.
