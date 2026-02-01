@@ -6,10 +6,6 @@
   padding: 1rem
   & > div
     flex: 1
-  img
-    width: 100%
-    max-width: 100%
-    height: auto
 
   .quoteBlok
     display: flex
@@ -28,6 +24,14 @@
   .imageContainer
     position: relative
     overflow: hidden
+    aspect-ratio: var(--indexbloks-ratio-general)
+    img
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      object-fit: cover
     .tags
       position: absolute
       display: flex
