@@ -1,3 +1,5 @@
+@use '../../styles/_mixins.sass' as mixins
+
 .cornerSmiley
   position: fixed
   bottom: 0
@@ -10,3 +12,6 @@
   max-height: 200px
   z-index: var(--z-index-corner-smiley)
   pointer-events: auto
+  @include mixins.max-mobile
+    width: 33vw
+    height: 33vw
