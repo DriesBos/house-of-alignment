@@ -34,17 +34,23 @@
   --theme-blue-type: var(--color-black)
   // Layout
   --layout-border: 2px solid currentColor
-  @include mixins.max-mobile
-    --layout-border: 2px solid currentColor
   // Spacing
   --spacing-base: 1rem
   --spacing-two: 2rem
   --spacing-four: 4rem
   --spacing-sides: 1rem
   --header-size: calc(1rem + 38px + 2px)
+  // Spacing Index Bloks
+  --spacing-indexbloks-contentside: 1rem 0 0rem 0
+  --spacing-indexbloks-gap: 0rem
+  --spacing-indexbloks-sides: 1rem 1rem 4rem 1rem
   // --header-size-expanded: calc(1rem + 38px + (83px * 4) + 1rem+ 6rem)
   @media screen and (min-width: 1200px)
     --spacing-sides: 2rem
+  @include mixins.max-mobile
+    --spacing-indexbloks-gap: 0
+    --spacing-indexbloks-contentside: 1rem .5rem 0rem .5rem
+    --spacing-indexbloks-sides: 0 0 2rem 0
   // Z-Indexes
   --z-index-corner-smiley: 800
   --z-index-cursor: 900
@@ -83,11 +89,8 @@
   // Menu Nav
   --type-size-nav: 83px
   --type-size-mentorship: 83px
-  // Index Pages
-  --indexpage-gap: 4rem
   @include mixins.max-mobile
     --type-size-logo: 2rem
     --type-size-buttons: 0.777rem
-    --indexpage-gap: 2rem
     --type-size-nav: 11vw
     --type-size-mentorship: 9vw

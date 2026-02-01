@@ -1,9 +1,12 @@
+@use '../../../styles/_mixins.sass' as mixins
+
 .indexBlokGeneral
   display: flex
   flex-direction: column
   align-items: stretch
-  gap: 1rem
-  padding: calc(var(--indexpage-gap) / 2) var(--spacing-sides)
+  padding: var(--spacing-indexbloks-sides)
+  @include mixins.max-mobile
+    border-bottom: var(--layout-border)
   & > div
     flex: 1
   img
@@ -15,7 +18,7 @@
     display: flex
     justify-content: space-between
     align-items: flex-start
-    gap: .1rem
+    padding: var(--spacing-indexbloks-contentside)
     a
       font-size: var(--type-size-large)
       line-height: var(--type-lineheight-display)
