@@ -48,6 +48,7 @@ export default function IndexBlokGeneral({
       className={styles.indexBlokGeneral}
     >
       <div className={styles.aboveImage}>{title}</div>
+
       <div className={styles.imageContainer}>
         {image && image.filename && !quote && (
           <Image
@@ -87,38 +88,36 @@ export default function IndexBlokGeneral({
           </div>
         )}
       </div>
-      <div className={styles.belowImage}>
-        <div>
-          <div>{event_date && <DateDisplay date={event_date} />}</div>
-          <div>
-            {(tags || isActive) && (
-              <div>
-                {isActive && (
-                  <div
-                    className={`${styles.eventDateOpen} ${styles.tag} cursorInteract`}
-                  >
-                    <span>Upcoming</span>
-                  </div>
-                )}
 
-                {tags &&
-                  tags.map((tag) => (
-                    <div
-                      className={`${styles.tag} cursorInteract`}
-                      key={tag}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        router.push(
-                          `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`,
-                        );
-                      }}
-                    >
-                      <span>#{tag}</span>
-                    </div>
-                  ))}
+      <div className={styles.belowImage}>
+        <div className={styles.belowImage_Top}>
+          <div className={styles.belowImage_Top_Date}>
+            {isActive && (
+              <div
+                className={`${styles.eventDateOpen} ${styles.tag} cursorInteract`}
+              >
+                <span>Upcoming</span>
               </div>
             )}
+            {event_date && <DateDisplay date={event_date} />}
+          </div>
+          <div className={styles.belowImage_Top_Tags}>
+            {tags &&
+              tags.map((tag) => (
+                <div
+                  className={`${styles.tag} cursorInteract`}
+                  key={tag}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    router.push(
+                      `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`,
+                    );
+                  }}
+                >
+                  <span>#{tag}</span>
+                </div>
+              ))}
           </div>
         </div>
       </div>

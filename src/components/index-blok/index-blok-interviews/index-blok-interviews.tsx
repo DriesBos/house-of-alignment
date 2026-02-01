@@ -41,6 +41,7 @@ export default function IndexBlokInterviews({
       className={styles.indexBlokInterviews}
     >
       <div className={styles.aboveImage}>{title}</div>
+
       <div className={styles.imageContainer}>
         {image && image.filename && !quote && (
           <Image
@@ -67,9 +68,11 @@ export default function IndexBlokInterviews({
       </div>
 
       <div className={styles.belowImage}>
-        <div className={`cursorInteract`}>
-          <div>{event_date && <DateDisplay date={event_date} />}</div>
-          <div>
+        <div className={styles.belowImage_Top}>
+          <div className={styles.belowImage_Top_Date}>
+            {event_date && <DateDisplay date={event_date} />}
+          </div>
+          <div className={styles.belowImage_Top_Tags}>
             {(tags || isActive) && (
               <div>
                 {isActive && (
@@ -98,7 +101,7 @@ export default function IndexBlokInterviews({
             )}
           </div>
         </div>
-        <div className={`${styles.descr} cursorInteract`}>
+        <div className={styles.belowImage_Bottom}>
           <p>{descr}</p>
         </div>
       </div>

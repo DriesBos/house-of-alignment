@@ -17,24 +17,36 @@
     display: flex
     flex-direction: column
     padding: var(--indexbloks-content-padding)
-    & > div:first-child
+    &_Top
       display: flex
       justify-content: space-between
       align-items: flex-start
       text-transform: uppercase
       font-size: var(--type-size-data)
-      span
-        font-size: var(--type-size-data)
-    .descr
+      margin-top: 0.5em
+      gap: .5rem
+      &_Date
+        display: flex
+        align-items: center
+        gap: .5rem
+      &_Tags
+        flex: 1
+        display: flex
+        justify-content: flex-end
+        align-items: center
+        gap: .5rem
+    &_Bottom
       display: -webkit-box
-      -webkit-line-clamp: 4
+      -webkit-line-clamp: 2
       -webkit-box-orient: vertical
       overflow: hidden
+      margin-top: 0.5em
       p
         font-size: var(--type-size-indexcaption)
         font-family: var(--font-bradford), 'Bradford', serif
         line-height: var(--type-bradford-lineheight)
         letter-spacing: var(--type-bradford-letterspacing)
+        max-width: 33em
 
   .quoteBlok
     display: flex

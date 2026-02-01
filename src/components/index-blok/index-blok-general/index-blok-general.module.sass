@@ -21,14 +21,24 @@
     display: flex
     flex-direction: column
     padding: var(--indexbloks-content-padding)
-    & > div:first-child
+    &_Top
       display: flex
       justify-content: space-between
       align-items: flex-start
       text-transform: uppercase
       font-size: var(--type-size-data)
-      span
-        font-size: var(--type-size-data)
+      margin-top: 0.5em
+      gap: .5rem
+      &_Date
+        display: flex
+        align-items: center
+        gap: .5rem
+      &_Tags
+        flex: 1
+        display: flex
+        justify-content: flex-end
+        align-items: center
+        gap: .5rem
 
   .quoteBlok
     display: flex
@@ -83,6 +93,7 @@
         background: var(--color-accent)
         color: var(--color-accent-type)
         border-radius: 0
+
         span
           line-height: 1
           font-size: .66rem
@@ -110,11 +121,11 @@
         line-height: 1
         font-size: .75rem
 
-// @keyframes slowBlink
-//   0%, 25%, 100%
-//     background: var(--color-accent)
-//   12.5%
-//     background: color-mix(in srgb, var(--color-accent) 50%, transparent)
+@keyframes slowBlink
+  0%, 25%, 100%
+    opacity: 1
+  12.5%
+    opacity: 0
 
-// .eventDateOpen
-//   animation: slowBlink 4s ease-in-out infinite
+.eventDateOpen
+  animation: slowBlink 2s ease-in-out infinite
