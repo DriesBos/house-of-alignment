@@ -37,9 +37,17 @@ const IndexTiles: React.FC = () => {
       // Cache rect to avoid constant getBoundingClientRect calls
       let rect = container.getBoundingClientRect();
 
-      // Update rect on resize
+      // Update rect on resize and reset grid to initial positions
       const updateRect = () => {
         rect = container.getBoundingClientRect();
+
+        // Reset grid to centered initial positions
+        gsap.set(grid, {
+          '--grid-rows-1': '50%',
+          '--grid-rows-2': '50%',
+          '--grid-col-2': '25vw',
+          '--grid-col-3': '25vw',
+        });
       };
       window.addEventListener('resize', updateRect);
 
@@ -72,26 +80,40 @@ const IndexTiles: React.FC = () => {
         const row1Percent = 70 - normalizedY * 40;
         const row2Percent = 30 + normalizedY * 40;
 
-        // Map normalized X position to column widths
-        // 0 (left) = 35vw 15vw, 1 (right) = 15vw 35vw
-        const col2Width = 35 - normalizedX * 20;
-        const col3Width = 15 + normalizedX * 20;
+        // Check if viewport is less than 600px
+        const isMobile = window.innerWidth < 600;
 
         // Kill the previous tween to avoid queue buildup
         if (currentTween) {
           currentTween.kill();
         }
 
-        // Create optimized tween with overwrite mode
-        currentTween = gsap.to(grid, {
-          '--grid-rows-1': `${row1Percent}%`,
-          '--grid-rows-2': `${row2Percent}%`,
-          '--grid-col-2': `${col2Width}vw`,
-          '--grid-col-3': `${col3Width}vw`,
-          duration: 0.4,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
+        // On mobile (< 600px), only animate rows, disable column animations
+        if (isMobile) {
+          currentTween = gsap.to(grid, {
+            '--grid-rows-1': `${row1Percent}%`,
+            '--grid-rows-2': `${row2Percent}%`,
+            duration: 0.4,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          });
+        } else {
+          // On desktop, animate both rows and columns
+          // Map normalized X position to column widths
+          // 0 (left) = 35vw 15vw, 1 (right) = 15vw 35vw
+          const col2Width = 35 - normalizedX * 20;
+          const col3Width = 15 + normalizedX * 20;
+
+          currentTween = gsap.to(grid, {
+            '--grid-rows-1': `${row1Percent}%`,
+            '--grid-rows-2': `${row2Percent}%`,
+            '--grid-col-2': `${col2Width}vw`,
+            '--grid-col-3': `${col3Width}vw`,
+            duration: 0.4,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          });
+        }
 
         isMouseMoving = false;
       };
