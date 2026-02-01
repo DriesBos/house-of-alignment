@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import styles from './index-blok-interviews.module.sass';
-import Link from 'next/link';
 import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import DateDisplay from '@/components/date-display/date-display';
+import { useRouter } from 'next/navigation';
 
 interface IndexBlokInterviewsProps {
   title?: string;
@@ -32,7 +32,7 @@ export default function IndexBlokInterviews({
   isActive,
   onImageLoad,
 }: IndexBlokInterviewsProps) {
-  // Determine if event is active (in the future)
+  const router = useRouter();
 
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.opacity = '1';
@@ -52,65 +52,74 @@ export default function IndexBlokInterviews({
   };
 
   return (
-    <Link href={'/' + link}>
-      <div className={styles.indexBlokInterviews}>
-        <div className={styles.imageContainer}>
-          {image && image.filename && !quote && (
-            <Image
-              src={`${image.filename}/m/filters:quality(60)`}
-              alt={image.alt || title || 'Image'}
-              width={800}
-              height={600}
-              unoptimized
-              loading="eager"
-              priority={true}
-              className="imageLoad cursorInteract"
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyDYRXGTkKoJHrWp2rStabOyBa1KvKw5YxJ7Sj5wJTnzuHQjdqMcvqEXsZqd/JZfLCqfz8t5rjjX9cfjVf0Jj/c8f8ACSkV4K1/pT9wR/lFaHCp9kqh6ZGC6Vd+lj1/rOAKfZe/w="
-              style={{ width: '100%', height: 'auto' }}
-              onLoad={handleImageLoad}
-            />
-          )}
-          {quote && (
-            <div className={`${styles.quoteBlok} quoteBlok cursorInteract`}>
-              <span>&ldquo;{quote}&rdquo;</span>
-            </div>
-          )}
-          {(tags || isActive) && (
-            <div className={styles.tags}>
-              {isActive && (
-                <div
-                  className={`${styles.eventDateOpen} ${styles.tag} cursorInteract`}
-                >
-                  <span>Open</span>
-                </div>
-              )}
+    <div
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        router.push('/' + link);
+      }}
+      className={styles.indexBlokInterviews}
+    >
+      <div className={styles.imageContainer}>
+        {image && image.filename && !quote && (
+          <Image
+            src={`${image.filename}/m/filters:quality(60)`}
+            alt={image.alt || title || 'Image'}
+            width={800}
+            height={600}
+            unoptimized
+            loading="eager"
+            priority={true}
+            className="imageLoad cursorInteract"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyDYRXGTkKoJHrWp2rStabOyBa1KvKw5YxJ7Sj5wJTnzuHQjdqMcvqEXsZqd/JZfLCqfz8t5rjjX9cfjVf0Jj/c8f8ACSkV4K1/pT9wR/lFaHCp9kqh6ZGC6Vd+lj1/rOAKfZe/w="
+            style={{ width: '100%', height: 'auto' }}
+            onLoad={handleImageLoad}
+          />
+        )}
+        {quote && (
+          <div className={`${styles.quoteBlok} quoteBlok cursorInteract`}>
+            <span>&ldquo;{quote}&rdquo;</span>
+          </div>
+        )}
+        {(tags || isActive) && (
+          <div className={styles.tags}>
+            {isActive && (
+              <div
+                className={`${styles.eventDateOpen} ${styles.tag} cursorInteract`}
+              >
+                <span>Open</span>
+              </div>
+            )}
 
-              {tags &&
-                tags.map((tag) => (
-                  <div className={styles.tag} key={tag}>
-                    <Link
-                      className="cursorInteract"
-                      href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span>{tag}</span>
-                    </Link>
-                  </div>
-                ))}
-            </div>
-          )}
+            {tags &&
+              tags.map((tag) => (
+                <div
+                  className={`${styles.tag} cursorInteract`}
+                  key={tag}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    router.push(
+                      `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`,
+                    );
+                  }}
+                >
+                  <span>{tag}</span>
+                </div>
+              ))}
+          </div>
+        )}
+      </div>
+      <div className={styles.bottom}>
+        <div className={`${styles.title} cursorInteract`}>
+          {title}
+          {event_date && <DateDisplay date={event_date} />}
         </div>
-        <div className={styles.bottom}>
-          <div className={`${styles.title} cursorInteract`}>
-            {title}
-            {event_date && <DateDisplay date={event_date} />}
-          </div>
-          <div className={`${styles.descr} cursorInteract`}>
-            <p>{descr}</p>
-          </div>
+        <div className={`${styles.descr} cursorInteract`}>
+          <p>{descr}</p>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
