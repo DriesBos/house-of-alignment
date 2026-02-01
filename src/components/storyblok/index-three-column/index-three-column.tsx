@@ -43,6 +43,16 @@ const IndexThreeColumn = () => {
 
     if (!isScrollReady) {
       storeDataWrapper.style.overflow = 'hidden';
+
+      // SAFETY: Force scroll restoration after 2000ms if initialization fails
+      const safetyTimeout = setTimeout(() => {
+        setIsScrollReady(true);
+      }, 2000);
+
+      return () => {
+        clearTimeout(safetyTimeout);
+        storeDataWrapper.style.overflow = 'auto';
+      };
     } else {
       storeDataWrapper.style.overflow = 'auto';
     }
@@ -123,61 +133,73 @@ const IndexThreeColumn = () => {
 
       // Use requestAnimationFrame to ensure DOM is fully updated
       requestAnimationFrame(() => {
-        // Normalize scroll for Safari (handles touch + scroll inconsistencies)
-        // Scope it to the custom scroller to avoid Window-based errors.
-        ScrollTrigger.normalizeScroll({
-          target: scroller,
-          allowNestedScroll: true,
-          lockAxis: false,
-          type: 'touch,wheel,pointer',
-        });
-
-        // Set up ScrollTrigger default configuration
-        ScrollTrigger.defaults({
-          scroller,
-        });
-
-        // Get column heights - column 1 (left) is longest and scrolls normally
-        const column1Height = column1Ref.current?.offsetHeight || 0;
-        const column2Height = column2Ref.current?.offsetHeight || 0;
-        const column3Height = column3Ref.current?.offsetHeight || 0;
-
-        // Validate that columns have height before creating animations
-        if (!column1Height || !column2Height || !column3Height) return;
-
-        // Column 1 is the anchor (longest, scrolls normally, determines container height)
-        // Columns 2 & 3 animate to catch up by scrolling slower (translate down)
-        const animatedColumns = [
-          { ref: column2Ref.current, height: column2Height },
-          { ref: column3Ref.current, height: column3Height },
-        ];
-
-        animatedColumns.forEach((col) => {
-          if (!col.ref) return;
-
-          // Calculate pixels to move down relative to column 1 (positive = slower scroll)
-          const pixelsToMove = column1Height - col.height;
-
-          // Skip if heights are exactly equal
-          if (pixelsToMove === 0) return;
-
-          gsap.to(col.ref, {
-            y: pixelsToMove,
-            ease: 'none',
-            force3D: true,
-            willChange: 'transform',
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
+        try {
+          // Normalize scroll for Safari (handles touch + scroll inconsistencies)
+          // Scope it to the custom scroller to avoid Window-based errors.
+          ScrollTrigger.normalizeScroll({
+            target: scroller,
+            allowNestedScroll: true,
+            lockAxis: false,
+            type: 'touch,wheel,pointer',
           });
-        });
 
-        // Enable scrolling after ScrollTrigger is set up
-        setIsScrollReady(true);
+          // Set up ScrollTrigger default configuration
+          ScrollTrigger.defaults({
+            scroller,
+          });
+
+          // Get column heights - column 1 (left) is longest and scrolls normally
+          const column1Height = column1Ref.current?.offsetHeight || 0;
+          const column2Height = column2Ref.current?.offsetHeight || 0;
+          const column3Height = column3Ref.current?.offsetHeight || 0;
+
+          // Validate that columns have height before creating animations
+          if (!column1Height || !column2Height || !column3Height) {
+            console.warn(
+              'Columns have no height - enabling scroll without animation'
+            );
+            setIsScrollReady(true);
+            return;
+          }
+
+          // Column 1 is the anchor (longest, scrolls normally, determines container height)
+          // Columns 2 & 3 animate to catch up by scrolling slower (translate down)
+          const animatedColumns = [
+            { ref: column2Ref.current, height: column2Height },
+            { ref: column3Ref.current, height: column3Height },
+          ];
+
+          animatedColumns.forEach((col) => {
+            if (!col.ref) return;
+
+            // Calculate pixels to move down relative to column 1 (positive = slower scroll)
+            const pixelsToMove = column1Height - col.height;
+
+            // Skip if heights are exactly equal
+            if (pixelsToMove === 0) return;
+
+            gsap.to(col.ref, {
+              y: pixelsToMove,
+              ease: 'none',
+              force3D: true,
+              willChange: 'transform',
+              scrollTrigger: {
+                trigger: containerRef.current,
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            });
+          });
+
+          // Enable scrolling after ScrollTrigger is set up
+          setIsScrollReady(true);
+        } catch (error) {
+          console.error('ScrollTrigger initialization failed:', error);
+          // CRITICAL: Enable scrolling even if animation fails
+          setIsScrollReady(true);
+        }
       });
     },
     {
