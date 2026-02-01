@@ -40,6 +40,7 @@ export default function IndexBlokInterviews({
       }}
       className={styles.indexBlokInterviews}
     >
+      <div className={styles.aboveImage}>{title}</div>
       <div className={styles.imageContainer}>
         {image && image.filename && !quote && (
           <Image
@@ -63,39 +64,39 @@ export default function IndexBlokInterviews({
             <span>&ldquo;{quote}&rdquo;</span>
           </div>
         )}
-        {(tags || isActive) && (
-          <div className={styles.tags}>
-            {isActive && (
-              <div
-                className={`${styles.eventDateOpen} ${styles.tag} cursorInteract`}
-              >
-                <span>Open</span>
+      </div>
+
+      <div className={styles.belowImage}>
+        <div className={`cursorInteract`}>
+          <div>{event_date && <DateDisplay date={event_date} />}</div>
+          <div>
+            {(tags || isActive) && (
+              <div>
+                {isActive && (
+                  <div className={`${styles.eventDateOpen} cursorInteract`}>
+                    <span>Open</span>
+                  </div>
+                )}
+
+                {tags &&
+                  tags.map((tag) => (
+                    <div
+                      className={`${styles.tag} cursorInteract`}
+                      key={tag}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        router.push(
+                          `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`,
+                        );
+                      }}
+                    >
+                      <span>#{tag}</span>
+                    </div>
+                  ))}
               </div>
             )}
-
-            {tags &&
-              tags.map((tag) => (
-                <div
-                  className={`${styles.tag} cursorInteract`}
-                  key={tag}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    router.push(
-                      `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`,
-                    );
-                  }}
-                >
-                  <span>{tag}</span>
-                </div>
-              ))}
           </div>
-        )}
-      </div>
-      <div className={styles.bottom}>
-        <div className={`${styles.title} cursorInteract`}>
-          {title}
-          {event_date && <DateDisplay date={event_date} />}
         </div>
         <div className={`${styles.descr} cursorInteract`}>
           <p>{descr}</p>

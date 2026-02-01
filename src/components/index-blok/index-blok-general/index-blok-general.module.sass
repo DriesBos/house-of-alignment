@@ -10,15 +10,25 @@
   & > div
     flex: 1
 
-  .title
+  .aboveImage
     display: flex
-    justify-content: space-between
-    align-items: flex-start
-    padding: var(--indexbloks-content-padding)
+    padding: var(--indexbloks-contenttop-padding)
     gap: .5rem
-    a
-      font-size: var(--type-size-large)
-      line-height: var(--type-lineheight-display)
+    font-size: var(--type-size-large)
+    line-height: var(--type-lineheight-display)
+
+  .belowImage
+    display: flex
+    flex-direction: column
+    padding: var(--indexbloks-content-padding)
+    & > div:first-child
+      display: flex
+      justify-content: space-between
+      align-items: flex-start
+      text-transform: uppercase
+      font-size: var(--type-size-data)
+      span
+        font-size: var(--type-size-data)
 
   .quoteBlok
     display: flex

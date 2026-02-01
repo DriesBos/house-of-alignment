@@ -6,32 +6,35 @@
   & > div
     flex: 1
 
-  .bottom
+  .aboveImage
+    display: flex
+    padding: var(--indexbloks-contenttop-padding)
+    gap: .5rem
+    font-size: var(--type-size-large)
+    line-height: var(--type-lineheight-display)
+
+  .belowImage
     display: flex
     flex-direction: column
     padding: var(--indexbloks-content-padding)
-
-  .title
-    display: flex
-    justify-content: space-between
-    align-items: flex-start
-    text-transform: uppercase
-    gap: .1rem
-    a
-      font-size: var(--type-size-large)
-      line-height: var(--type-lineheight-display)
-
-  .descr
-    display: -webkit-box
-    -webkit-line-clamp: 4
-    -webkit-box-orient: vertical
-    overflow: hidden
-    margin-top: .5rem
-    p
-      font-size: var(--type-size-indexcaption)
-      font-family: var(--font-bradford), 'Bradford', serif
-      line-height: var(--type-bradford-lineheight)
-      letter-spacing: var(--type-bradford-letterspacing)
+    & > div:first-child
+      display: flex
+      justify-content: space-between
+      align-items: flex-start
+      text-transform: uppercase
+      font-size: var(--type-size-data)
+      span
+        font-size: var(--type-size-data)
+    .descr
+      display: -webkit-box
+      -webkit-line-clamp: 4
+      -webkit-box-orient: vertical
+      overflow: hidden
+      p
+        font-size: var(--type-size-indexcaption)
+        font-family: var(--font-bradford), 'Bradford', serif
+        line-height: var(--type-bradford-lineheight)
+        letter-spacing: var(--type-bradford-letterspacing)
 
   .quoteBlok
     display: flex
