@@ -8,29 +8,35 @@ export default function ScrollToTop() {
   const previousPathname = useRef<string | null>(null);
 
   useEffect(() => {
-    // Only scroll if the pathname actually changed (not on initial mount with same path)
     if (
       previousPathname.current !== null &&
       previousPathname.current !== pathname
     ) {
-      // Immediate scroll
       const scrollToTop = () => {
         const storeDataWrapper = document.querySelector('.storeDataWrapper');
         if (storeDataWrapper) {
           storeDataWrapper.scrollTo({ top: 0, behavior: 'instant' });
         }
         window.scrollTo({ top: 0, behavior: 'instant' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
       };
 
-      // Scroll immediately
       scrollToTop();
 
-      // Also scroll after a short delay to handle any async content loading
-      const timeoutId = setTimeout(scrollToTop, 50);
+      // Use rAF to scroll again after the browser has painted the new route
+      const rafId = requestAnimationFrame(() => {
+        scrollToTop();
+      });
 
-      return () => clearTimeout(timeoutId);
+      return () => cancelAnimationFrame(rafId);
     }
 
+    previousPathname.current = pathname;
+  }, [pathname]);
+
+  // Always keep previousPathname in sync, even when the scroll branch runs
+  useEffect(() => {
     previousPathname.current = pathname;
   }, [pathname]);
 
