@@ -13,14 +13,109 @@ const IndexTiles: React.FC = () => {
   const gridRef = useRef<HTMLDivElement>(null);
   const setLayout = useLayoutStore((state) => state.setLayout);
   const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
+  const [hasFinePointer, setHasFinePointer] = useState(true);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const tag = 'mentorship';
+
+  // Detect pointer type (mouse vs touch)
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(pointer: fine)');
+    setHasFinePointer(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setHasFinePointer(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  // Time-based animation for touch devices
+  useGSAP(
+    () => {
+      const grid = gridRef.current;
+      if (!grid || hasFinePointer) return;
+
+      // Kill any existing timeline
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+      }
+
+      // Create timeline with keyframes for smooth looping animation
+      const tl = gsap.timeline({
+        repeat: -1,
+        defaults: { duration: 4, ease: 'sine.inOut' },
+      });
+
+      // Position 1: Center (initial)
+      tl.set(grid, {
+        '--grid-rows-1': '50%',
+        '--grid-rows-2': '50%',
+        '--grid-col-2': '25vw',
+        '--grid-col-3': '25vw',
+      });
+
+      // Position 2: Top-Left
+      tl.to(grid, {
+        '--grid-rows-1': '60%',
+        '--grid-rows-2': '40%',
+        '--grid-col-2': '30vw',
+        '--grid-col-3': '20vw',
+      });
+
+      // Position 3: Bottom-Right
+      tl.to(grid, {
+        '--grid-rows-1': '40%',
+        '--grid-rows-2': '60%',
+        '--grid-col-2': '20vw',
+        '--grid-col-3': '30vw',
+      });
+
+      // Position 4: Top-Right
+      tl.to(grid, {
+        '--grid-rows-1': '60%',
+        '--grid-rows-2': '40%',
+        '--grid-col-2': '20vw',
+        '--grid-col-3': '30vw',
+      });
+
+      // Position 5: Bottom-Left
+      tl.to(grid, {
+        '--grid-rows-1': '40%',
+        '--grid-rows-2': '60%',
+        '--grid-col-2': '30vw',
+        '--grid-col-3': '20vw',
+      });
+
+      // Position 6: Back to Center (smooth loop)
+      tl.to(grid, {
+        '--grid-rows-1': '50%',
+        '--grid-rows-2': '50%',
+        '--grid-col-2': '25vw',
+        '--grid-col-3': '25vw',
+      });
+
+      timelineRef.current = tl;
+
+      return () => {
+        if (timelineRef.current) {
+          timelineRef.current.kill();
+          timelineRef.current = null;
+        }
+      };
+    },
+    {
+      scope: containerRef,
+      dependencies: [hasFinePointer],
+    },
+  );
 
   // GSAP animation for mouse-based grid row adjustment
   useGSAP(
     () => {
       const container = containerRef.current;
       const grid = gridRef.current;
-      if (!container || !grid) return;
+      if (!container || !grid || !hasFinePointer) return;
 
       // Set initial center values to prevent jump on first mouse enter
       // Center position: normalizedX = 0.5, normalizedY = 0.5
@@ -76,44 +171,30 @@ const IndexTiles: React.FC = () => {
         const normalizedY = Math.max(0, Math.min(1, mouseY / rect.height));
 
         // Map normalized Y position to row percentages
-        // 0 (top) = 60% 40%, 1 (bottom) = 40% 60%
+        // 0 (top) = 70% 30%, 1 (bottom) = 30% 70%
         const row1Percent = 70 - normalizedY * 40;
         const row2Percent = 30 + normalizedY * 40;
 
-        // Check if viewport is less than 600px
-        const isMobile = window.innerWidth < 600;
+        // Map normalized X position to column widths
+        // 0 (left) = 35vw 15vw, 1 (right) = 15vw 35vw
+        const col2Width = 35 - normalizedX * 20;
+        const col3Width = 15 + normalizedX * 20;
 
         // Kill the previous tween to avoid queue buildup
         if (currentTween) {
           currentTween.kill();
         }
 
-        // On mobile (< 600px), only animate rows, disable column animations
-        if (isMobile) {
-          currentTween = gsap.to(grid, {
-            '--grid-rows-1': `${row1Percent}%`,
-            '--grid-rows-2': `${row2Percent}%`,
-            duration: 0.4,
-            ease: 'power2.out',
-            overwrite: 'auto',
-          });
-        } else {
-          // On desktop, animate both rows and columns
-          // Map normalized X position to column widths
-          // 0 (left) = 35vw 15vw, 1 (right) = 15vw 35vw
-          const col2Width = 35 - normalizedX * 20;
-          const col3Width = 15 + normalizedX * 20;
-
-          currentTween = gsap.to(grid, {
-            '--grid-rows-1': `${row1Percent}%`,
-            '--grid-rows-2': `${row2Percent}%`,
-            '--grid-col-2': `${col2Width}vw`,
-            '--grid-col-3': `${col3Width}vw`,
-            duration: 0.4,
-            ease: 'power2.out',
-            overwrite: 'auto',
-          });
-        }
+        // Animate both rows and columns
+        currentTween = gsap.to(grid, {
+          '--grid-rows-1': `${row1Percent}%`,
+          '--grid-rows-2': `${row2Percent}%`,
+          '--grid-col-2': `${col2Width}vw`,
+          '--grid-col-3': `${col3Width}vw`,
+          duration: 0.4,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        });
 
         isMouseMoving = false;
       };
@@ -128,7 +209,10 @@ const IndexTiles: React.FC = () => {
         ctx.revert();
       };
     },
-    { scope: containerRef },
+    {
+      scope: containerRef,
+      dependencies: [hasFinePointer],
+    },
   );
 
   // Set layout to 'tiles' when component mounts
