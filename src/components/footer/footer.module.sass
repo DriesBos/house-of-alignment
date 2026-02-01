@@ -2,48 +2,41 @@
 
 .footer
   border-top: var(--layout-border)
-  padding: 4rem 0 12rem
+  padding: 8rem 0 12rem
   user-select: none
-  @include vars.max-mobile
-    padding-top: 64px
   &_content
     display: flex
-    flex-wrap: wrap
+    padding: 0 calc(var(--spacing-sides) / 2)
+    gap: var(--spacing-sides)
     & > div
       display: flex
       flex-direction: column
-      justify-content: space-between
       border-box-sizing: border-box
-      padding: 0 var(--spacing-sides)
-      width: 25vw
+      flex: 1
       @include vars.max-mobile
-        width: 50%
-      &:first-child
-        width: 50vw
-        @include vars.max-mobile
-          margin-bottom: 2rem
-          width: 100%
+        width: 100%
     &_left
+      gap: 1rem
       a
         font-family: var(--font-helvetica)
       .logo
         font-size: var(--type-size-logo)
         text-transform: uppercase
+        line-height: var(--type-lineheight-display)
+        letter-spacing: var(--type-letterspacing-display)
       p
-        letter-spacing: var(--type-bradford-letterspacing)
         line-height: var(--type-bradford-lineheight)
-    &_center, &_right
-      text-transform: uppercase
-    &_center
-      gap: .25rem
+        letter-spacing: var(--type-bradford-letterspacing)
     &_right
+      text-transform: uppercase
       display: flex
       flex-direction: column
+      gap: 2rem
       & > div
         display: flex
         flex-direction: column
         align-items: flex-start
-        gap: .25rem
+        gap: .33rem
 
   p, a, span
     position: relative

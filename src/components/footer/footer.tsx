@@ -26,27 +26,27 @@ export function Footer() {
             </Link>
           </p>
         </div>
-        <div className={styles.footer_content_center}>
-          <Link className="cursorInteract" href="/">
-            Index
-          </Link>
-          <Link className="cursorInteract" href="/mentorship">
-            Mentorship
-          </Link>
-          <Link className="cursorInteract" href="/tags/dinner">
-            Events
-          </Link>
-          <Link className="cursorInteract" href="/tags/interview">
-            Conversations
-          </Link>
-          <Link className="cursorInteract" href="/about">
-            About
-          </Link>
-        </div>
         <div className={styles.footer_content_right}>
           <div>
             <SloganWrapper />
             <ThemeToggle />
+          </div>
+          <div>
+            <Link className="cursorInteract" href="/">
+              Index
+            </Link>
+            <Link className="cursorInteract" href="/mentorship">
+              Mentorship
+            </Link>
+            <Link className="cursorInteract" href="/tags/dinner">
+              Events
+            </Link>
+            <Link className="cursorInteract" href="/tags/interview">
+              Conversations
+            </Link>
+            <Link className="cursorInteract" href="/about">
+              About
+            </Link>
           </div>
           <div>
             <a
