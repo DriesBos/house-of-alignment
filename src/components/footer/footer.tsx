@@ -13,7 +13,7 @@ export function Footer() {
     <footer className={styles.footer} id="seats">
       <div className={styles.footer_content}>
         <div className={styles.footer_content_left}>
-          <p className={styles.logo}>House of Alignment</p>
+          <div className={styles.logo}>House of Alignment</div>
           <p className="bradford">
             Home of visionary founders.
             <br />
