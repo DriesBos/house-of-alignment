@@ -1,5 +1,9 @@
+@use '../../../styles/_mixins.sass' as mixins
+
 .contentContainer
   display: flex
   width: 100%
   & > div
     flex: 1
+  @include mixins.max-mobile
+    flex-direction: column
