@@ -3,16 +3,11 @@
 import { ISbStoryData } from '@storyblok/react/rsc';
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import ContentColumn from '@/components/content-column/content-column';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/dist/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
 import styles from './index-two-column.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
+import { useColumnParallax } from '@/hooks/useColumnParallax';
 import IndexBlok from '@/components/index-blok/index-blok';
 import LinkBlok from './link-blok/link-blok';
-
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface IndexTwoColumnProps {
   tag: string;
@@ -26,40 +21,11 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
   const setLayout = useLayoutStore((state) => state.setLayout);
 
   const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
-  const [isScrollReady, setIsScrollReady] = useState(false);
 
   // Set layout to 'two' when component mounts
   useEffect(() => {
     setLayout('twoIndex');
   }, [setLayout]);
-
-  // Prevent scrolling until ScrollTrigger is ready
-  useEffect(() => {
-    const storeDataWrapper = document.querySelector(
-      '.storeDataWrapper',
-    ) as HTMLElement;
-    if (!storeDataWrapper) return;
-
-    if (!isScrollReady) {
-      storeDataWrapper.style.overflow = 'hidden';
-
-      // SAFETY: Force scroll restoration after 2000ms if initialization fails
-      const safetyTimeout = setTimeout(() => {
-        setIsScrollReady(true);
-      }, 2000);
-
-      return () => {
-        clearTimeout(safetyTimeout);
-        storeDataWrapper.style.overflow = 'auto';
-      };
-    } else {
-      storeDataWrapper.style.overflow = 'auto';
-    }
-
-    return () => {
-      storeDataWrapper.style.overflow = 'auto';
-    };
-  }, [isScrollReady]);
 
   // Fetch stories filtered by tag
   useEffect(() => {
@@ -126,107 +92,13 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
     };
   }, [allStories]);
 
-  useGSAP(
-    () => {
-      // Wait for content to be rendered
-      if (
-        !containerRef.current ||
-        column1Stories.length === 0 ||
-        column2Stories.length === 0
-      )
-        return;
-
-      // Use requestAnimationFrame to ensure DOM is fully updated
-      requestAnimationFrame(() => {
-        try {
-          const scroller = document.querySelector(
-            '.storeDataWrapper',
-          ) as HTMLElement | null;
-          if (!scroller) {
-            console.warn(
-              'Scroller not found - enabling scroll without animation',
-            );
-            setIsScrollReady(true);
-            return;
-          }
-
-          // Normalize scroll for Safari - FIX: Add target to match scroller
-          ScrollTrigger.normalizeScroll({
-            target: scroller,
-            allowNestedScroll: true,
-            lockAxis: false,
-            type: 'touch,wheel,pointer',
-          });
-
-          // Set up ScrollTrigger default configuration
-          ScrollTrigger.defaults({
-            scroller: '.storeDataWrapper',
-          });
-
-          // Get all column references and their heights
-          const columnData = [
-            {
-              ref: column1Ref.current,
-              height: column1Ref.current?.offsetHeight || 0,
-            },
-            {
-              ref: column2Ref.current,
-              height: column2Ref.current?.offsetHeight || 0,
-            },
-          ];
-
-          // Validate that columns have height before creating animations
-          if (columnData.some((col) => col.height === 0)) {
-            console.warn(
-              'Columns have no height - enabling scroll without animation',
-            );
-            setIsScrollReady(true);
-            return;
-          }
-
-          // Find the longest column
-          const maxHeight = Math.max(...columnData.map((col) => col.height));
-          const longestColumnIndex = columnData.findIndex(
-            (col) => col.height === maxHeight,
-          );
-
-          // Apply animations to columns, skipping the longest one
-          columnData.forEach((col, index) => {
-            if (!col.ref || index === longestColumnIndex) return;
-
-            // Calculate how many pixels this column should move
-            const pixelsToMove = maxHeight - col.height;
-
-            gsap.to(col.ref, {
-              y: pixelsToMove,
-              ease: 'none',
-              force3D: true,
-              willChange: 'transform',
-              scrollTrigger: {
-                trigger: containerRef.current,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: true,
-                invalidateOnRefresh: true,
-              },
-            });
-          });
-
-          // Enable scrolling after ScrollTrigger is set up
-          setIsScrollReady(true);
-        } catch (error) {
-          console.error('ScrollTrigger initialization failed:', error);
-          // CRITICAL: Enable scrolling even if animation fails
-          setIsScrollReady(true);
-        }
-      });
-    },
-    {
-      scope: containerRef,
-      dependencies: [layout, column1Stories, column2Stories],
-      revertOnUpdate: true,
-    },
-  );
+  useColumnParallax({
+    containerRef,
+    columnRefs: [column1Ref, column2Ref],
+    dependencies: [layout, column1Stories, column2Stories],
+    normalizeScroll: true,
+    scrollLock: true,
+  });
 
   return (
     <div className={styles.indexTwoColumn} ref={containerRef}>

@@ -2,8 +2,7 @@
 
 import styles from './content-column.module.sass';
 import { useRef, Children, isValidElement, useCallback } from 'react';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
+import { gsap, useGSAP } from '@/lib/gsap';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 
 export default function ContentColumn({

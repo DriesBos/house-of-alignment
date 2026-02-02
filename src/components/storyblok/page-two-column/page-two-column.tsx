@@ -5,18 +5,12 @@ import {
   storyblokEditable,
   StoryblokServerComponent,
 } from '@storyblok/react/rsc';
-import React, { useRef, useLayoutEffect, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import ContentColumn from '@/components/content-column/content-column';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 import styles from './page-two-column.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
-
-// Make sure GSAP plugins are registered before any animations
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useColumnParallax } from '@/hooks/useColumnParallax';
 
 interface SbPageTwoColumnData extends SbBlokData {
   column_one: SbBlokData[];
@@ -56,62 +50,12 @@ const PageTwoColumn: React.FunctionComponent<PageTwoColumnProps> = ({
     }
   }, [pathname]);
 
-  useLayoutEffect(() => {
-    if (!containerRef.current) return;
-    if (window.matchMedia('(max-width: 770px)').matches) return;
-
-    const triggers: ScrollTrigger[] = [];
-
-    requestAnimationFrame(() => {
-      ScrollTrigger.defaults({
-        scroller: '.storeDataWrapper',
-      });
-
-      const columnData = [
-        {
-          ref: column1Ref.current,
-          height: column1Ref.current?.offsetHeight || 0,
-        },
-        {
-          ref: column2Ref.current,
-          height: column2Ref.current?.offsetHeight || 0,
-        },
-      ];
-
-      const maxHeight = Math.max(...columnData.map((col) => col.height));
-      const longestColumnIndex = columnData.findIndex(
-        (col) => col.height === maxHeight
-      );
-
-      columnData.forEach((col, index) => {
-        if (!col.ref || index === longestColumnIndex) return;
-
-        const pixelsToMove = maxHeight - col.height;
-
-        const tl = gsap.to(col.ref, {
-          y: pixelsToMove,
-          ease: 'none',
-          force3D: true,
-          willChange: 'transform',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
-        });
-
-        if (tl.scrollTrigger) {
-          triggers.push(tl.scrollTrigger);
-        }
-      });
-    });
-
-    return () => {
-      triggers.forEach((trigger) => trigger.kill());
-    };
-  }, [layout]);
+  useColumnParallax({
+    containerRef,
+    columnRefs: [column1Ref, column2Ref],
+    dependencies: [layout],
+    skipOnMobile: true,
+  });
 
   return (
     <div

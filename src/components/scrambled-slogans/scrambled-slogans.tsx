@@ -1,12 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
+import { useGSAP } from '@/lib/gsap';
 import type { SloganItem } from '@/utils/fetchGlobalData';
-
-// Register GSAP plugins
-gsap.registerPlugin(useGSAP);
 
 interface ScrambledSlogansProps {
   slogans: SloganItem[];

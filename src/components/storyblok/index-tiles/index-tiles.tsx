@@ -5,8 +5,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import styles from './index-tiles.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 import Link from 'next/link';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
+import { gsap, useGSAP } from '@/lib/gsap';
 
 const IndexTiles: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
