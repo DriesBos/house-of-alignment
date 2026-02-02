@@ -1,4 +1,4 @@
-@use '../../styles/_mixins.sass' as vars
+@use '../../styles/_mixins.sass' as mixins
 
 .footer
   border-top: var(--layout-border)
@@ -8,12 +8,14 @@
     display: flex
     padding: 0 calc(var(--spacing-sides) / 2)
     gap: var(--spacing-sides)
+    @include mixins.max-mobile
+    padding: 0 var(--spacing-sides)
     & > div
       display: flex
       flex-direction: column
       border-box-sizing: border-box
       flex: 1
-      @include vars.max-mobile
+      @include mixins.max-mobile
         width: 100%
     &_left
       gap: 1rem
