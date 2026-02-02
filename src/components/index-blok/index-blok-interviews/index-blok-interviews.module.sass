@@ -41,7 +41,7 @@
     padding: var(--indexbloks-content-padding)
     &_Top
       display: flex
-      justify-content: space-between
+      flex-wrap: wrap
       align-items: flex-start
       text-transform: uppercase
       font-size: var(--type-size-data)
@@ -49,17 +49,29 @@
       gap: .5rem
       @include mixins.max-mobile
         flex-direction: column
+        margin-top: 0em
+        gap: 0
       &_Date
-        display: flex
+        display: inline-flex
+        flex-wrap: wrap
         align-items: center
         gap: .5rem
+        height: 1.2em
       &_Tags
-        flex: 1
-        display: flex
+        display: inline-flex
         flex-wrap: wrap
         justify-content: flex-end
         align-items: center
         gap: .5rem
+        height: 1.2em
+        span
+          filter: blur(0px)
+          opacity: 1
+          transition: opacity var(--transition-link-hover), filter var(--transition-link-hover)
+          &:hover
+            @media (hover: hover)
+              opacity: var(--opacity-link-hover)
+              filter: blur(2px)
     &_Bottom
       display: -webkit-box
       -webkit-line-clamp: 2
