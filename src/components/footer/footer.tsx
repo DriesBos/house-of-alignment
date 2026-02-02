@@ -14,30 +14,17 @@ export function Footer() {
       <div className={styles.footer_content}>
         <div className={styles.footer_content_left}>
           <div className={styles.logo}>House of Alignment</div>
-          <div className="show-on-mobile">
-            <p>
-              Home of visionary founders. Where your next bold move begins.
-              Trust your vision.
-              <br />
-              <Link className="cursorInteract" href="/about">
-                {' '}
-                (more)
-              </Link>
-            </p>
-          </div>
-          <div className="show-on-desktop">
-            <p>
-              Home of visionary founders.
-              <br />
-              Where your next bold move begins.
-              <br />
-              Trust your vision.{' '}
-              <Link className="cursorInteract" href="/about">
-                {' '}
-                (more)
-              </Link>
-            </p>
-          </div>
+          <p>
+            Home of visionary founders.
+            <br />
+            Where your next bold move begins.
+            <br />
+            Trust your vision.{' '}
+            <Link className="cursorInteract" href="/about">
+              {' '}
+              (more)
+            </Link>
+          </p>
         </div>
         <div className={styles.footer_content_right}>
           <div>
