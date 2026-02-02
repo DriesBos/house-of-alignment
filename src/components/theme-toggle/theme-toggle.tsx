@@ -29,7 +29,7 @@ export function ThemeToggle() {
       className={`${styles.themeToggle} cursorInteract`}
       onClick={handleThemeChange}
     >
-      ( Theme: {isMounted ? theme : 'stone'} )
+      ( Theme: {isMounted ? theme : 'light'} )
     </button>
   );
 }

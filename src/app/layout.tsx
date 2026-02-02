@@ -100,14 +100,11 @@ export default async function RootLayout({
                           const THEME_KEY = 'hoa-theme-preference';
                           const stored = localStorage.getItem(THEME_KEY);
                           
-                          let theme = 'light'; // default
-                          
+                          let theme = 'stone'; // default
+
                           // If user has a stored preference, use it
                           if (stored && ['light', 'dark', 'stone', 'blue'].includes(stored)) {
                             theme = stored;
-                          } else {
-                            // Otherwise, use system preference (only light/dark available from system)
-                            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                           }
                           
                           document.documentElement.setAttribute('data-theme', theme);
