@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow Storyblok live preview from search engines
+Disallow: /live-preview
+
+# Sitemap (uncomment and set your production URL when ready)
+# Sitemap: https://your-domain.com/sitemap.xml
