@@ -1,7 +1,12 @@
 import IndexTwoColumn from '@/components/storyblok/index-two-column/index-two-column';
+import { fetchStoriesByTag } from '@/utils/fetchStories';
 import type { Metadata } from 'next';
 
 type Params = Promise<{ tag: string }>;
+
+export function generateStaticParams() {
+  return [{ tag: 'dinner' }, { tag: 'interview' }];
+}
 
 export async function generateMetadata({
   params,
@@ -24,6 +29,7 @@ export async function generateMetadata({
 
 export default async function TagPage({ params }: { params: Params }) {
   const { tag } = await params;
+  const stories = await fetchStoriesByTag('published', tag);
 
-  return <IndexTwoColumn tag={tag} />;
+  return <IndexTwoColumn tag={tag} stories={stories} />;
 }

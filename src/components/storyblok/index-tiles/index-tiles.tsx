@@ -1,9 +1,9 @@
 'use client';
 
-import { ISbStoryData } from '@storyblok/react/rsc';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import styles from './index-tiles.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
+import { useStories } from '@/providers/stories-provider';
 import Link from 'next/link';
 import { gsap, useGSAP } from '@/lib/gsap';
 
@@ -11,10 +11,18 @@ const IndexTiles: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const setLayout = useLayoutStore((state) => state.setLayout);
-  const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
+  const { stories } = useStories();
+  const allStories = useMemo(
+    () =>
+      stories.filter((story) =>
+        story.tag_list?.some(
+          (t: string) => t.toLowerCase() === 'mentorship'
+        )
+      ),
+    [stories]
+  );
   const [hasFinePointer, setHasFinePointer] = useState(true);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
-  const tag = 'mentorship';
 
   // Detect pointer type (mouse vs touch)
   useEffect(() => {
@@ -214,39 +222,6 @@ const IndexTiles: React.FC = () => {
   useEffect(() => {
     setLayout('one');
   }, [setLayout]);
-
-  // Fetch stories filtered by tag
-  useEffect(() => {
-    const fetchStoriesByTag = async () => {
-      try {
-        if (!tag) {
-          console.warn('Tag is empty or undefined');
-          return;
-        }
-
-        // Convert URL-friendly slug to properly formatted tag
-        // Replace '-' and '_' with spaces, then capitalize each word
-        const tagName = tag
-          .replace(/[-_]/g, ' ')
-          .split(' ')
-          .map(
-            (word) =>
-              word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-          )
-          .join(' ');
-
-        const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=${tagName}&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`,
-        );
-        const data = await response.json();
-        setAllStories(data.stories || []);
-      } catch (error) {
-        console.error('Error fetching stories by tag:', error);
-      }
-    };
-
-    fetchStoriesByTag();
-  }, [tag]);
 
   return (
     <div className={styles.indexTiles} ref={containerRef}>

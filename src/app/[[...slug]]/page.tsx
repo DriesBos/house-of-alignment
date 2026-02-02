@@ -1,9 +1,17 @@
 import { StoryblokStory } from '@storyblok/react/rsc';
+import { getStoryblokApi } from '@/lib/storyblok';
 import { fetchStory } from '@/utils/fetchStory';
+import { fetchAllStories } from '@/utils/fetchStories';
+import { StoriesProvider } from '@/providers/stories-provider';
 import type { Metadata } from 'next';
 
 export async function generateStaticParams() {
-  return [];
+  const stories = await fetchAllStories('published');
+  return stories
+    .filter((story) => story.full_slug && story.full_slug !== 'home')
+    .map((story) => ({
+      slug: story.full_slug.split('/'),
+    }));
 }
 
 type Params = Promise<{ slug?: string[] }>;
@@ -35,8 +43,16 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function Home({ params }: { params: Params }) {
+  getStoryblokApi();
   const slug = (await params).slug;
-  const pageData = await fetchStory('published', slug);
+  const [pageData, allStories] = await Promise.all([
+    fetchStory('published', slug),
+    fetchAllStories('published'),
+  ]);
 
-  return <StoryblokStory story={pageData.story} />;
+  return (
+    <StoriesProvider stories={allStories}>
+      <StoryblokStory story={pageData.story} />
+    </StoriesProvider>
+  );
 }

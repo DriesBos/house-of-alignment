@@ -1,59 +1,45 @@
 'use client';
 
-import { ISbStoryData } from '@storyblok/react/rsc';
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import { ISbStoryData, SbBlokData } from '@storyblok/react/rsc';
+import React, { useRef, useEffect, useMemo } from 'react';
 import ContentColumn from '@/components/content-column/content-column';
 import styles from './index-two-column.module.sass';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 import { useColumnParallax } from '@/hooks/useColumnParallax';
+import { useStories } from '@/providers/stories-provider';
 import IndexBlok from '@/components/index-blok/index-blok';
 import LinkBlok from './link-blok/link-blok';
 
 interface IndexTwoColumnProps {
-  tag: string;
+  tag?: string;
+  stories?: ISbStoryData[];
+  blok?: SbBlokData & { tag?: string };
 }
 
-const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
+const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag: tagProp, stories: storiesProp, blok }) => {
+  const resolvedTag = tagProp || blok?.tag || '';
+  const { stories: contextStories } = useStories();
+
+  // Filter context stories by tag when rendered through StoryblokStory
+  const allStories = useMemo(() => {
+    if (storiesProp) return storiesProp;
+    if (!resolvedTag) return contextStories;
+    return contextStories.filter((story) =>
+      story.tag_list?.some(
+        (t: string) => t.toLowerCase() === resolvedTag.toLowerCase()
+      )
+    );
+  }, [storiesProp, contextStories, resolvedTag]);
   const containerRef = useRef<HTMLDivElement>(null);
   const column1Ref = useRef<HTMLDivElement>(null);
   const column2Ref = useRef<HTMLDivElement>(null);
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
 
-  const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
-
   // Set layout to 'two' when component mounts
   useEffect(() => {
     setLayout('twoIndex');
   }, [setLayout]);
-
-  // Fetch stories filtered by tag
-  useEffect(() => {
-    const fetchStoriesByTag = async () => {
-      try {
-        // Convert URL-friendly slug to properly formatted tag
-        // Replace '-' and '_' with spaces, then capitalize each word
-        const tagName = tag
-          .replace(/[-_]/g, ' ')
-          .split(' ')
-          .map(
-            (word) =>
-              word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-          )
-          .join(' ');
-
-        const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&with_tag=${tagName}&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`,
-        );
-        const data = await response.json();
-        setAllStories(data.stories || []);
-      } catch (error) {
-        console.error('Error fetching stories by tag:', error);
-      }
-    };
-
-    fetchStoriesByTag();
-  }, [tag]);
 
   // Divide stories into two columns (60%, 40%) using weighted round-robin
   // Sort by event_date (newest first)
@@ -122,7 +108,7 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag }) => {
       <div ref={column2Ref} className="columnMedium">
         <ContentColumn>
           <LinkBlok
-            tag={tag}
+            tag={resolvedTag}
             stories={allStories.map((story) => ({
               title: story.content.page_title,
               tags: story.tag_list,

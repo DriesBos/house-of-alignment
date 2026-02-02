@@ -1,11 +1,9 @@
 import { ISbResponse } from '@storyblok/react/rsc';
-import { getStoryblokApi } from '@/lib/storyblok';
 
 export const fetchStory = async (
   version: 'draft' | 'published',
   slug?: string[]
 ) => {
-  getStoryblokApi();
   const correctSlug = `/${slug ? slug.join('/') : 'home'}`;
 
   return fetch(

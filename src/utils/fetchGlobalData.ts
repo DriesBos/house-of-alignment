@@ -1,5 +1,3 @@
-import { getStoryblokApi } from '@/lib/storyblok';
-
 export interface SloganItem {
   _uid: string;
   slogan: string;
@@ -21,8 +19,6 @@ export const fetchGlobalData = async (
   version: 'draft' | 'published' = 'published'
 ): Promise<GlobalData> => {
   try {
-    getStoryblokApi();
-
     const token =
       version === 'published'
         ? process.env.NEXT_PUBLIC_STORYBLOK_TOKEN

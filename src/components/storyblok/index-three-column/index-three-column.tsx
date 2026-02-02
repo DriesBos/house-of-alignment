@@ -12,6 +12,7 @@ import ContentColumn from '@/components/content-column/content-column';
 import IndexBlok from '@/components/index-blok/index-blok';
 import { useLayoutStore } from '@/providers/layout-store-provider';
 import { useColumnParallax } from '@/hooks/useColumnParallax';
+import { useStories } from '@/providers/stories-provider';
 import BlokAbout from '../blok-about/blok-about';
 
 const IndexThreeColumn = () => {
@@ -21,7 +22,7 @@ const IndexThreeColumn = () => {
   const column3Ref = useRef<HTMLDivElement>(null);
   const layout = useLayoutStore((state) => state.layout);
   const setLayout = useLayoutStore((state) => state.setLayout);
-  const [allStories, setAllStories] = useState<ISbStoryData[]>([]);
+  const { stories: allStories } = useStories();
   const [isMobile, setIsMobile] = useState(false);
 
   // Track window size for responsive column layout
@@ -38,23 +39,6 @@ const IndexThreeColumn = () => {
   useEffect(() => {
     setLayout('three');
   }, [setLayout]);
-
-  // Fetch all stories
-  useEffect(() => {
-    const fetchAllStories = async () => {
-      try {
-        const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/stories?version=published&token=${process.env.NEXT_PUBLIC_STORYBLOK_TOKEN}`
-        );
-        const data = await response.json();
-        setAllStories(data.stories);
-      } catch (error) {
-        console.error('Error fetching stories:', error);
-      }
-    };
-
-    fetchAllStories();
-  }, []);
 
   // Divide stories into columns using weighted round-robin
   // Only include stories that have at least one tag

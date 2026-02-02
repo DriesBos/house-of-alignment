@@ -8,14 +8,12 @@ import { gsap, useGSAP } from '@/lib/gsap';
 import { ThemeToggle } from '@/components/theme-toggle/theme-toggle';
 import { SloganWrapper } from '@/components/slogan-wrapper/slogan-wrapper';
 
-interface TagCount {
-  name: string;
-  taggings_count: number;
+interface HeaderProps {
+  tagCounts?: Record<string, number>;
 }
 
-export default function Header() {
+export default function Header({ tagCounts = {} }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [tagCounts, setTagCounts] = useState<{ [key: string]: number }>({});
   const headerRef = useRef<HTMLElement>(null);
   const headerBottomRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -42,36 +40,6 @@ export default function Header() {
     const pixelValue = remToPixels + 38 + 2;
     return `${pixelValue}px`;
   };
-
-  // Fetch tag counts for Dinner and Interview
-  useEffect(() => {
-    const fetchTagCounts = async () => {
-      try {
-        const token = process.env.NEXT_PUBLIC_STORYBLOK_TOKEN;
-        if (!token) {
-          console.error('Storyblok token not found');
-          return;
-        }
-
-        const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/tags?token=${token}&cv=${Date.now()}`
-        );
-        const data = await response.json();
-
-        // Create a map of tag names to their counts
-        const counts: { [key: string]: number } = {};
-        data.tags?.forEach((tag: TagCount) => {
-          counts[tag.name] = tag.taggings_count;
-        });
-
-        setTagCounts(counts);
-      } catch (error) {
-        console.error('Error fetching tag counts:', error);
-      }
-    };
-
-    fetchTagCounts();
-  }, []);
 
   // Close menu when route changes
   const isOpenRef = useRef(isOpen);

@@ -13,6 +13,7 @@ import StoreDataProvider from '@/providers/store-data-provider';
 import StorePageDataProvider from '@/providers/store-page-data-provider';
 import { GlobalDataProvider } from '@/providers/global-data-provider';
 import { fetchGlobalData } from '@/utils/fetchGlobalData';
+import { fetchTagCounts } from '@/utils/fetchTagCounts';
 import CornerSmiley from '@/components/corner-smiley/corner-smiley';
 import ScrollToTop from '@/components/scroll-to-top/scroll-to-top';
 import Cursor from '@/components/cursor/cursor';
@@ -82,8 +83,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch global data on the server
-  const globalData = await fetchGlobalData('published');
+  const [globalData, tagCounts] = await Promise.all([
+    fetchGlobalData('published'),
+    fetchTagCounts('published'),
+  ]);
   return (
     <html lang="en" suppressHydrationWarning>
       <StoryblokProvider>
@@ -118,7 +121,7 @@ export default async function RootLayout({
                 <Cursor />
                 <CornerSmiley />
                 <ScrollToTop />
-                <Header />
+                <Header tagCounts={tagCounts} />
                 <StoreDataProvider>
                   <StorePageDataProvider>
                     {children}
