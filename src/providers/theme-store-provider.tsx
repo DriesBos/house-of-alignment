@@ -30,8 +30,6 @@ function ThemeApplier() {
   const theme = useTheme();
 
   useEffect(() => {
-    // Update the html data-theme attribute when theme changes
-    // Note: Initial theme is set by the blocking script in layout.tsx
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 

@@ -2,12 +2,14 @@ import { createStore } from 'zustand/vanilla';
 
 export type ThemeState = 'light' | 'dark' | 'stone' | 'blue';
 
+export const THEME_ORDER: ThemeState[] = ['light', 'dark', 'stone', 'blue'];
+
 export type ThemeActions = {
   setUserTheme: (theme: ThemeState | null) => void;
 };
 
 export type ThemeStore = {
-  userTheme: ThemeState | null; // null means "use system theme"
+  userTheme: ThemeState | null; // null means "use default (stone)"
 } & ThemeActions;
 
 const THEME_STORAGE_KEY = 'hoa-theme-preference';
