@@ -1,4 +1,5 @@
 import { StoryblokStory } from '@storyblok/react/rsc';
+import { draftMode } from 'next/headers';
 import { getStoryblokApi } from '@/lib/storyblok';
 import { fetchStory } from '@/utils/fetchStory';
 import { fetchAllStories } from '@/utils/fetchStories';
@@ -45,9 +46,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function Home({ params }: { params: Params }) {
   getStoryblokApi();
   const slug = (await params).slug;
+  const { isEnabled: isDraft } = await draftMode();
+  const version = isDraft ? 'draft' : 'published';
   const [pageData, allStories] = await Promise.all([
-    fetchStory('published', slug),
-    fetchAllStories('published'),
+    fetchStory(version, slug),
+    fetchAllStories(version),
   ]);
 
   return (

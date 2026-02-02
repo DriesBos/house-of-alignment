@@ -1,3 +1,4 @@
+import { draftMode } from 'next/headers';
 import IndexTwoColumn from '@/components/storyblok/index-two-column/index-two-column';
 import { fetchStoriesByTag } from '@/utils/fetchStories';
 import type { Metadata } from 'next';
@@ -29,7 +30,9 @@ export async function generateMetadata({
 
 export default async function TagPage({ params }: { params: Params }) {
   const { tag } = await params;
-  const stories = await fetchStoriesByTag('published', tag);
+  const { isEnabled: isDraft } = await draftMode();
+  const version = isDraft ? 'draft' : 'published';
+  const stories = await fetchStoriesByTag(version, tag);
 
   return <IndexTwoColumn tag={tag} stories={stories} />;
 }

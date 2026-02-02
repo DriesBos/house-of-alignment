@@ -17,6 +17,19 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' https://app.storyblok.com",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 // https://a.storyblok.com

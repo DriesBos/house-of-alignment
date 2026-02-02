@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { draftMode } from 'next/headers';
 import localFont from 'next/font/local';
 import '@/styles/reset.css';
 import '@/styles/typography.sass';
@@ -83,9 +84,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { isEnabled: isDraft } = await draftMode();
+  const version = isDraft ? 'draft' : 'published';
   const [globalData, tagCounts] = await Promise.all([
-    fetchGlobalData('published'),
-    fetchTagCounts('published'),
+    fetchGlobalData(version),
+    fetchTagCounts(version),
   ]);
   return (
     <html lang="en" suppressHydrationWarning>
