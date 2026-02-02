@@ -16,10 +16,12 @@ html
   cursor: none
   // border: 2px solid green
 
+// The body wraps the header and main. And the main scrolls.
 body
   position: relative
   height: 100%
   max-height: 100lvh
+  overflow: hidden
   // border: 2px solid blue
   display: flex
   flex-direction: column
@@ -28,6 +30,7 @@ body
   position: relative
   height: 100%
   min-height: 100lvh
+  overflow-y: auto
   // border: 2px solid yellow
 
 main
