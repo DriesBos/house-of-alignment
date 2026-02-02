@@ -9,14 +9,15 @@
 .markdown
   color: inherit
   line-height: 1.45
-  &[data-width='consice']
+  &[data-width='consice'], &[data-width='concise']
     .h1, .h2
       max-width: 12em !important
     .h3, .h4
       max-width: 18em !important
     .h5, .h6
       max-width: 24em !important
-
+    p
+      max-width: 24em !important
   // & > *
   //   margin-bottom: 1em
   // Reset margins for consistent spacing
@@ -36,7 +37,7 @@
   line-height: var(--type-lineheight-display)
   letter-spacing: var(--type-letterspacing-display)
 
-.h2, .h4, .h6
+.h2, .h4, .h6, .markdown strong
   font-family: var(--font-bradford), 'Bradford', serif
   line-height: var(--type-bradford-lineheight-display)
   letter-spacing: var(--type-bradford-letterspacing-display)
@@ -55,6 +56,9 @@
   font-size: var(--type-size-large)
   font-size: 1.618rem
   max-width: 34em
+
+.markdown p
+  max-width: 40em
 
 .markdown a, .markdown a:hover, .markdown a:active, .markdown a:visited, .markdown a:link
   position: relative
