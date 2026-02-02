@@ -6,8 +6,6 @@ import IndexTwoColumn from '@/components/storyblok/index-two-column/index-two-co
 import IndexThreeColumn from '@/components/storyblok/index-three-column/index-three-column';
 import ContentContainer from '@/components/storyblok/content-container/content-container';
 import ContentBlok from '@/components/storyblok/content-blok/content-blok';
-import TextBlok from '@/components/storyblok/text-blok/text-blok';
-import ImageBlok from '@/components/storyblok/image-blok/image-blok';
 import GlobalData from '@/components/storyblok/globaldata/globaldata';
 import DividerBlok from '@/components/storyblok/divider-blok/divider-blok';
 import ContentData from '@/components/storyblok/content-data/content-data';
@@ -33,8 +31,6 @@ export const getStoryblokApi = storyblokInit({
     'content-info': ContentInfo,
     'content-info-item': ContentInfoItem,
     'content-rsvp': ContentRsvp,
-    'text-blok': TextBlok,
-    'image-blok': ImageBlok,
     'divider-blok': DividerBlok,
   },
   use: [apiPlugin],
