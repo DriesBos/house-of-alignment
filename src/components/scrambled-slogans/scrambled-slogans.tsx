@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useGSAP } from '@/lib/gsap';
 import type { SloganItem } from '@/utils/fetchGlobalData';
 
 interface ScrambledSlogansProps {
@@ -96,15 +95,12 @@ export function ScrambledSlogans({
   }, [slogans]);
 
   // Scramble animation on index change
-  useGSAP(
-    () => {
-      if (sloganRef.current && slogans && slogans.length > 0) {
-        const currentSlogan = slogans[currentSloganIndex]?.slogan || '';
-        performScramble(currentSlogan);
-      }
-    },
-    { dependencies: [currentSloganIndex, slogans, performScramble] }
-  );
+  useEffect(() => {
+    if (sloganRef.current && slogans && slogans.length > 0) {
+      const currentSlogan = slogans[currentSloganIndex]?.slogan || '';
+      performScramble(currentSlogan);
+    }
+  }, [currentSloganIndex, slogans, performScramble]);
 
   // Cleanup on unmount
   useEffect(() => {
