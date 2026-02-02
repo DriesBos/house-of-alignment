@@ -4,13 +4,9 @@ import styles from './header.module.sass';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { gsap, useGSAP } from '@/lib/gsap';
 import { ThemeToggle } from '@/components/theme-toggle/theme-toggle';
 import { SloganWrapper } from '@/components/slogan-wrapper/slogan-wrapper';
-
-// Register GSAP plugins
-gsap.registerPlugin(useGSAP);
 
 interface TagCount {
   name: string;
@@ -29,7 +25,7 @@ export default function Header() {
     // Manual calculation based on: --header-size-expanded
     // 1rem + 38px + (83px * 4) + 1rem + 6rem = 1rem + 38px + 332px + 1rem + 6rem
     const remToPixels = parseFloat(
-      getComputedStyle(document.documentElement).fontSize,
+      getComputedStyle(document.documentElement).fontSize
     );
     const pixelValue =
       remToPixels + 38 + 83 * 5 + remToPixels + 6 * remToPixels;
@@ -41,7 +37,7 @@ export default function Header() {
     // Manual calculation based on: --header-size
     // 1rem + 38px + 2px
     const remToPixels = parseFloat(
-      getComputedStyle(document.documentElement).fontSize,
+      getComputedStyle(document.documentElement).fontSize
     );
     const pixelValue = remToPixels + 38 + 2;
     return `${pixelValue}px`;
@@ -58,7 +54,7 @@ export default function Header() {
         }
 
         const response = await fetch(
-          `https://api.storyblok.com/v2/cdn/tags?token=${token}&cv=${Date.now()}`,
+          `https://api.storyblok.com/v2/cdn/tags?token=${token}&cv=${Date.now()}`
         );
         const data = await response.json();
 
@@ -80,7 +76,7 @@ export default function Header() {
   // Close menu when route changes
   const isOpenRef = useRef(isOpen);
   isOpenRef.current = isOpen;
-  
+
   useEffect(() => {
     // Only close if currently open - avoids unnecessary state changes
     if (isOpenRef.current) {
@@ -154,16 +150,19 @@ export default function Header() {
     setIsOpen(false);
   }, []);
 
-  const handleMenuIconClick = useCallback((e: React.MouseEvent) => {
-    // Only respond to genuine user clicks, not synthetic events from GSAP
-    if (!e.isTrusted) return;
-    
-    if (isOpen) {
-      closeHeader();
-    } else {
-      openHeader();
-    }
-  }, [isOpen, openHeader, closeHeader]);
+  const handleMenuIconClick = useCallback(
+    (e: React.MouseEvent) => {
+      // Only respond to genuine user clicks, not synthetic events from GSAP
+      if (!e.isTrusted) return;
+
+      if (isOpen) {
+        closeHeader();
+      } else {
+        openHeader();
+      }
+    },
+    [isOpen, openHeader, closeHeader]
+  );
 
   // Animate header height and fade elements when menu opens/closes
   useGSAP(
@@ -203,7 +202,7 @@ export default function Header() {
               stagger: 0.1,
               delay: 0.165,
               ease: 'power2.out',
-            },
+            }
           );
         }
 
@@ -218,7 +217,7 @@ export default function Header() {
               stagger: 0.033,
               delay: 0.165,
               ease: 'power2.out',
-            },
+            }
           );
         }
       } else {
@@ -242,7 +241,7 @@ export default function Header() {
     {
       scope: headerRef,
       dependencies: [isOpen],
-    },
+    }
   );
 
   return (
@@ -263,15 +262,19 @@ export default function Header() {
         </div>
         <SloganWrapper />
       </div>
-      <div className={styles.header_bottom} ref={headerBottomRef} data-active={isOpen}>
+      <div
+        className={styles.header_bottom}
+        ref={headerBottomRef}
+        data-active={isOpen}
+      >
         <nav className={styles.header_nav}>
           <ul>
             <li className="headerNavFadeIn cursorInteract">
-              <Link href="/">Index</Link>
+              <Link href="/">All Events</Link>
             </li>
             <li className="headerNavFadeIn cursorInteract">
               <Link href="/tags/dinner">
-                Events
+                Dinners
                 {tagCounts['Dinners'] || tagCounts['Dinner'] ? (
                   <span>({tagCounts['Dinners'] || tagCounts['Dinner']})</span>
                 ) : (
