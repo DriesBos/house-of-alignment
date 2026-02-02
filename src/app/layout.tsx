@@ -14,7 +14,7 @@ import StorePageDataProvider from '@/providers/store-page-data-provider';
 import { GlobalDataProvider } from '@/providers/global-data-provider';
 import { fetchGlobalData } from '@/utils/fetchGlobalData';
 import { fetchTagCounts } from '@/utils/fetchTagCounts';
-import CornerSmiley from '@/components/corner-smiley/corner-smiley';
+import CornerSmiley from '@/components/corner-smiley/corner-smiley-dynamic';
 import ScrollToTop from '@/components/scroll-to-top/scroll-to-top';
 import Cursor from '@/components/cursor/cursor';
 

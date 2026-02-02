@@ -1,7 +1,9 @@
 import { SbBlokData, storyblokEditable } from '@storyblok/react/rsc';
+import dynamic from 'next/dynamic';
 import styles from './content-blok.module.sass';
-import Markdown from '@/components/markdown/markdown';
 import Image from 'next/image';
+
+const Markdown = dynamic(() => import('@/components/markdown/markdown'));
 
 interface SbContentBlokData extends SbBlokData {
   background_image?: {

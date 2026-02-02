@@ -1,8 +1,16 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
-import ThreeDContainer from '../three-d-container/three-d-container';
 import styles from './corner-smiley.module.sass';
+
+const ThreeDContainer = dynamic(
+  () => import('../three-d-container/three-d-container'),
+  {
+    ssr: false,
+    loading: () => <div className={styles.threeDPlaceholder} aria-hidden />,
+  }
+);
 
 const CornerSmiley = () => {
   const pathname = usePathname();
