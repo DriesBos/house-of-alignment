@@ -2,16 +2,14 @@
 
 .cornerSmiley
   position: fixed
-  bottom: 0
-  left: 0
-  width: 20vw
-  min-width: 100px
-  max-width: 200px
-  height: 20vw
-  min-height: 100px
-  max-height: 200px
+  bottom: calc(-4.3vw + 2rem)
+  left: calc(-4.3vw + 2rem)
+  width: 25vw
+  height: 25vw
   z-index: var(--z-index-corner-smiley)
   pointer-events: auto
-  @include mixins.max-mobile
-    width: 33vw
-    height: 33vw
+  @media screen and (orientation: portrait)
+    width: 40vw
+    height: 40vw
+    bottom: calc(-8vw + 1.5rem)
+    left: calc(-8vw + 1.5rem)
