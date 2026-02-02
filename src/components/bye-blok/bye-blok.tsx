@@ -4,7 +4,7 @@ import styles from './bye-blok.module.sass';
 const ByeBlok = () => {
   return (
     <div className={`${styles.byeBlok} cursorInteract`}>
-      <ThreeDContainer />
+      <ThreeDContainer className={styles.threeDContainerByeBlok} />
     </div>
   );
 };
