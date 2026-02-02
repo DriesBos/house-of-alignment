@@ -11,5 +11,12 @@
     font-size: var(--type-size-xlarge)
     line-height: 1.25
     letter-spacing: .033rem
+    filter: blur(0px)
+    opacity: 1
+    transition: opacity var(--transition-link-hover), filter var(--transition-link-hover)
     @include mixins.max-mobile
       font-size: var(--type-size-large)
+    &:hover
+      @media (hover: hover)
+        opacity: var(--opacity-link-hover)
+        filter: blur(2px)

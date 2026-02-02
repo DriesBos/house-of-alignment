@@ -22,6 +22,18 @@
     align-items: center
     padding: 1rem
     text-align: center
+    h1, p
+      filter: blur(0px)
+      opacity: 1
+      transition: filter var(--transition-link-hover), opacity var(--transition-link-hover)
+    &:hover
+      @media (hover: hover)
+        h1
+          opacity: var(--opacity-link-hover)
+          filter: blur(3px)
+        p
+          opacity: var(--opacity-link-hover)
+          filter: blur(2px)
     h1
       font-size: var(--type-size-mentorship)
       line-height: var(--type-lineheight-display)
