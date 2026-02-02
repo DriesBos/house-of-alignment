@@ -42,7 +42,7 @@
   --header-size: calc(1rem + 38px + 2px)
   // Spacing Index Bloks
   --indexbloks-contenttop-padding: 0 0 1rem 0
-  --indexbloks-content-padding: 0 0 0rem 0
+  --indexbloks-content-padding: 0 0 0 0
   --indexbloks-padding: 1rem 1rem 2rem 1rem
   --indexbloks-ratio-interviews: 3 / 4
   --indexbloks-ratio-general: 4 / 5
@@ -53,6 +53,10 @@
     --indexbloks-contenttop-padding: 2rem 0rem 1rem 0rem
     --indexbloks-content-padding: .5rem 0rem 2rem 0rem
     --indexbloks-padding: 0 1rem 0.5rem 1rem
+  @include mixins.min-desktop
+    --indexbloks-contenttop-padding: 0 0 1rem 0
+    --indexbloks-content-padding: 0 0 0 0
+    --indexbloks-padding: 1rem 2rem 4rem 2rem
   // Z-Indexes
   --z-index-corner-smiley: 800
   --z-index-cursor: 900
@@ -77,15 +81,18 @@
   --type-size-xlarge: 2.618rem
   --type-size-xxlarge: 4.236rem
   --type-helvetica: var(--font-helvetica), 'Helvetica Neue', Helvetica, Arial, sans-serif
-  --type-lineheight: 1.45
-  --type-lineheight-display: 1.1
+  --type-bradford: var(--font-bradford), 'Bradford', serif
+  //// Type Letterspacing
   --type-letterspacing: -0.01em
   --type-letterspacing-display: -0.01em
-  --type-bradford: var(--font-bradford), 'Bradford', serif
-  --type-bradford-lineheight: 1.25
-  --type-bradford-lineheight-display: 1.2
   --type-bradford-letterspacing: -0.02em
   --type-bradford-letterspacing-display: -0.02em
+  //// Type Lineheight
+  --type-lineheight: 1.45
+  --type-lineheight-display: 1.1
+  --type-bradford-lineheight: 1.2
+  --type-bradford-lineheight-display: 1.2
+
   // Buttons
   --type-size-buttons: 0.777rem
   // Menu Nav

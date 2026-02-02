@@ -7,13 +7,33 @@
   padding: var(--indexbloks-padding)
   & > div
     flex: 1
+  &:hover
+    @media (hover: hover)
+      .imageContainer
+        filter: blur(4px)
 
   .aboveImage
     display: flex
+    flex-direction: column
     padding: var(--indexbloks-contenttop-padding)
     gap: .5rem
-    font-size: var(--type-size-large)
-    line-height: var(--type-lineheight-display)
+    &_Title
+      font-size: var(--type-size-large)
+      line-height: var(--type-lineheight-display)
+      text-transform: uppercase
+      letter-spacing: var(--type-letterspacing-display)
+    &_Descr
+      display: -webkit-box
+      -webkit-line-clamp: 3
+      -webkit-box-orient: vertical
+      overflow: hidden
+      font-size: var(--type-size-indexcaption)
+      font-family: var(--font-bradford), 'Bradford', serif
+      line-height: var(--type-bradford-lineheight)
+      letter-spacing: var(--type-bradford-letterspacing)
+      max-width: 33em
+      @include mixins.max-mobile
+        max-width: 100%
 
   .belowImage
     display: flex
@@ -70,6 +90,8 @@
     position: relative
     overflow: hidden
     aspect-ratio: var(--indexbloks-ratio-interviews)
+    transition: filter var(--transition-link-hover)
+    filter: blur(0px)
     img
       width: 100%
       height: 100%
@@ -92,7 +114,8 @@
         border-radius: 1000px
         transition: background 0.165s ease-in-out, border 0.165s ease-in-out
         &:hover
-          background: hsla(0, 0%, 100%, 1)
+          @media (hover: hover)
+            background: hsla(0, 0%, 100%, 1)
         span
           line-height: 1
           font-size: .66rem
@@ -101,7 +124,8 @@
       .eventDate
         background: hsla(0, 0%, 100%, 1)
         &:hover
-          background: hsla(0, 0%, 100%, 1)
+          @media (hover: hover)
+            background: hsla(0, 0%, 100%, 1)
         span
           line-height: 1
           font-size: .66rem

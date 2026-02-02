@@ -47,7 +47,8 @@
     line-height: 1.45
     &:hover
       &:after
-        opacity: 1
+        @media (hover: hover)
+          opacity: 1
   a::after
     position: absolute
     left: 0

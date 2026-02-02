@@ -59,10 +59,12 @@
       font-size: var(--type-size-nav)
       line-height: 1
       text-align: center
-      transition: opacity var(--transition-link-hover)
+      transition: opacity var(--transition-link-hover), filter var(--transition-link-hover)
+      filter: blur(0px)
       &:hover
         @media (hover: hover)
           opacity: var(--opacity-link-hover)
+          filter: blur(3px)
     span
       color: var(--color-accent)
       transition: color var(--transition-theme)

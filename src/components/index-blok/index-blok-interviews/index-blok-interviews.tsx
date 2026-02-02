@@ -40,7 +40,10 @@ export default function IndexBlokInterviews({
       }}
       className={styles.indexBlokInterviews}
     >
-      <div className={styles.aboveImage}>{title}</div>
+      <div className={styles.aboveImage}>
+        <div className={styles.aboveImage_Title}>{title}</div>
+        <div className={styles.aboveImage_Descr}>{descr}</div>
+      </div>
 
       <div className={styles.imageContainer}>
         {image && image.filename && !quote && (
@@ -90,7 +93,7 @@ export default function IndexBlokInterviews({
                         e.preventDefault();
                         e.stopPropagation();
                         router.push(
-                          `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`,
+                          `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`
                         );
                       }}
                     >
@@ -100,9 +103,6 @@ export default function IndexBlokInterviews({
               </div>
             )}
           </div>
-        </div>
-        <div className={styles.belowImage_Bottom}>
-          <p>{descr}</p>
         </div>
       </div>
     </div>
