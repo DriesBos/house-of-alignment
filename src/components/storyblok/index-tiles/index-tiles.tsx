@@ -125,9 +125,6 @@ const IndexTiles: React.FC = () => {
         '--grid-col-3': '25vw', // 15 + (0.5 * 20) = 25
       });
 
-      // Create a single reusable GSAP context for better performance
-      const ctx = gsap.context(() => {});
-
       // Cache rect to avoid constant getBoundingClientRect calls
       let rect = container.getBoundingClientRect();
 
@@ -205,7 +202,6 @@ const IndexTiles: React.FC = () => {
         window.removeEventListener('resize', updateRect);
         if (rafId) cancelAnimationFrame(rafId);
         if (currentTween) currentTween.kill();
-        ctx.revert();
       };
     },
     {
