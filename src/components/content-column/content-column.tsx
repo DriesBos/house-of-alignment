@@ -25,13 +25,11 @@ export default function ContentColumn({
     // Reset elements to initial state
     gsap.set(elementArray, {
       opacity: 0,
-      y: 50,
     });
 
     // Animate each child sequentially
     gsap.to(elementArray, {
       opacity: 1,
-      y: 0,
       ease: 'power1.inOut',
       duration: 0.33,
       delay: 0.33,
