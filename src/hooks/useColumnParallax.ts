@@ -71,7 +71,8 @@ export function useColumnParallax({
               target: scroller,
               allowNestedScroll: true,
               lockAxis: false,
-              type: 'touch,wheel,pointer',
+              // Pointer normalization conflicts with OrbitControls drag/release on canvas.
+              type: 'touch,wheel',
             });
           }
 
