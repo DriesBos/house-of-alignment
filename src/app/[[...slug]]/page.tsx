@@ -5,6 +5,7 @@ import { fetchStory } from '@/utils/fetchStory';
 import { fetchAllStories } from '@/utils/fetchStories';
 import { StoriesProvider } from '@/providers/stories-provider';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
   const stories = await fetchAllStories('published');
@@ -16,6 +17,11 @@ export async function generateStaticParams() {
 }
 
 type Params = Promise<{ slug?: string[] }>;
+
+const shouldBypassStoryblok = (slug?: string[]) => {
+  if (!slug || slug.length === 0) return false;
+  return slug[0].startsWith('.');
+};
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const slug = (await params).slug;
@@ -46,6 +52,12 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function Home({ params }: { params: Params }) {
   getStoryblokApi();
   const slug = (await params).slug;
+
+  // Ignore browser/runtime probe routes like /.well-known/* in this catch-all CMS route.
+  if (shouldBypassStoryblok(slug)) {
+    notFound();
+  }
+
   const { isEnabled: isDraft } = await draftMode();
   const version = isDraft ? 'draft' : 'published';
   const [pageData, allStories] = await Promise.all([
