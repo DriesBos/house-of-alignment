@@ -1,7 +1,7 @@
 'use client';
 
 import IndexBlokGeneral from './index-blok-general/index-blok-general';
-import IndexBlokInterviews from './index-blok-interviews/index-blok-interviews';
+import IndexBlokfounderstories from './index-blok-founderstories/index-blok-founderstories';
 
 interface IndexBlokProps {
   title?: string;
@@ -30,12 +30,14 @@ export default function IndexBlok({
   // Determine if event is active (in the future)
   const isActive = event_date ? new Date(event_date) > new Date() : false;
 
-  // Check if item has 'interview' tag (case-insensitive)
-  const isInterview = tags?.some((tag) => tag.toLowerCase() === 'interview');
+  // Check if item has 'founderstories' tag (case-insensitive)
+  const isfounderstories = tags?.some(
+    (tag) => tag.toLowerCase() === 'founderstories',
+  );
 
-  if (isInterview) {
+  if (isfounderstories) {
     return (
-      <IndexBlokInterviews
+      <IndexBlokfounderstories
         title={title}
         descr={descr}
         image={image}

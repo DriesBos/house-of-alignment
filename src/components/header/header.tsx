@@ -23,7 +23,7 @@ export default function Header({ tagCounts = {} }: HeaderProps) {
     // Manual calculation based on: --header-size-expanded
     // 1rem + 38px + (83px * 4) + 1rem + 6rem = 1rem + 38px + 332px + 1rem + 6rem
     const remToPixels = parseFloat(
-      getComputedStyle(document.documentElement).fontSize
+      getComputedStyle(document.documentElement).fontSize,
     );
     const pixelValue =
       remToPixels + 38 + 83 * 5 + remToPixels + 6 * remToPixels;
@@ -35,7 +35,7 @@ export default function Header({ tagCounts = {} }: HeaderProps) {
     // Manual calculation based on: --header-size
     // 1rem + 38px + 2px
     const remToPixels = parseFloat(
-      getComputedStyle(document.documentElement).fontSize
+      getComputedStyle(document.documentElement).fontSize,
     );
     const pixelValue = remToPixels + 38 + 2;
     return `${pixelValue}px`;
@@ -129,7 +129,7 @@ export default function Header({ tagCounts = {} }: HeaderProps) {
         openHeader();
       }
     },
-    [isOpen, openHeader, closeHeader]
+    [isOpen, openHeader, closeHeader],
   );
 
   // Animate header height and fade elements when menu opens/closes
@@ -170,7 +170,7 @@ export default function Header({ tagCounts = {} }: HeaderProps) {
               stagger: 0.1,
               delay: 0.165,
               ease: 'power2.out',
-            }
+            },
           );
         }
 
@@ -185,7 +185,7 @@ export default function Header({ tagCounts = {} }: HeaderProps) {
               stagger: 0.033,
               delay: 0.165,
               ease: 'power2.out',
-            }
+            },
           );
         }
       } else {
@@ -209,7 +209,7 @@ export default function Header({ tagCounts = {} }: HeaderProps) {
     {
       scope: headerRef,
       dependencies: [isOpen],
-    }
+    },
   );
 
   return (
@@ -238,24 +238,14 @@ export default function Header({ tagCounts = {} }: HeaderProps) {
         <nav className={styles.header_nav}>
           <ul>
             <li className="headerNavFadeIn cursorInteract">
-              <Link href="/">All Events</Link>
+              <Link href="/">Home</Link>
             </li>
             <li className="headerNavFadeIn cursorInteract">
-              <Link href="/tags/dinner">
-                Dinners
-                {tagCounts['Dinners'] || tagCounts['Dinner'] ? (
-                  <span>({tagCounts['Dinners'] || tagCounts['Dinner']})</span>
-                ) : (
-                  ''
-                )}
-              </Link>
-            </li>
-            <li className="headerNavFadeIn cursorInteract">
-              <Link href="/mentorship">
-                Mentorship
-                {tagCounts['Mentorship'] || tagCounts['Mentorships'] ? (
+              <Link href="/tags/gatherings">
+                Gatherings
+                {tagCounts['gatheringss'] || tagCounts['gatherings'] ? (
                   <span>
-                    ({tagCounts['Mentorship'] || tagCounts['Mentorships']})
+                    ({tagCounts['gatheringss'] || tagCounts['Dinner']})
                   </span>
                 ) : (
                   ''
@@ -263,11 +253,25 @@ export default function Header({ tagCounts = {} }: HeaderProps) {
               </Link>
             </li>
             <li className="headerNavFadeIn cursorInteract">
-              <Link href="/tags/interview">
-                Conversations
-                {tagCounts['Interviews'] || tagCounts['Interview'] ? (
+              <Link href="/programmes">
+                Our Programmes
+                {tagCounts['programmes'] || tagCounts['programmess'] ? (
                   <span>
-                    ({tagCounts['Interviews'] || tagCounts['Interview']})
+                    ({tagCounts['programmes'] || tagCounts['programmess']})
+                  </span>
+                ) : (
+                  ''
+                )}
+              </Link>
+            </li>
+            <li className="headerNavFadeIn cursorInteract">
+              <Link href="/tags/founderstories">
+                Founder Stories
+                {tagCounts['founderstories'] || tagCounts['founderstories'] ? (
+                  <span>
+                    (
+                    {tagCounts['founderstories'] || tagCounts['founderstories']}
+                    )
                   </span>
                 ) : (
                   ''

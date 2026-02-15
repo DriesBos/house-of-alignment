@@ -33,16 +33,16 @@ export function Footer() {
           </div>
           <div>
             <Link className="cursorInteract" href="/">
-              ALL EVENTS
+              Home
             </Link>
-            <Link className="cursorInteract" href="/tags/dinner">
-              Dinners
+            <Link className="cursorInteract" href="/tags/gatherings">
+              Gatherings
             </Link>
-            <Link className="cursorInteract" href="/mentorship">
-              Mentorship
+            <Link className="cursorInteract" href="/programmes">
+              Our Programmes
             </Link>
-            <Link className="cursorInteract" href="/tags/interview">
-              Conversations
+            <Link className="cursorInteract" href="/tags/founderstories">
+              Founder Stories
             </Link>
             <Link className="cursorInteract" href="/about">
               About

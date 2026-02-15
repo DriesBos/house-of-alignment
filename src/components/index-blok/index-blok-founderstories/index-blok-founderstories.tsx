@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import styles from './index-blok-interviews.module.sass';
+import styles from './index-blok-founderstories.module.sass';
 import DateDisplay from '@/components/date-display/date-display';
 import { useRouter } from 'next/navigation';
 
-interface IndexBlokInterviewsProps {
+interface IndexBlokfounderstoriesProps {
   title?: string;
   descr?: string;
   image?: object & {
@@ -19,7 +19,7 @@ interface IndexBlokInterviewsProps {
   isActive?: boolean;
 }
 
-export default function IndexBlokInterviews({
+export default function IndexBlokfounderstories({
   title,
   descr,
   image,
@@ -28,7 +28,7 @@ export default function IndexBlokInterviews({
   tags,
   event_date,
   isActive,
-}: IndexBlokInterviewsProps) {
+}: IndexBlokfounderstoriesProps) {
   const router = useRouter();
 
   return (
@@ -38,7 +38,7 @@ export default function IndexBlokInterviews({
         e.stopPropagation();
         router.push('/' + link);
       }}
-      className={styles.indexBlokInterviews}
+      className={styles.indexBlokfounderstories}
     >
       <div className={styles.aboveImage}>
         <div className={styles.aboveImage_Title}>{title}</div>
@@ -93,7 +93,7 @@ export default function IndexBlokInterviews({
                         e.preventDefault();
                         e.stopPropagation();
                         router.push(
-                          `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`
+                          `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`,
                         );
                       }}
                     >

@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 type Params = Promise<{ tag: string }>;
 
 export function generateStaticParams() {
-  return [{ tag: 'dinner' }, { tag: 'interview' }];
+  return [{ tag: 'gatherings' }, { tag: 'founderstories' }];
 }
 
 export async function generateMetadata({

@@ -15,11 +15,9 @@ const IndexTiles: React.FC = () => {
   const allStories = useMemo(
     () =>
       stories.filter((story) =>
-        story.tag_list?.some(
-          (t: string) => t.toLowerCase() === 'mentorship'
-        )
+        story.tag_list?.some((t: string) => t.toLowerCase() === 'programmes'),
       ),
-    [stories]
+    [stories],
   );
   const [hasFinePointer, setHasFinePointer] = useState(true);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
