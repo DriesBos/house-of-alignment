@@ -14,9 +14,11 @@ const IndexTiles: React.FC = () => {
   const { stories } = useStories();
   const allStories = useMemo(
     () =>
-      stories.filter((story) =>
-        story.tag_list?.some((t: string) => t.toLowerCase() === 'programmes'),
-      ),
+      [...stories]
+        .filter((story) =>
+          story.tag_list?.some((t: string) => t.toLowerCase() === 'programmes'),
+        )
+        .reverse(),
     [stories],
   );
   const [hasFinePointer, setHasFinePointer] = useState(true);
