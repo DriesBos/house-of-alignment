@@ -56,7 +56,13 @@ export function useColumnParallax({
       if (skipOnMobile && window.matchMedia('(max-width: 770px)').matches)
         return;
 
-      requestAnimationFrame(() => {
+      let isDisposed = false;
+      let rafId = 0;
+      let normalizer: ReturnType<typeof ScrollTrigger.normalizeScroll>;
+
+      rafId = requestAnimationFrame(() => {
+        if (isDisposed) return;
+
         try {
           const scroller = document.querySelector(
             '.storeDataWrapper',
@@ -67,7 +73,7 @@ export function useColumnParallax({
           }
 
           if (normalizeScroll) {
-            ScrollTrigger.normalizeScroll({
+            normalizer = ScrollTrigger.normalizeScroll({
               target: scroller,
               allowNestedScroll: true,
               lockAxis: false,
@@ -121,6 +127,12 @@ export function useColumnParallax({
           if (scrollLock) setIsScrollReady(true);
         }
       });
+
+      return () => {
+        isDisposed = true;
+        cancelAnimationFrame(rafId);
+        normalizer?.kill();
+      };
     },
     {
       scope: containerRef,
