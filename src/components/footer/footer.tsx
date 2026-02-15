@@ -4,7 +4,6 @@ import styles from './footer.module.sass';
 import Link from 'next/link';
 import { useGlobalData } from '@/providers/global-data-provider';
 import { ThemeToggle } from '@/components/theme-toggle/theme-toggle';
-import { SloganWrapper } from '@/components/slogan-wrapper/slogan-wrapper';
 
 export function Footer() {
   const { globalData } = useGlobalData();
@@ -13,7 +12,7 @@ export function Footer() {
     <footer className={styles.footer} id="seats">
       <div className={styles.footer_content}>
         <div className={styles.footer_content_left}>
-          <div className={styles.logo}>House of Alignment</div>
+          <div className={styles.logo}>H.O.A.</div>
           <p>
             Home of visionary founders.
             <br />
@@ -27,10 +26,6 @@ export function Footer() {
           </p>
         </div>
         <div className={styles.footer_content_right}>
-          <div>
-            <SloganWrapper />
-            <ThemeToggle />
-          </div>
           <div>
             <Link className="cursorInteract" href="/">
               Home
@@ -65,6 +60,9 @@ export function Footer() {
             >
               {globalData.email}
             </a>
+          </div>
+          <div>
+            <ThemeToggle />
           </div>
         </div>
       </div>
