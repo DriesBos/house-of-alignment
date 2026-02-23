@@ -1,19 +1,97 @@
 .indexTiles
   width: 100%
-  height: calc(100svh - var(--header-size))
+  height: auto
+  min-height: calc(100svh - var(--header-size))
 
   &_Grid
     display: grid
     will-change: grid-template-columns, grid-template-rows
     grid-template-columns: 25vw var(--grid-col-2, 25vw) var(--grid-col-3, 25vw) 25vw
-    grid-template-rows: var(--grid-rows-1, 50%) var(--grid-rows-2, 50%)
+    grid-template-rows: var(--grid-rows-1, 50vh) var(--grid-rows-2, 50vh)
     width: 100%
     height: 100%
     // Start at center position to match GSAP initialization
-    --grid-rows-1: 50%
-    --grid-rows-2: 50%
+    --grid-rows-1: 50vh
+    --grid-rows-2: 50vh
+    --grid-rows-3: 50vh
     --grid-col-2: 25vw
     --grid-col-3: 25vw
+    &[data-count='2']
+      grid-template-rows: var(--grid-rows-1, 100vh)
+      .indexTiles_Tile
+        &:nth-child(1)
+          grid-area: 1 / 1 / 2 / 3
+          border-right: var(--layout-border)
+        &:nth-child(2)
+          grid-area: 1 / 3 / 2 / 5
+    &[data-count='3']
+      grid-template-rows: var(--grid-rows-1, 50vh) var(--grid-rows-2, 50vh)
+      .indexTiles_Tile
+        &:nth-child(1)
+          grid-area: 1 / 1 / 2 / 3
+          border-right: var(--layout-border)
+          border-bottom: var(--layout-border)
+        &:nth-child(2)
+          grid-area: 1 / 3 / 2 / 5
+          border-bottom: var(--layout-border)
+        &:nth-child(3)
+          grid-area: 2 / 1 / 3 / 5
+    &[data-count='4']
+      grid-template-rows: var(--grid-rows-1, 50vh) var(--grid-rows-2, 50vh)
+      .indexTiles_Tile
+        &:nth-child(1)
+          grid-area: 1 / 1 / 2 / 3
+          border-right: var(--layout-border)
+          border-bottom: var(--layout-border)
+        &:nth-child(2)
+          grid-area: 1 / 3 / 2 / 5
+          border-bottom: var(--layout-border)
+        &:nth-child(3)
+          grid-area: 2 / 1 / 3 / 3
+          border-right: var(--layout-border)
+        &:nth-child(4)
+          grid-area: 2 / 3 / 3 / 5
+    &[data-count='5']
+      grid-template-rows: var(--grid-rows-1, 50vh) var(--grid-rows-2, 50vh) var(--grid-rows-3, 50vh)
+      .indexTiles_Tile
+        &:nth-child(1)
+          grid-area: 1 / 1 / 2 / 3
+          border-right: var(--layout-border)
+          border-bottom: var(--layout-border)
+        &:nth-child(2)
+          grid-area: 1 / 3 / 2 / 5
+          border-bottom: var(--layout-border)
+        &:nth-child(3)
+          grid-area: 2 / 1 / 3 / 3
+          border-right: var(--layout-border)
+          border-bottom: var(--layout-border)
+        &:nth-child(4)
+          grid-area: 2 / 3 / 3 / 5
+          border-bottom: var(--layout-border)
+        &:nth-child(5)
+          grid-area: 3 / 1 / 4 / 5
+    &[data-count='6']
+      grid-template-rows: var(--grid-rows-1, 50vh) var(--grid-rows-2, 50vh) var(--grid-rows-3, 50vh)
+      .indexTiles_Tile
+        &:nth-child(1)
+          grid-area: 1 / 1 / 2 / 3
+          border-right: var(--layout-border)
+          border-bottom: var(--layout-border)
+        &:nth-child(2)
+          grid-area: 1 / 3 / 2 / 5
+          border-bottom: var(--layout-border)
+        &:nth-child(3)
+          grid-area: 2 / 1 / 3 / 3
+          border-right: var(--layout-border)
+          border-bottom: var(--layout-border)
+        &:nth-child(4)
+          grid-area: 2 / 3 / 3 / 5
+          border-bottom: var(--layout-border)
+        &:nth-child(5)
+          grid-area: 3 / 1 / 4 / 3
+          border-right: var(--layout-border)
+        &:nth-child(6)
+          grid-area: 3 / 3 / 4 / 5
 
   &_Tile
     display: flex
@@ -43,14 +121,3 @@
       font-size: var(--type-size-base)
       line-height: var(--type-lineheight)
       font-family: var(--font-bradford)
-
-    &:nth-child(1)
-      grid-area: 1 / 1 / 2 / 3
-      border-right: var(--layout-border)
-      border-bottom: var(--layout-border)
-    &:nth-child(2)
-      grid-area: 1 / 3 / 2 / 5
-      border-bottom: var(--layout-border)
-    &:nth-child(3)
-      grid-area: 2 / 1 / 4 / 4
-      border-right: var(--layout-border)

@@ -18,11 +18,44 @@ const IndexTiles: React.FC = () => {
         .filter((story) =>
           story.tag_list?.some((t: string) => t.toLowerCase() === 'programmes'),
         )
-        .reverse(),
+        .reverse()
+        .slice(0, 6),
     [stories],
   );
+  const tileCount = allStories.length;
+  const hasThreeRows = tileCount >= 5;
+  const hasTwoRows = tileCount >= 3 && tileCount <= 4;
   const [hasFinePointer, setHasFinePointer] = useState(true);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  const getRowHeights = (normalizedY: number) => {
+    if (hasThreeRows) {
+      const row1 = 50 + (1 - normalizedY) * 5;
+      const row2 = 50 + (1 - Math.abs(normalizedY - 0.5) * 2) * 10;
+      const row3 = 50 + normalizedY * 5;
+
+      return { row1, row2, row3 };
+    }
+
+    if (hasTwoRows) {
+      const row1 = 50 + (1 - normalizedY) * 8;
+      const row2 = 50 + normalizedY * 8;
+      return { row1, row2, row3: 50 };
+    }
+
+    return { row1: 100, row2: 50, row3: 50 };
+  };
+
+  const getGridVars = (normalizedY: number, col2: number, col3: number) => {
+    const { row1, row2, row3 } = getRowHeights(normalizedY);
+    return {
+      '--grid-rows-1': `${row1}vh`,
+      '--grid-rows-2': `${row2}vh`,
+      '--grid-rows-3': `${row3}vh`,
+      '--grid-col-2': `${col2}vw`,
+      '--grid-col-3': `${col3}vw`,
+    };
+  };
 
   // Detect pointer type (mouse vs touch)
   useEffect(() => {
@@ -43,64 +76,21 @@ const IndexTiles: React.FC = () => {
       const grid = gridRef.current;
       if (!grid || hasFinePointer) return;
 
-      // Kill any existing timeline
       if (timelineRef.current) {
         timelineRef.current.kill();
       }
 
-      // Create timeline with keyframes for smooth looping animation
       const tl = gsap.timeline({
         repeat: -1,
         defaults: { duration: 4, ease: 'sine.inOut' },
       });
 
-      // Position 1: Center (initial)
-      tl.set(grid, {
-        '--grid-rows-1': '50%',
-        '--grid-rows-2': '50%',
-        '--grid-col-2': '25vw',
-        '--grid-col-3': '25vw',
-      });
-
-      // Position 2: Top-Left
-      tl.to(grid, {
-        '--grid-rows-1': '60%',
-        '--grid-rows-2': '40%',
-        '--grid-col-2': '30vw',
-        '--grid-col-3': '20vw',
-      });
-
-      // Position 3: Bottom-Right
-      tl.to(grid, {
-        '--grid-rows-1': '40%',
-        '--grid-rows-2': '60%',
-        '--grid-col-2': '20vw',
-        '--grid-col-3': '30vw',
-      });
-
-      // Position 4: Top-Right
-      tl.to(grid, {
-        '--grid-rows-1': '60%',
-        '--grid-rows-2': '40%',
-        '--grid-col-2': '20vw',
-        '--grid-col-3': '30vw',
-      });
-
-      // Position 5: Bottom-Left
-      tl.to(grid, {
-        '--grid-rows-1': '40%',
-        '--grid-rows-2': '60%',
-        '--grid-col-2': '30vw',
-        '--grid-col-3': '20vw',
-      });
-
-      // Position 6: Back to Center (smooth loop)
-      tl.to(grid, {
-        '--grid-rows-1': '50%',
-        '--grid-rows-2': '50%',
-        '--grid-col-2': '25vw',
-        '--grid-col-3': '25vw',
-      });
+      tl.set(grid, getGridVars(0.5, 25, 25));
+      tl.to(grid, getGridVars(0, 30, 20));
+      tl.to(grid, getGridVars(1, 20, 30));
+      tl.to(grid, getGridVars(0, 20, 30));
+      tl.to(grid, getGridVars(1, 30, 20));
+      tl.to(grid, getGridVars(0.5, 25, 25));
 
       timelineRef.current = tl;
 
@@ -113,50 +103,31 @@ const IndexTiles: React.FC = () => {
     },
     {
       scope: containerRef,
-      dependencies: [hasFinePointer],
+      dependencies: [hasFinePointer, tileCount],
     },
   );
 
-  // GSAP animation for mouse-based grid row adjustment
+  // Mouse-based grid animation for pointer devices
   useGSAP(
     () => {
       const container = containerRef.current;
       const grid = gridRef.current;
       if (!container || !grid || !hasFinePointer) return;
 
-      // Set initial center values to prevent jump on first mouse enter
-      // Center position: normalizedX = 0.5, normalizedY = 0.5
-      gsap.set(grid, {
-        '--grid-rows-1': '50%', // 70 - (0.5 * 40) = 50
-        '--grid-rows-2': '50%', // 30 + (0.5 * 40) = 50
-        '--grid-col-2': '25vw', // 35 - (0.5 * 20) = 25
-        '--grid-col-3': '25vw', // 15 + (0.5 * 20) = 25
-      });
+      gsap.set(grid, getGridVars(0.5, 25, 25));
 
-      // Cache rect to avoid constant getBoundingClientRect calls
       let rect = container.getBoundingClientRect();
 
-      // Update rect on resize and reset grid to initial positions
       const updateRect = () => {
         rect = container.getBoundingClientRect();
-
-        // Reset grid to centered initial positions
-        gsap.set(grid, {
-          '--grid-rows-1': '50%',
-          '--grid-rows-2': '50%',
-          '--grid-col-2': '25vw',
-          '--grid-col-3': '25vw',
-        });
+        gsap.set(grid, getGridVars(0.5, 25, 25));
       };
       window.addEventListener('resize', updateRect);
 
-      // Use requestAnimationFrame for smooth updates
       let rafId: number | undefined;
       let mouseX = 0;
       let mouseY = 0;
       let isMouseMoving = false;
-
-      // Store the last tween to kill it before creating a new one
       let currentTween: gsap.core.Tween | null = null;
 
       const handleMouseMove = (e: MouseEvent) => {
@@ -170,29 +141,21 @@ const IndexTiles: React.FC = () => {
       };
 
       const updateAnimation = () => {
-        // Calculate normalized positions (0 to 1)
         const normalizedX = Math.max(0, Math.min(1, mouseX / rect.width));
         const normalizedY = Math.max(0, Math.min(1, mouseY / rect.height));
 
-        // Map normalized Y position to row percentages
-        // 0 (top) = 70% 30%, 1 (bottom) = 30% 70%
-        const row1Percent = 70 - normalizedY * 40;
-        const row2Percent = 30 + normalizedY * 40;
-
-        // Map normalized X position to column widths
-        // 0 (left) = 35vw 15vw, 1 (right) = 15vw 35vw
         const col2Width = 35 - normalizedX * 20;
         const col3Width = 15 + normalizedX * 20;
+        const { row1, row2, row3 } = getRowHeights(normalizedY);
 
-        // Kill the previous tween to avoid queue buildup
         if (currentTween) {
           currentTween.kill();
         }
 
-        // Animate both rows and columns
         currentTween = gsap.to(grid, {
-          '--grid-rows-1': `${row1Percent}%`,
-          '--grid-rows-2': `${row2Percent}%`,
+          '--grid-rows-1': `${row1}vh`,
+          '--grid-rows-2': `${row2}vh`,
+          '--grid-rows-3': `${row3}vh`,
           '--grid-col-2': `${col2Width}vw`,
           '--grid-col-3': `${col3Width}vw`,
           duration: 0.4,
@@ -214,18 +177,21 @@ const IndexTiles: React.FC = () => {
     },
     {
       scope: containerRef,
-      dependencies: [hasFinePointer],
+      dependencies: [hasFinePointer, tileCount],
     },
   );
 
-  // Set layout to 'tiles' when component mounts
   useEffect(() => {
     setLayout('one');
   }, [setLayout]);
 
   return (
     <div className={styles.indexTiles} ref={containerRef}>
-      <div className={styles.indexTiles_Grid} ref={gridRef}>
+      <div
+        className={styles.indexTiles_Grid}
+        ref={gridRef}
+        data-count={tileCount}
+      >
         {allStories.map((item) => (
           <Link
             href={item.full_slug}
