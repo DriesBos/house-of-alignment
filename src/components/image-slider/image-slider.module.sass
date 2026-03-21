@@ -24,6 +24,27 @@
 .slideImage
   object-fit: contain
 
+.slideImageAuto
+  width: 100%
+  height: auto
+
+.slider[data-height-mode='auto']
+  height: auto
+
+  .viewport
+    height: auto
+
+  .track
+    height: auto
+    align-items: flex-start
+
+  .slide
+    height: auto
+
+  .slideImageAuto
+    position: relative !important
+    display: block
+
 .slider[data-fit='cover']
   .slideImage
     object-fit: cover

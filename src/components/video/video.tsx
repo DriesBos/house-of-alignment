@@ -53,10 +53,10 @@ export function Video({
   src,
   title = 'Embedded video',
   poster,
-  autoplay = false,
+  autoplay = true,
   controls = true,
   loop = false,
-  muted = false,
+  muted = true,
   playsInline = true,
   className,
 }: VideoProps) {
