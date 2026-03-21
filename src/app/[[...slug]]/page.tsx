@@ -18,14 +18,24 @@ export async function generateStaticParams() {
 
 type Params = Promise<{ slug?: string[] }>;
 
+const FILE_REQUEST_PATTERN =
+  /\.(?:avif|css|gif|ico|jpe?g|js|json|map|mp4|otf|pdf|png|svg|txt|web[mp]|woff2?|xml)$/i;
+
 const shouldBypassStoryblok = (slug?: string[]) => {
   if (!slug || slug.length === 0) return false;
-  return slug[0].startsWith('.');
+
+  const lastSegment = slug[slug.length - 1];
+
+  return slug[0].startsWith('.') || FILE_REQUEST_PATTERN.test(lastSegment);
 };
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const slug = (await params).slug;
-  
+
+  if (shouldBypassStoryblok(slug)) {
+    notFound();
+  }
+
   // If no slug (homepage), return default title
   if (!slug || slug.length === 0) {
     return {
@@ -33,16 +43,16 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       description: 'Make energy your priority',
     };
   }
-  
+
   // Get the last part of the slug
   const lastPart = slug[slug.length - 1];
-  
+
   // Convert dashes to spaces and capitalize each word
   const formattedTitle = lastPart
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
-  
+
   return {
     title: `House of Alignment — ${formattedTitle}`,
     description: 'Make energy your priority',

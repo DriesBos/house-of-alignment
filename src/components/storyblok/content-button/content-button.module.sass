@@ -1,0 +1,31 @@
+.contentButton
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 100%
+  height: auto
+  padding: var(--spacing-four) var(--spacing-sides)
+  border-bottom: var(--layout-border)
+  &[data-fullscreen='true']
+    min-height: 100vh
+    min-height: 100svh
+
+.button
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  min-width: min(100%, 18rem)
+  padding: 0.9rem 1.5rem 1rem
+  border: var(--layout-border)
+  border-radius: 1000px
+  background: var(--color-bg)
+  color: var(--color-type)
+  font-family: var(--font-bradford), 'Bradford', serif
+  font-size: var(--type-size-large) !important
+  line-height: 1
+  letter-spacing: var(--type-bradford-letterspacing)
+  text-align: center
+  text-decoration: none
+  transition: background var(--transition-theme), color var(--transition-theme), opacity var(--transition-link-hover)
+  &:hover
+    opacity: var(--opacity-link-hover)
