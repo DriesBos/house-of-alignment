@@ -1,0 +1,78 @@
+.slider
+  position: relative
+  width: 100%
+  height: 100%
+
+.viewport
+  position: relative
+  width: 100%
+  height: 100%
+  overflow: hidden
+
+.track
+  display: flex
+  width: 100%
+  height: 100%
+  transition: transform var(--transition-general)
+
+.slide
+  position: relative
+  flex: 0 0 100%
+  width: 100%
+  height: 100%
+
+.slideImage
+  object-fit: contain
+
+.slider[data-fit='cover']
+  .slideImage
+    object-fit: cover
+
+.controls
+  position: absolute
+  top: 50%
+  left: 1rem
+  right: 1rem
+  z-index: 1
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 1rem
+  pointer-events: none
+  transform: translateY(-50%)
+
+.button
+  pointer-events: auto
+  padding: 0.4rem 0.75rem
+  border: var(--layout-border)
+  border-radius: 999px
+  background: color-mix(in srgb, var(--color-bg) 72%, transparent)
+  color: var(--color-type)
+  font-family: var(--font-bradford), 'Bradford', serif
+  line-height: 1
+  transition: opacity var(--transition-link-hover), background var(--transition-theme), color var(--transition-theme)
+  &:hover
+    opacity: var(--opacity-link-hover)
+
+.pagination
+  position: absolute
+  bottom: 1rem
+  left: 50%
+  z-index: 1
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  transform: translateX(-50%)
+
+.dot
+  width: 0.8rem
+  height: 0.8rem
+  padding: 0
+  border: var(--layout-border)
+  border-radius: 50%
+  background: transparent
+  transition: background var(--transition-theme), opacity var(--transition-link-hover)
+  &[data-active='true']
+    background: var(--color-type)
+  &:hover
+    opacity: var(--opacity-link-hover)

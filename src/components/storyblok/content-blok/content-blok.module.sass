@@ -148,31 +148,35 @@
     position: relative
     width: 100%
     height: auto
-  img
+  .mediaVideo
+    width: 100%
+    height: 100%
+    aspect-ratio: auto
+  .backgroundImage
     position: relative !important
     width: 100%
   &[data-size='fullscreen']
     padding: 0
     .imageContainer
       height: 100%
-    img
+    .backgroundImage
       padding: 0
       object-fit: cover
   &[data-size='large']
     .imageContainer
       width: 100%
       height: 100%
-      img
+      .backgroundImage
         object-fit: contain
   &[data-size='medium']
     .imageContainer
       width: 75%
       height: 75%
-      img
+      .backgroundImage
         object-fit: contain
   &[data-size='small']
     .imageContainer
       width: 50%
       height: 50%
-      img
+      .backgroundImage
         object-fit: contain
