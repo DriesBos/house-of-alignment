@@ -8,6 +8,7 @@
   width: 100%
   height: 100%
   overflow: hidden
+  touch-action: pan-y
 
 .track
   display: flex
@@ -79,6 +80,10 @@
   gap: 1rem
   pointer-events: none
   transform: translateY(-50%)
+
+@media (hover: none) 
+  .controls
+    display: none
 
 .button
   pointer-events: auto

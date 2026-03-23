@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import styles from './image-slider.module.sass';
 
@@ -24,6 +24,7 @@ const BLUR_DATA_URL =
 
 const FALLBACK_WIDTH = 1600;
 const FALLBACK_HEIGHT = 900;
+const SWIPE_THRESHOLD = 48;
 
 const getImageDimensions = (image: SliderImage) => {
   if (image.width && image.height) {
@@ -52,6 +53,13 @@ export function ImageSlider({
 }: ImageSliderProps) {
   const validImages = images.filter((image) => image?.filename);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const swipeStateRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    deltaX: number;
+    deltaY: number;
+  } | null>(null);
 
   useEffect(() => {
     setCurrentIndex(0);
@@ -63,6 +71,71 @@ export function ImageSlider({
     setCurrentIndex((nextIndex + validImages.length) % validImages.length);
   };
 
+  const goToPreviousSlide = () => {
+    setCurrentIndex((index) => (index - 1 + validImages.length) % validImages.length);
+  };
+
+  const goToNextSlide = () => {
+    setCurrentIndex((index) => (index + 1) % validImages.length);
+  };
+
+  const resetSwipe = () => {
+    swipeStateRef.current = null;
+  };
+
+  const releasePointerCapture = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (validImages.length < 2 || event.pointerType === 'mouse') return;
+
+    swipeStateRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      deltaX: 0,
+      deltaY: 0,
+    };
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const swipeState = swipeStateRef.current;
+    if (!swipeState || swipeState.pointerId !== event.pointerId) return;
+
+    swipeStateRef.current = {
+      ...swipeState,
+      deltaX: event.clientX - swipeState.startX,
+      deltaY: event.clientY - swipeState.startY,
+    };
+  };
+
+  const handlePointerEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const swipeState = swipeStateRef.current;
+    if (!swipeState || swipeState.pointerId !== event.pointerId) return;
+
+    releasePointerCapture(event);
+    resetSwipe();
+
+    if (
+      Math.abs(swipeState.deltaX) < SWIPE_THRESHOLD ||
+      Math.abs(swipeState.deltaX) <= Math.abs(swipeState.deltaY)
+    ) {
+      return;
+    }
+
+    if (swipeState.deltaX < 0) {
+      goToNextSlide();
+      return;
+    }
+
+    goToPreviousSlide();
+  };
+
   return (
     <div
       className={styles.slider}
@@ -70,7 +143,13 @@ export function ImageSlider({
       data-height-mode={heightMode}
       data-sizing={sizing}
     >
-      <div className={styles.viewport}>
+      <div
+        className={styles.viewport}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerEnd}
+        onPointerCancel={handlePointerEnd}
+      >
         <div
           className={styles.track}
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -126,7 +205,7 @@ export function ImageSlider({
             <button
               type="button"
               className={`${styles.button} cursorInteract`}
-              onClick={() => goToSlide(currentIndex - 1)}
+              onClick={goToPreviousSlide}
               aria-label="Previous image"
             >
               Prev
@@ -134,7 +213,7 @@ export function ImageSlider({
             <button
               type="button"
               className={`${styles.button} cursorInteract`}
-              onClick={() => goToSlide(currentIndex + 1)}
+              onClick={goToNextSlide}
               aria-label="Next image"
             >
               Next
