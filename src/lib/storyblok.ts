@@ -6,8 +6,8 @@ import IndexTwoColumn from '@/components/storyblok/index-two-column/index-two-co
 import IndexThreeColumn from '@/components/storyblok/index-three-column/index-three-column';
 import ContentContainer from '@/components/storyblok/content-container/content-container';
 import ContentBlok from '@/components/storyblok/content-blok/content-blok';
-import ContentButton from '@/components/storyblok/content-button/content-button';
-import ContentSlider from '@/components/storyblok/content-slider/content-slider';
+import Button from '@/components/storyblok/button/button';
+import StoryblokImageSlider from '@/components/storyblok/image-slider/image-slider';
 import GlobalData from '@/components/storyblok/globaldata/globaldata';
 import DividerBlok from '@/components/storyblok/divider-blok/divider-blok';
 import ContentData from '@/components/storyblok/content-data/content-data';
@@ -28,9 +28,8 @@ export const getStoryblokApi = storyblokInit({
     'page-two-column': PageTwoColumn,
     'content-container': ContentContainer,
     'content-blok': ContentBlok,
-    'content-button': ContentButton,
-    'content-slider': ContentSlider,
-    contentSlider: ContentSlider,
+    button: Button,
+    'image-slider': StoryblokImageSlider,
     'content-data': ContentData,
     'content-profile': ContentProfile,
     'content-info': ContentInfo,

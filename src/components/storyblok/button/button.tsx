@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { SbBlokData, storyblokEditable } from '@storyblok/react/rsc';
-import styles from './content-button.module.sass';
+import styles from './button.module.sass';
 
 interface StoryblokLink {
   cached_url?: string;
@@ -8,7 +8,7 @@ interface StoryblokLink {
   target?: '_blank' | '_self' | '_parent' | '_top' | string;
 }
 
-interface SbContentButtonData extends SbBlokData {
+interface SbButtonData extends SbBlokData {
   'button-title'?: string;
   'button-link'?: StoryblokLink;
   button_title?: string;
@@ -16,8 +16,8 @@ interface SbContentButtonData extends SbBlokData {
   fullscreen?: boolean;
 }
 
-interface ContentButtonProps {
-  blok: SbContentButtonData;
+interface ButtonProps {
+  blok: SbButtonData;
 }
 
 const EXTERNAL_PROTOCOL_PATTERN = /^(?:[a-z][a-z\d+\-.]*:)?\/\//i;
@@ -41,7 +41,7 @@ const getHref = (rawHref?: string, target?: string) => {
 const isExternalHref = (href: string, target?: string) =>
   target === '_blank' || EXTERNAL_PROTOCOL_PATTERN.test(href) || SPECIAL_LINK_PATTERN.test(href);
 
-export default function ContentButton({ blok }: ContentButtonProps) {
+export default function Button({ blok }: ButtonProps) {
   const buttonTitle = blok.button_title || blok['button-title'];
   const buttonLink = blok.button_link || blok['button-link'];
   const { url, cached_url: cachedUrl, target } = buttonLink || {};
@@ -51,7 +51,7 @@ export default function ContentButton({ blok }: ContentButtonProps) {
 
   return (
     <div
-      className={styles.contentButton}
+      className={styles.buttonWrapper}
       {...storyblokEditable(blok)}
       data-fullscreen={blok.fullscreen || false}
     >
