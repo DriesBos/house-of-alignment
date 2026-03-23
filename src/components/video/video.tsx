@@ -143,7 +143,11 @@ export function Video({
     });
 
     return (
-      <div className={wrapperClassName} data-sizing={sizing}>
+      <div
+        className={wrapperClassName}
+        data-sizing={sizing}
+        data-autoplay={shouldAutoplay}
+      >
         <iframe
           src={`https://player.vimeo.com/video/${vimeoId}?${params.toString()}`}
           title={title}
@@ -176,7 +180,11 @@ export function Video({
     }
 
     return (
-      <div className={wrapperClassName} data-sizing={sizing}>
+      <div
+        className={wrapperClassName}
+        data-sizing={sizing}
+        data-autoplay={shouldAutoplay}
+      >
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${youTubeEmbedData.videoId}?${params.toString()}`}
           title={title}
@@ -193,7 +201,11 @@ export function Video({
   const mimeType = getMimeType(src);
 
   return (
-    <div className={wrapperClassName} data-sizing={sizing}>
+    <div
+      className={wrapperClassName}
+      data-sizing={sizing}
+      data-autoplay={shouldAutoplay}
+    >
       <video
         className={styles.video}
         controls={controls}

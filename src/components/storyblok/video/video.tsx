@@ -62,6 +62,7 @@ export default function StoryblokVideo({ blok }: StoryblokVideoProps) {
       className={styles.videoBlok}
       {...storyblokEditable(blok)}
       data-sizing={blok.sizing || 'default'}
+      data-autoplay={Boolean(blok.autoplay)}
     >
       <div className={styles.videoFrame} data-sizing={blok.sizing || 'default'}>
         <Video
