@@ -23,6 +23,7 @@ interface SbVideoData extends SbBlokData {
   muted?: boolean;
   plays_inline?: boolean;
   sizing?: VideoSizing;
+  video_address?: string;
   src?: string;
   video?: string | StoryblokLink;
   video_url?: string;
@@ -43,6 +44,7 @@ const getUrl = (value?: string | StoryblokLink | StoryblokAsset) => {
 };
 
 const getVideoSrc = (blok: SbVideoData) =>
+  blok.video_address ||
   getUrl(blok.video) ||
   blok.src ||
   blok.video_url ||

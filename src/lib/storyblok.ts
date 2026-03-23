@@ -32,6 +32,7 @@ export const getStoryblokApi = storyblokInit({
     button: Button,
     'image-slider': StoryblokImageSlider,
     video: StoryblokVideo,
+    'video-player': StoryblokVideo,
     'content-data': ContentData,
     'content-profile': ContentProfile,
     'content-info': ContentInfo,
