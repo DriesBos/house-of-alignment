@@ -40,7 +40,9 @@ const getUrl = (value?: string | StoryblokLink | StoryblokAsset) => {
   if (typeof value === 'string') return value;
   if (!value || typeof value !== 'object') return '';
 
-  return value.url || value.cached_url || value.filename || '';
+  if ('filename' in value && value.filename) return value.filename;
+
+  return value.url || value.cached_url || '';
 };
 
 const getVideoSrc = (blok: SbVideoData) =>
