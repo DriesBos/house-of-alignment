@@ -7,20 +7,25 @@
   width: 100%
   aspect-ratio: 16 / 9
 
-  &[data-aspect-ratio='1:1']
+  &[data-sizing='1:1']
     aspect-ratio: 1 / 1
 
-  &[data-aspect-ratio='4:3']
+  &[data-sizing='4:3']
     aspect-ratio: 4 / 3
 
-  &[data-aspect-ratio='3:2']
+  &[data-sizing='3:2']
     aspect-ratio: 3 / 2
 
-  &[data-aspect-ratio='16:9']
+  &[data-sizing='16:9']
     aspect-ratio: 16 / 9
 
-  &[data-aspect-ratio='9:16']
+  &[data-sizing='9:16']
     aspect-ratio: 9 / 16
 
-  &[data-aspect-ratio='free']
+  &[data-sizing='fullscreen']
+    aspect-ratio: auto
+    min-height: 100vh
+    min-height: 100svh
+
+  &[data-sizing='free']
     aspect-ratio: auto

@@ -2,7 +2,8 @@ import { SbBlokData, storyblokEditable } from '@storyblok/react/rsc';
 import { ImageSlider, type SliderImage } from '@/components/image-slider/image-slider';
 import styles from './image-slider.module.sass';
 
-type AspectRatioOption = '1:1' | '4:3' | '3:2' | '16:9' | '9:16' | 'free';
+type ImageFillOption = 'contain' | 'cover';
+type SizingOption = '1:1' | '4:3' | '3:2' | '16:9' | '9:16' | 'fullscreen' | 'free';
 
 interface StoryblokImage extends SliderImage {
   id?: string | null;
@@ -10,7 +11,8 @@ interface StoryblokImage extends SliderImage {
 
 interface SbImageSliderData extends SbBlokData {
   images?: StoryblokImage[];
-  aspect_ratio?: AspectRatioOption;
+  image_fill?: ImageFillOption;
+  sizing?: SizingOption;
 }
 
 interface StoryblokImageSliderProps {
@@ -20,8 +22,9 @@ interface StoryblokImageSliderProps {
 export default function StoryblokImageSlider({ blok }: StoryblokImageSliderProps) {
   const images =
     blok.images?.filter((image): image is StoryblokImage => Boolean(image?.filename)) ?? [];
-  const aspectRatio = blok.aspect_ratio || '16:9';
-  const heightMode = aspectRatio === 'free' ? 'auto' : 'fill';
+  const sizing = blok.sizing || '16:9';
+  const imageFill = blok.image_fill || 'cover';
+  const heightMode = sizing === 'free' ? 'auto' : 'fill';
 
   if (!images.length) return null;
 
@@ -29,9 +32,14 @@ export default function StoryblokImageSlider({ blok }: StoryblokImageSliderProps
     <div className={styles.imageSlider} {...storyblokEditable(blok)}>
       <div
         className={styles.sliderFrame}
-        data-aspect-ratio={aspectRatio}
+        data-sizing={sizing}
       >
-        <ImageSlider images={images} fit="cover" heightMode={heightMode} />
+        <ImageSlider
+          images={images}
+          fit={imageFill}
+          heightMode={heightMode}
+          sizing={sizing}
+        />
       </div>
     </div>
   );

@@ -45,9 +45,27 @@
     position: relative !important
     display: block
 
+.slider[data-sizing='fullscreen']
+  height: 100vh
+
 .slider[data-fit='cover']
   .slideImage
     object-fit: cover
+
+.slider[data-sizing='1:1']
+  aspect-ratio: 1 / 1
+
+.slider[data-sizing='4:3']
+  aspect-ratio: 4 / 3
+
+.slider[data-sizing='3:2']
+  aspect-ratio: 3 / 2
+
+.slider[data-sizing='16:9']
+  aspect-ratio: 16 / 9
+
+.slider[data-sizing='9:16']
+  aspect-ratio: 9 / 16
 
 .controls
   position: absolute
@@ -67,7 +85,7 @@
   padding: 0.4rem 0.75rem
   border: var(--layout-border)
   border-radius: 999px
-  background: color-mix(in srgb, var(--color-bg) 72%, transparent)
+  background: var(--color-bg)
   color: var(--color-type)
   font-family: var(--font-bradford), 'Bradford', serif
   line-height: 1
@@ -91,9 +109,9 @@
   padding: 0
   border: var(--layout-border)
   border-radius: 50%
-  background: transparent
+  background: var(--color-bg)
   transition: background var(--transition-theme), opacity var(--transition-link-hover)
   &[data-active='true']
     background: var(--color-type)
   &:hover
-    opacity: var(--opacity-link-hover)
+    background: var(--color-type)

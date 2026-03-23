@@ -16,6 +16,7 @@ interface ImageSliderProps {
   images: SliderImage[];
   fit?: 'contain' | 'cover';
   heightMode?: 'fill' | 'auto';
+  sizing?: string;
 }
 
 const BLUR_DATA_URL =
@@ -47,6 +48,7 @@ export function ImageSlider({
   images,
   fit = 'contain',
   heightMode = 'fill',
+  sizing,
 }: ImageSliderProps) {
   const validImages = images.filter((image) => image?.filename);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -62,7 +64,12 @@ export function ImageSlider({
   };
 
   return (
-    <div className={styles.slider} data-fit={fit} data-height-mode={heightMode}>
+    <div
+      className={styles.slider}
+      data-fit={fit}
+      data-height-mode={heightMode}
+      data-sizing={sizing}
+    >
       <div className={styles.viewport}>
         <div
           className={styles.track}
