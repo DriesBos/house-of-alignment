@@ -8,6 +8,7 @@ import ContentContainer from '@/components/storyblok/content-container/content-c
 import ContentBlok from '@/components/storyblok/content-blok/content-blok';
 import Button from '@/components/storyblok/button/button';
 import StoryblokImageSlider from '@/components/storyblok/image-slider/image-slider';
+import StoryblokVideo from '@/components/storyblok/video/video';
 import GlobalData from '@/components/storyblok/globaldata/globaldata';
 import DividerBlok from '@/components/storyblok/divider-blok/divider-blok';
 import ContentData from '@/components/storyblok/content-data/content-data';
@@ -30,6 +31,7 @@ export const getStoryblokApi = storyblokInit({
     'content-blok': ContentBlok,
     button: Button,
     'image-slider': StoryblokImageSlider,
+    video: StoryblokVideo,
     'content-data': ContentData,
     'content-profile': ContentProfile,
     'content-info': ContentInfo,
