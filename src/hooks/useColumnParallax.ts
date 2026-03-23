@@ -1,6 +1,6 @@
 'use client';
 
-import { RefObject, useEffect, useState } from 'react';
+import { RefObject } from 'react';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 
 interface UseColumnParallaxOptions {
@@ -8,7 +8,6 @@ interface UseColumnParallaxOptions {
   columnRefs: RefObject<HTMLDivElement | null>[];
   dependencies: unknown[];
   normalizeScroll?: boolean;
-  scrollLock?: boolean;
   skipOnMobile?: boolean;
 }
 
@@ -17,39 +16,8 @@ export function useColumnParallax({
   columnRefs,
   dependencies,
   normalizeScroll = false,
-  scrollLock = false,
   skipOnMobile = false,
 }: UseColumnParallaxOptions) {
-  const [isScrollReady, setIsScrollReady] = useState(!scrollLock);
-
-  useEffect(() => {
-    if (!scrollLock) return;
-
-    const storeDataWrapper = document.querySelector(
-      '.storeDataWrapper',
-    ) as HTMLElement;
-    if (!storeDataWrapper) return;
-
-    if (!isScrollReady) {
-      storeDataWrapper.style.overflow = 'hidden';
-
-      const safetyTimeout = setTimeout(() => {
-        setIsScrollReady(true);
-      }, 2000);
-
-      return () => {
-        clearTimeout(safetyTimeout);
-        storeDataWrapper.style.overflow = 'auto';
-      };
-    } else {
-      storeDataWrapper.style.overflow = 'auto';
-    }
-
-    return () => {
-      storeDataWrapper.style.overflow = 'auto';
-    };
-  }, [isScrollReady, scrollLock]);
-
   useGSAP(
     () => {
       if (!containerRef.current) return;
@@ -67,10 +35,7 @@ export function useColumnParallax({
           const scroller = document.querySelector(
             '.storeDataWrapper',
           ) as HTMLElement | null;
-          if (!scroller) {
-            if (scrollLock) setIsScrollReady(true);
-            return;
-          }
+          if (!scroller) return;
 
           if (normalizeScroll) {
             normalizer = ScrollTrigger.normalizeScroll({
@@ -89,10 +54,7 @@ export function useColumnParallax({
             }))
             .filter((col) => col.ref !== null);
 
-          if (columnData.some((col) => col.height === 0)) {
-            if (scrollLock) setIsScrollReady(true);
-            return;
-          }
+          if (columnData.some((col) => col.height === 0)) return;
 
           const maxHeight = Math.max(...columnData.map((col) => col.height));
           const longestColumnIndex = columnData.findIndex(
@@ -120,11 +82,8 @@ export function useColumnParallax({
               },
             });
           });
-
-          if (scrollLock) setIsScrollReady(true);
         } catch (error) {
           console.error('ScrollTrigger initialization failed:', error);
-          if (scrollLock) setIsScrollReady(true);
         }
       });
 

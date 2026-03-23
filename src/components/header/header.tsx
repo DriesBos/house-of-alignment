@@ -89,27 +89,6 @@ export default function Header({ tagCounts = {} }: HeaderProps) {
     };
   }, [isOpen]);
 
-  // Prevent scrolling when menu is open
-  useEffect(() => {
-    const storeDataWrapper = document.querySelector('.storeDataWrapper');
-
-    if (isOpen && storeDataWrapper) {
-      // Save current scroll position
-      const scrollPosition = storeDataWrapper.scrollTop;
-      // Prevent scrolling
-      storeDataWrapper.classList.add('no-scroll');
-      (storeDataWrapper as HTMLElement).style.overflow = 'hidden';
-
-      return () => {
-        // Restore scrolling
-        storeDataWrapper.classList.remove('no-scroll');
-        (storeDataWrapper as HTMLElement).style.overflow = 'auto';
-        // Restore scroll position
-        storeDataWrapper.scrollTop = scrollPosition;
-      };
-    }
-  }, [isOpen]);
-
   const openHeader = useCallback(() => {
     setIsOpen(true);
   }, []);

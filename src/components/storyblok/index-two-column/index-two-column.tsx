@@ -83,7 +83,6 @@ const IndexTwoColumn: React.FC<IndexTwoColumnProps> = ({ tag: tagProp, stories: 
     columnRefs: [column1Ref, column2Ref],
     dependencies: [layout, column1Stories, column2Stories],
     normalizeScroll: true,
-    scrollLock: true,
   });
 
   return (

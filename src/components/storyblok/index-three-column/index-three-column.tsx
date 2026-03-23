@@ -101,7 +101,6 @@ const IndexThreeColumn = () => {
       : [column1Ref, column2Ref, column3Ref],
     dependencies: [layout, allStories, isMobile],
     normalizeScroll: true,
-    scrollLock: true,
   });
 
   return (
