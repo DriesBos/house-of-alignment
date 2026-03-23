@@ -20,8 +20,11 @@ interface SbContentBlokData extends SbBlokData {
   background_image?: StoryblokImage;
   images?: StoryblokImage[];
   video?: string | StoryblokLink;
+  autoplay?: boolean;
+  sizing?: 'free' | 'fullscreen_cover' | 'fullscreen_contain';
   video_url?: string;
   vimeo_link?: string;
+  youtube_link?: string;
   text_contrast?: boolean;
   image_size?: 'fullscreen' | 'large' | 'medium' | 'small';
   img_align?:
@@ -69,7 +72,7 @@ const getVideoSrc = (blok: SbContentBlokData) => {
     return blok.video.url || blok.video.cached_url || '';
   }
 
-  return blok.video_url || blok.vimeo_link || '';
+  return blok.video_url || blok.vimeo_link || blok.youtube_link || '';
 };
 
 export default function ContentBlok({ blok }: ContentBlokProps) {
@@ -100,6 +103,9 @@ export default function ContentBlok({ blok }: ContentBlokProps) {
             ) : hasVideo ? (
               <Video
                 src={videoSrc}
+                autoplay={Boolean(blok.autoplay)}
+                muted={Boolean(blok.autoplay)}
+                sizing={blok.sizing}
                 className={styles.mediaVideo}
                 title={blok.text_top || blok.text_bottom || 'Content video'}
               />

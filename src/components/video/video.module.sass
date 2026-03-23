@@ -1,9 +1,19 @@
 .videoWrapper
   position: relative
   width: 100%
-  aspect-ratio: 16 / 9
   overflow: hidden
   background: var(--color-black)
+  aspect-ratio: 16 / 9
+
+  &[data-sizing='free']
+    aspect-ratio: auto
+    overflow: visible
+
+  &[data-sizing='fullscreen_cover'],
+  &[data-sizing='fullscreen_contain']
+    height: 100%
+    min-height: 100%
+    aspect-ratio: auto
 
 .video,
 .iframe
@@ -14,3 +24,16 @@
 
 .video
   object-fit: cover
+
+.videoWrapper[data-sizing='free']
+  .video,
+  .iframe
+    height: auto
+    aspect-ratio: 16 / 9
+
+  .video
+    object-fit: contain
+
+.videoWrapper[data-sizing='fullscreen_contain']
+  .video
+    object-fit: contain
